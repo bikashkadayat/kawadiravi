@@ -1,0 +1,85 @@
+name: Deploy
+
+# Push to main deploys to production. Pull requests get a preview deployment
+# so a change can be looked at before it is merged.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  # Lets you re-run a deploy from the Actions tab without pushing a commit.
+  workflow_dispatch:
+
+# A newer push to the same branch cancels the older run rather than queueing
+# behind it — the older build is already obsolete.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Lint, typecheck and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Must satisfy eslint-visitor-keys, which needs ^20.19 || ^22.13 || >=24.
+          node-version: 22
+          cache: npm
+
+      # `npm ci` (not `install`) so the build uses exactly the locked versions.
+      - run: npm ci
+
+      - run: npm run lint
+      - run: npm run typecheck
+
+      # Also the guard on data/rates.json: a malformed price fails here rather
+      # than reaching production.
+      - run: npm run build
+
+  deploy:
+    name: Deploy to Vercel
+    needs: verify
+    runs-on: ubuntu-latest
+    # Skip the whole job until the three Vercel secrets exist, so a fresh clone
+    # of this repo does not fail CI on a deploy it was never configured for.
+    if: ${{ github.event_name != 'pull_request' && vars.VERCEL_ENABLED == 'true' }}
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Build
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+      - name: Deploy
+        id: deploy
+        run: |
+          url=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$url" >> "$GITHUB_OUTPUT"
+          echo "Deployed to $url"
+        env:
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

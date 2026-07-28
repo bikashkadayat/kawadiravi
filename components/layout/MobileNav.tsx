@@ -1,0 +1,135 @@
+'use client';
+
+import { useState } from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
+import { Menu, Phone, X } from 'lucide-react';
+import { useTranslations } from 'next-intl';
+
+import { Link, usePathname } from '@/i18n/routing';
+import { isActivePath, navItems } from '@/lib/nav';
+import { siteConfig, telHref } from '@/lib/site-config';
+import { buildWhatsAppUrl } from '@/lib/whatsapp';
+import { cn } from '@/lib/utils';
+import { WhatsAppIcon } from '@/components/shared/BrandIcons';
+import { LocaleToggle } from '@/components/layout/LocaleToggle';
+
+/**
+ * Hamburger menu for small screens.
+ *
+ * Radix Dialog rather than a hand-rolled panel because it handles the parts
+ * that are easy to get wrong: focus trapping, restoring focus to the trigger
+ * on close, Escape, scroll locking, and aria-modal wiring.
+ *
+ * z-[60] puts the sheet above FloatingActions (z-50) so the Call/WhatsApp
+ * buttons cannot overlap an open menu.
+ */
+export function MobileNav() {
+  const t = useTranslations('nav');
+  const tCommon = useTranslations('common');
+  const tFloating = useTranslations('floating');
+  const pathname = usePathname();
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Dialog.Root open={open} onOpenChange={setOpen}>
+      <Dialog.Trigger asChild>
+        <button
+          type="button"
+          aria-label={t('openMenu')}
+          className="hover:bg-surface-muted inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors md:hidden dark:hover:bg-white/10"
+        >
+          <Menu className="size-6" aria-hidden="true" />
+        </button>
+      </Dialog.Trigger>
+
+      <Dialog.Portal>
+        <Dialog.Overlay className="animate-overlay-in fixed inset-0 z-[60] bg-black/50 backdrop-blur-sm" />
+
+        <Dialog.Content className="bg-background animate-sheet-in fixed inset-y-0 right-0 z-[60] flex w-[85%] max-w-sm flex-col shadow-xl focus:outline-none">
+          {/* Radix requires an accessible title; it is visually hidden because
+              the panel's purpose is obvious sighted, but a screen reader still
+              needs it announced. */}
+          <Dialog.Title className="sr-only">
+            {t('mainNavigation')}
+          </Dialog.Title>
+
+          <div className="flex h-16 items-center justify-between border-b px-4">
+            <span className="text-primary-900 dark:text-primary-300 font-extrabold">
+              {tCommon('brand')}
+            </span>
+            <Dialog.Close asChild>
+              <button
+                type="button"
+                aria-label={t('closeMenu')}
+                className="hover:bg-surface-muted inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors dark:hover:bg-white/10"
+              >
+                <X className="size-6" aria-hidden="true" />
+              </button>
+            </Dialog.Close>
+          </div>
+
+          <nav
+            aria-label={t('mainNavigation')}
+            className="flex-1 overflow-y-auto p-4"
+          >
+            <ul className="flex flex-col gap-1">
+              {navItems.map((item) => {
+                const active = isActivePath(pathname, item.href);
+                return (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      aria-current={active ? 'page' : undefined}
+                      className={cn(
+                        'flex h-12 items-center rounded-lg px-4 text-base font-medium transition-colors',
+                        active
+                          ? // primary-900 in dark, NOT primary-950 — the latter
+                            // is the dark background colour, so the highlight
+                            // would be invisible.
+                            'bg-primary-50 text-primary-900 dark:bg-primary-900 dark:text-white'
+                          : 'hover:bg-surface-muted dark:hover:bg-white/5',
+                      )}
+                    >
+                      {t(item.labelKey)}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </nav>
+
+          {/* The header's LocaleToggle is hidden below `sm`, so without this a
+              phone user would have no way to switch language at all. */}
+          <div className="border-t px-4 py-3">
+            <LocaleToggle className="w-full justify-center" />
+          </div>
+
+          {/* Both conversions repeated at the foot of the menu, so a user who
+              opened it to navigate can convert without closing it first. */}
+          <div className="pb-safe flex flex-col gap-2 border-t p-4">
+            <a
+              href={telHref}
+              className="bg-accent hover:bg-accent-hover flex h-12 items-center justify-center gap-2 rounded-full font-semibold text-neutral-950 transition-colors"
+            >
+              <Phone className="size-5" aria-hidden="true" />
+              {tCommon('callNow')}
+            </a>
+            <a
+              href={buildWhatsAppUrl(tFloating('prefilledMessage'))}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-whatsapp hover:bg-whatsapp-hover flex h-12 items-center justify-center gap-2 rounded-full font-semibold text-neutral-950 transition-colors"
+            >
+              <WhatsAppIcon className="size-5" aria-hidden="true" />
+              {tCommon('whatsappUs')}
+            </a>
+            <p className="text-muted-foreground pt-1 text-center text-xs">
+              {siteConfig.phoneDisplay}
+            </p>
+          </div>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
+  );
+}

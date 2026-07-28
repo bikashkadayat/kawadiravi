@@ -1,0 +1,277 @@
+{
+  "common": {
+    "brand": "KawadiRabi",
+    "tagline": "Turn your scrap into cash — today",
+    "callNow": "Call Now",
+    "whatsapp": "WhatsApp",
+    "whatsappUs": "WhatsApp Us",
+    "viewRates": "View Rates",
+    "seeAllRates": "See All Rates",
+    "bookPickup": "Book Free Pickup",
+    "learnMore": "Learn More",
+    "perKg": "per kg",
+    "perPiece": "per piece",
+    "currency": "NPR",
+    "loading": "Loading…",
+    "skipToContent": "Skip to content"
+  },
+
+  "nav": {
+    "home": "Home",
+    "rates": "Rates",
+    "services": "Services",
+    "about": "About",
+    "contact": "Contact",
+    "openMenu": "Open menu",
+    "closeMenu": "Close menu",
+    "mainNavigation": "Main navigation"
+  },
+
+  "announcement": {
+    "freePickup": "Free pickup across Kathmandu Valley",
+    "callUs": "Call us",
+    "dismiss": "Dismiss announcement"
+  },
+
+  "floating": {
+    "callLabel": "Call Now — KawadiRabi",
+    "whatsappLabel": "Chat with KawadiRabi on WhatsApp",
+    "prefilledMessage": "Hello KawadiRabi! I have some scrap to sell. Could you tell me today's rate and arrange a pickup?"
+  },
+
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+
+  "locale": {
+    "switch": "Switch language",
+    "en": "English",
+    "ne": "नेपाली"
+  },
+
+  "footer": {
+    "about": "KawadiRabi buys scrap metal, paper, plastic, batteries and e-waste across Kathmandu Valley. Fair weighing, free pickup, cash on the spot.",
+    "company": "Company",
+    "servicesTitle": "What We Buy",
+    "coverage": "Coverage Areas",
+    "contactTitle": "Contact",
+    "followUs": "Follow us",
+    "rights": "All rights reserved.",
+    "builtBy": "KawadiRabi ♻️ — recycling for a cleaner Nepal",
+    "socialLabel": "Visit our {network} page"
+  },
+
+  "home": {
+    "hero": {
+      "badge": "Free pickup · Cash on the spot",
+      "title": "Turn your scrap into cash — today",
+      "subtitle": "KawadiRabi buys metal, paper, plastic, batteries and e-waste across Kathmandu Valley. We come to you, weigh it in front of you, and pay cash on the spot.",
+      "trustWeighing": "Honest weighing",
+      "trustPickup": "Free pickup",
+      "trustCash": "Cash on the spot",
+      "trustRates": "Best market rates",
+      "itemsPriced": "items priced",
+      "areasCovered": "areas covered"
+    },
+    "ratesPreview": {
+      "title": "Today's top rates",
+      "subtitle": "A quick look at what we are paying right now. Call for the exact rate before you sell."
+    },
+    "whatWeBuy": {
+      "title": "What we buy",
+      "subtitle": "If it is metal, paper, plastic, a battery or an appliance, we almost certainly take it.",
+      "itemCount": "{count} items priced",
+      "viewRates": "View rates"
+    },
+    "howItWorks": {
+      "title": "How it works",
+      "subtitle": "Three steps. No paperwork, no waiting.",
+      "step1Title": "Call or WhatsApp",
+      "step1Body": "Tell us roughly what you have and where you are. We confirm a time the same day wherever possible.",
+      "step2Title": "We come and weigh",
+      "step2Body": "Our team arrives with a calibrated scale and weighs everything in front of you. No hidden deductions.",
+      "step3Title": "Get paid in cash",
+      "step3Body": "You are paid on the spot at the agreed rate, and we clear everything away.",
+      "stepLabel": "Step {number}"
+    },
+    "whyUs": {
+      "title": "Why choose KawadiRabi",
+      "subtitle": "Selling scrap should not feel like a gamble.",
+      "fairTitle": "Transparent rates",
+      "fairBody": "Our rates are published and updated openly. You know the number before we arrive.",
+      "weighTitle": "Weighed in front of you",
+      "weighBody": "Calibrated scales, visible readings, and no deductions invented at the last minute.",
+      "freeTitle": "Genuinely free pickup",
+      "freeBody": "No transport charge, no minimum quantity fee, no charge for carrying it down the stairs.",
+      "cashTitle": "Cash on the spot",
+      "cashBody": "Paid immediately, in full, before we leave. No IOUs and no follow-up calls.",
+      "greenTitle": "Responsibly recycled",
+      "greenBody": "Batteries and e-waste go to proper handlers, not into a landfill outside the city.",
+      "localTitle": "Local and reachable",
+      "localBody": "A Kathmandu team you can call directly — not a call centre or an app queue."
+    },
+    "coverage": {
+      "title": "Where we pick up",
+      "subtitle": "Free pickup across Kathmandu Valley.",
+      "note": "Not on the list? Call anyway — we often travel a little further for larger loads."
+    },
+    "testimonials": {
+      "title": "What our customers say",
+      "subtitle": "Households, offices and building sites across the Valley."
+    },
+    "cta": {
+      "title": "Ready to clear your scrap?",
+      "subtitle": "One call is all it takes. We handle the lifting, the weighing and the loading.",
+      "note": "Open Sunday to Friday, 7:00 to 19:00."
+    }
+  },
+
+  "rates": {
+    "title": "Today's Scrap Rates",
+    "subtitle": "Transparent, up-to-date rates for every material we buy. No hidden deductions, no surprise weighing.",
+    "updatedOn": "Rates updated on {date}",
+    "searchPlaceholder": "Search for copper, कागज, laptop…",
+    "searchLabel": "Search scrap items",
+    "filterAll": "All",
+    "filterLabel": "Filter by category",
+    "noResults": "No items match your search.",
+    "noResultsHint": "Try a different word, or just call us — we buy more than we can list.",
+    "item": "Item",
+    "rate": "Rate",
+    "unit": "Unit",
+    "note": "Note",
+    "disclaimer": "These rates are indicative and move with the market. Call or WhatsApp us for today's exact rate before you sell.",
+    "resultsCount": "Showing {count} of {total} items",
+    "clearSearch": "Clear",
+    "stickyPrompt": "Want today's exact rate?",
+    "categories": {
+      "metals": "Metals",
+      "paper": "Paper",
+      "plastic": "Plastic",
+      "battery": "Batteries",
+      "ewaste": "E-Waste & Appliances"
+    },
+    "categoryDescriptions": {
+      "metals": "Iron, copper, brass, aluminium and more — weighed openly in front of you.",
+      "paper": "Newspaper, cardboard, books and office paper. Must be dry.",
+      "plastic": "Bottles, hard plastic, pipes and sacks.",
+      "battery": "Vehicle, inverter and small batteries, handled for safe disposal.",
+      "ewaste": "Laptops, phones, appliances and circuit boards, recycled responsibly."
+    }
+  },
+
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Household, office and industrial scrap collection across Kathmandu Valley — weighed openly, paid in cash.",
+    "whatWeCollect": "What we collect",
+    "whatWeCollectSub": "Five categories, one phone call. If you are unsure whether we take something, just ask.",
+    "processTitle": "Our pickup process",
+    "processSub": "What actually happens between your call and the cash in your hand.",
+    "process1Title": "You get in touch",
+    "process1Body": "Call or WhatsApp with a rough description and your location. A photo helps us quote more accurately.",
+    "process2Title": "We agree a time and a rate",
+    "process2Body": "We confirm a slot — usually same day — and give you an indicative rate before we set out.",
+    "process3Title": "We collect and weigh",
+    "process3Body": "Our team loads everything, including from upper floors, and weighs it in front of you on a calibrated scale.",
+    "process4Title": "You are paid on the spot",
+    "process4Body": "Cash in hand at the agreed rate, and the space is left clear. Bank transfer available for commercial loads.",
+    "notAcceptedTitle": "What we cannot accept",
+    "notAcceptedSub": "Being clear about this up front saves you a wasted call — and keeps our team safe.",
+    "notAccepted1": "Medical, clinical or biological waste",
+    "notAccepted2": "Chemicals, solvents, paint and oil drums",
+    "notAccepted3": "Asbestos and construction hazardous material",
+    "notAccepted4": "Gas cylinders, aerosols and anything explosive",
+    "notAccepted5": "Mixed household rubbish and food waste",
+    "notAccepted6": "Items that are not yours to sell",
+    "notAcceptedNote": "Not sure which side of the line your item falls on? Call and describe it — we will tell you straight away.",
+    "faqTitle": "Frequently asked questions",
+    "faqSub": "The questions we are asked most often, answered plainly."
+  },
+
+  "about": {
+    "title": "About KawadiRabi",
+    "subtitle": "A Kathmandu scrap-buying service built on honest weighing and fair rates.",
+    "storyTitle": "Our story",
+    "storyBody1": "Selling scrap in Kathmandu has long been a game of guesswork. Rates are quoted from memory, scales are hidden, and the number agreed on the phone is rarely the number paid at the door. Most people accept it because there is no obvious alternative.",
+    "storyBody2": "KawadiRabi exists to remove that guesswork. We publish our rates openly, weigh everything in front of the customer, and pay the agreed amount in cash before we leave. Nothing about that is complicated — it is simply how the trade should have worked all along.",
+    "missionTitle": "Our mission",
+    "missionBody": "To make recycling the easy, obvious choice for every household and business in Kathmandu Valley — by paying fairly, showing up reliably, and making sure what we collect is genuinely recycled rather than quietly dumped.",
+    "valuesTitle": "What we stand for",
+    "value1Title": "Transparency",
+    "value1Body": "Published rates, visible scales, and no deductions invented on arrival.",
+    "value2Title": "Reliability",
+    "value2Body": "If we agree a time, we come. If we cannot make it, we call you before the slot, not after.",
+    "value3Title": "Respect",
+    "value3Body": "We carry, load and clean up. Your stairwell and your neighbours are left as we found them.",
+    "value4Title": "Responsibility",
+    "value4Body": "Batteries and e-waste go to registered handlers. Nothing we collect ends up in a river or a roadside pile.",
+    "trustTitle": "Why people keep calling us back",
+    "trustSub": "Repeat customers are the only marketing that matters in this trade.",
+    "trust1": "The rate quoted on the phone is the rate paid at the door.",
+    "trust2": "Weighing happens where you can see it, every single time.",
+    "trust3": "No charge for pickup, stairs, or loading — ever.",
+    "trust4": "One local number, answered by people who do the work."
+  },
+
+  "contact": {
+    "title": "Contact Us",
+    "subtitle": "Call, WhatsApp, or send us the details and we will get straight back to you.",
+    "callTitle": "Call us",
+    "callBody": "Fastest way to book a pickup. Speak to the team directly.",
+    "whatsappTitle": "WhatsApp us",
+    "whatsappBody": "Send a photo of your scrap and we will reply with an indicative rate.",
+    "emailTitle": "Email",
+    "emailBody": "For commercial quotations, invoices and paperwork.",
+    "hoursTitle": "Business hours",
+    "hoursNote": "Closed on public holidays. Messages sent outside hours are answered the next morning.",
+    "coverageTitle": "Areas we serve",
+    "coverageNote": "Free pickup across Kathmandu Valley. Outside these areas, call and ask.",
+    "formTitle": "Send us the details",
+    "formSub": "Fill this in and it opens WhatsApp with your message ready to send — nothing is stored on this website.",
+    "formName": "Your name",
+    "formNamePlaceholder": "e.g. Sita Sharma",
+    "formPhone": "Phone number",
+    "formPhonePlaceholder": "e.g. 98XXXXXXXX",
+    "formScrapType": "What are you selling?",
+    "formScrapTypePlaceholder": "Select a category",
+    "formScrapTypeOther": "Something else / not sure",
+    "formMessage": "Details",
+    "formMessagePlaceholder": "Roughly how much, and where should we collect from?",
+    "formSubmit": "Open in WhatsApp",
+    "formIntro": "Hello KawadiRabi! I would like to book a scrap pickup.",
+    "formRequired": "Please add your name and either a phone number or some details.",
+    "formOptional": "optional"
+  },
+
+  "meta": {
+    "home": {
+      "title": "KawadiRabi — Scrap Pickup & Best Rates in Kathmandu Valley",
+      "description": "Sell your scrap for the best rate in Kathmandu, Lalitpur and Bhaktapur. Free pickup, honest weighing, cash on the spot. Call or WhatsApp KawadiRabi today."
+    },
+    "rates": {
+      "title": "Today's Scrap Rates — Iron, Copper, Paper, E-Waste",
+      "description": "Live scrap rates for iron, copper, brass, aluminium, paper, plastic, batteries and e-waste across Kathmandu Valley. Updated regularly by KawadiRabi."
+    },
+    "services": {
+      "title": "Our Services — Free Scrap Pickup Across Kathmandu Valley",
+      "description": "Household, office and industrial scrap pickup. We buy metal, paper, plastic, batteries and e-waste, weigh it in front of you and pay cash immediately."
+    },
+    "about": {
+      "title": "About KawadiRabi — Fair Rates, Cleaner Nepal",
+      "description": "KawadiRabi is a Kathmandu-based scrap buying and recycling service built on honest weighing, fair rates and responsible disposal."
+    },
+    "contact": {
+      "title": "Contact KawadiRabi — Book a Free Scrap Pickup",
+      "description": "Call or WhatsApp KawadiRabi to book a free scrap pickup anywhere in Kathmandu Valley. Same-day service, cash paid on the spot."
+    }
+  },
+
+  "notFound": {
+    "title": "Page not found",
+    "description": "That page does not exist — but we still buy your scrap.",
+    "backHome": "Back to home"
+  }
+}
