@@ -13,7 +13,11 @@
  * Bump CACHE_VERSION to force old clients to drop the previous shell.
  */
 
-const CACHE_VERSION = 'kawadirabi-v1';
+// Bumped from `kawadirabi-v1`: the rename and the new phone number changed
+// offline.html, and the activate handler deletes every cache whose key is not
+// this one. Without the bump, anyone who visited before the rename would keep
+// being served the old branded offline page indefinitely.
+const CACHE_VERSION = 'ktm-kawadi-v2';
 const OFFLINE_URL = '/offline.html';
 
 self.addEventListener('install', (event) => {

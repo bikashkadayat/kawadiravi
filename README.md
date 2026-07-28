@@ -4,7 +4,7 @@ Bilingual (English / नेपाली) lead-generation website for a Kathmandu
 
 The whole site optimises for exactly two conversions — **tap to call** and **tap to WhatsApp**. Everything else exists to build enough trust to trigger one of them.
 
-**Live:** https://kawadirabi.bikashkadayat.com.np
+**Live:** https://ktmkawadi.bikashkadayat.com.np
 
 ---
 
@@ -137,30 +137,65 @@ Both need Pillow (`pip install Pillow`). Re-run `make-og.py` if the brand colour
 
 ## Deployment
 
-Push to `main` → GitHub Actions runs lint, typecheck and build, then deploys to Vercel.
+```
+git push origin main   →   live in ~1–2 minutes
+```
 
-### One-time setup
+That is the entire workflow. Pushing to `main` triggers `.github/workflows/deploy.yml`, which lints, typechecks, builds and deploys straight to **production** at <https://ktmkawadi.bikashkadayat.com.np>. Nothing else to run.
 
-1. **Vercel** — import the GitHub repo. Framework preset: Next.js. No build overrides needed.
-2. **GitHub → Settings → Secrets and variables → Actions**, add three *secrets*:
+You can also trigger a redeploy without a commit: **Actions → Deploy to Production → Run workflow**.
 
-   | Secret | Where to find it |
-   |---|---|
-   | `VERCEL_TOKEN` | Vercel → Account Settings → Tokens |
-   | `VERCEL_ORG_ID` | `.vercel/project.json` after running `vercel link` |
-   | `VERCEL_PROJECT_ID` | same file |
+### One-time setup: three GitHub secrets
 
-3. Add one *variable* (not a secret): `VERCEL_ENABLED` = `true`. The deploy job is skipped until this is set, so a fresh clone does not fail CI on a deploy it was never configured for.
+The workflow needs three values. Get them like this:
 
-4. **Vercel → Settings → Domains**, add `kawadirabi.bikashkadayat.com.np`.
+**1. Link the project** (once, from this folder):
 
-5. **Cloudflare DNS** for `bikashkadayat.com.np`:
+```bash
+npx vercel link
+```
 
-   | Type | Name | Target | Proxy |
-   |---|---|---|---|
-   | CNAME | `kawadirabi` | `cname.vercel-dns.com` | **DNS only** (grey cloud) |
+Pick the existing KTM Kawadi project. This writes `.vercel/project.json`:
 
-   Proxy must be **off**. Cloudflare's orange-cloud proxy in front of Vercel causes redirect loops and breaks certificate issuance.
+```json
+{ "orgId": "team_xxxxxxxx", "projectId": "prj_xxxxxxxx" }
+```
+
+`.vercel/` is gitignored, so these never get committed.
+
+**2. Create a token:** Vercel → **Account Settings → Tokens → Create Token**. Scope it to your account, no expiry (or set a reminder). Copy it immediately — it is shown once.
+
+**3. Add all three** at **GitHub → repo → Settings → Secrets and variables → Actions → New repository secret**:
+
+| Secret name | Value | Where from |
+|---|---|---|
+| `VERCEL_TOKEN` | `xxxxxxxx…` | Vercel → Account Settings → Tokens |
+| `VERCEL_ORG_ID` | `team_xxxxxxxx` | `orgId` in `.vercel/project.json` |
+| `VERCEL_PROJECT_ID` | `prj_xxxxxxxx` | `projectId` in the same file |
+
+Names must match exactly — they are case-sensitive.
+
+> The deploy job has **no manual gate**: once the secrets exist, every push to `main` goes live automatically. If a secret is missing the run fails loudly at the Vercel step rather than silently skipping.
+
+### Testing it end to end
+
+1. Change something visible — e.g. a rate in `data/rates.json`, or the tagline in `messages/en.json`.
+2. `git add -A && git commit -m "test deploy" && git push origin main`
+3. Open the repo's **Actions** tab. The "Deploy to Production" run appears within seconds.
+4. When it goes green (~1–2 min), the run's **Summary** shows the live URL and the deployed commit.
+5. Hard-refresh <https://ktmkawadi.bikashkadayat.com.np> and confirm the change is live.
+
+If two pushes land close together, the older run is **cancelled automatically** (`concurrency: production-deploy`) so the newest commit always wins.
+
+### Domain
+
+Already connected in Vercel — **do not change DNS**. For reference, the record is:
+
+| Type | Name | Target | Proxy |
+|---|---|---|---|
+| CNAME | `ktmkawadi` | `cname.vercel-dns.com` | **DNS only** (grey cloud) |
+
+Proxy must stay **off**: Cloudflare's orange-cloud proxy in front of Vercel causes redirect loops and breaks certificate issuance.
 
 ### Environment variables
 
@@ -178,13 +213,13 @@ With neither analytics ID set, the site ships **zero third-party JavaScript**.
 
 ## Before launch
 
-- [ ] Replace `email` in `lib/site-config.ts` (still `info@kawadirabi.com.np`)
+- [ ] Replace `email` in `lib/site-config.ts` (still `info@ktmkawadi.bikashkadayat.com.np`)
 - [ ] Add real social URLs in `lib/site-config.ts` (all still `'#'`, so hidden)
 - [ ] **Replace the placeholder testimonials** in `lib/testimonials.ts` with real, permission-granted quotes. They currently say "Sample Customer" on purpose — publishing invented reviews misleads customers and risks a Google penalty
 - [ ] Check `data/rates.json` prices are current, and set `updatedAt`
 - [ ] Confirm the address and `geo` coordinates in `lib/site-config.ts`
 - [ ] On a real phone: floating Call opens the dialer; floating WhatsApp opens WhatsApp with the message prefilled
-- [ ] Submit `https://kawadirabi.bikashkadayat.com.np/sitemap.xml` to Google Search Console
+- [ ] Submit `https://ktmkawadi.bikashkadayat.com.np/sitemap.xml` to Google Search Console
 - [ ] Validate the JSON-LD in Google's Rich Results Test
 - [ ] Install the PWA from Chrome mobile and confirm the offline page appears in airplane mode
 

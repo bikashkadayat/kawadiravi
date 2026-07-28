@@ -2,7 +2,7 @@
 
 **Project:** KTM Kawadi ♻️ — scrap & recycling pickup service
 **Owner:** Bikash Kadayat
-**Domain:** `kawadirabi.bikashkadayat.com.np`
+**Domain:** `ktmkawadi.bikashkadayat.com.np`
 **Reference (inspiration only, not copied):** thulokawadi.com
 **Document status:** M0 deliverable — planning only, no application code exists yet.
 
@@ -39,7 +39,7 @@ The brief asks for "significantly more modern" than thulokawadi.com. Concretely,
 
 The site is built **directly in `/home/dell/Desktop/Kawadiravi`** (the working directory), not in a nested subfolder.
 
-> Note: the directory is spelled `Kawadiravi`, the npm package is `kawadirabi`, the domain is `kawadirabi.bikashkadayat.com.np` — and the **display brand is `KTM Kawadi`**. Only the display name was renamed; the folder, package name and domain are cosmetic/infrastructural and never shown to a visitor, so they were deliberately left alone.
+> Note: the directory is spelled `Kawadiravi`, the npm package is `ktm-kawadi`, the domain is `ktmkawadi.bikashkadayat.com.np`, and the display brand is `KTM Kawadi`. Only the **folder name** still reads `Kawadiravi` — it is cosmetic, never appears in a URL or in the deployed output, and renaming it would break the local git checkout path.
 
 ### 2.1 Folder tree
 
@@ -472,9 +472,9 @@ Why locale-prefixed rather than a client toggle: a Nepali-language query like "�
 
 | Type | Name | Target | Proxy |
 |---|---|---|---|
-| CNAME | `kawadirabi` | `cname.vercel-dns.com` | **DNS only (grey cloud)** |
+| CNAME | `ktmkawadi` | `cname.vercel-dns.com` | **DNS only (grey cloud)** |
 
-Proxy must stay **off**: orange-cloud proxying in front of Vercel breaks certificate issuance and double-caches the CDN. Then in Vercel → Project → Settings → Domains, add `kawadirabi.bikashkadayat.com.np` and wait for verification. Result: `https://kawadirabi.bikashkadayat.com.np`.
+Proxy must stay **off**: orange-cloud proxying in front of Vercel breaks certificate issuance and double-caches the CDN. Then in Vercel → Project → Settings → Domains, add `ktmkawadi.bikashkadayat.com.np` and wait for verification. Result: `https://ktmkawadi.bikashkadayat.com.np`.
 
 ### Git policy
 
@@ -498,7 +498,7 @@ Claude does not run `git commit`, `git push`, or any history-modifying command i
 
 ## 14. Open items for later milestones
 
-1. **Real contact details** — the phone and WhatsApp numbers are real (`+9779823525098` / `9779823525098`). Still placeholder: `info@kawadirabi.com.np` and the `#` socials. One file: `lib/site-config.ts`. Socials still set to `#` are hidden by the Footer rather than rendered as dead links. Note `public/offline.html` duplicates the number by necessity — it is static HTML served by the service worker with no access to the config.
+1. **Real contact details** — the phone and WhatsApp numbers are real (`+9779823525098` / `9779823525098`). Still placeholder: `info@ktmkawadi.bikashkadayat.com.np` and the `#` socials. One file: `lib/site-config.ts`. Socials still set to `#` are hidden by the Footer rather than rendered as dead links. Note `public/offline.html` duplicates the number by necessity — it is static HTML served by the service worker with no access to the config.
 2. **Real rate values** — seed data in M1 is realistic but illustrative and must be replaced before launch.
 2b. **`framer-motion` is installed but unused** — no imports anywhere. Safe to remove (`npm uninstall framer-motion`); kept only in case a later feature needs genuinely interactive motion that CSS cannot express. See §15.
 3. **Logo source file** — the current assets are extracted from a presentation mockup (§4.4b). A real SVG or transparent PNG would produce a sharper mark, especially at 192px and below. The extraction script lives at `docs/extract-logo.py` and can be re-pointed at a better source.

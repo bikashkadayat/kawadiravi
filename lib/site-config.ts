@@ -15,9 +15,9 @@ import type { SiteConfig } from '@/types';
 export const siteConfig: SiteConfig = {
   name: 'KTM Kawadi',
   shortName: 'KTM Kawadi',
-  domain: 'kawadirabi.bikashkadayat.com.np',
+  domain: 'ktmkawadi.bikashkadayat.com.np',
   url:
-    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://kawadirabi.bikashkadayat.com.np',
+    process.env.NEXT_PUBLIC_SITE_URL ?? 'https://ktmkawadi.bikashkadayat.com.np',
 
   // --- Contact -------------------------------------------------------------
   /** E.164 with '+', used verbatim in `tel:` links. */
@@ -33,7 +33,7 @@ export const siteConfig: SiteConfig = {
    */
   whatsappMessage:
     'Namaste! I want to sell my scrap. Please arrange a pickup.',
-  email: 'info@kawadirabi.com.np',
+  email: 'info@ktmkawadi.bikashkadayat.com.np',
 
   addressEn: 'Kathmandu, Bagmati Province, Nepal',
   addressNe: 'काठमाडौं, बागमती प्रदेश, नेपाल',

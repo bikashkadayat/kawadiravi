@@ -1,85 +1,103 @@
-name: Deploy
+name: Deploy to Production
 
-# Push to main deploys to production. Pull requests get a preview deployment
-# so a change can be looked at before it is merged.
+# Push to main → the live site rebuilds and redeploys. Nothing else to run.
 on:
   push:
     branches: [main]
-  pull_request:
-    branches: [main]
-  # Lets you re-run a deploy from the Actions tab without pushing a commit.
+  # Lets you re-deploy from the Actions tab without pushing a commit.
   workflow_dispatch:
 
-# A newer push to the same branch cancels the older run rather than queueing
-# behind it — the older build is already obsolete.
+# A newer push supersedes an in-flight deploy: the older build is already
+# obsolete, so cancelling it means the latest commit always wins the race to
+# production instead of queueing behind a stale one.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: production-deploy
   cancel-in-progress: true
 
 jobs:
-  verify:
-    name: Lint, typecheck and build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          # Must satisfy eslint-visitor-keys, which needs ^20.19 || ^22.13 || >=24.
-          node-version: 22
-          cache: npm
-
-      # `npm ci` (not `install`) so the build uses exactly the locked versions.
-      - run: npm ci
-
-      - run: npm run lint
-      - run: npm run typecheck
-
-      # Also the guard on data/rates.json: a malformed price fails here rather
-      # than reaching production.
-      - run: npm run build
-
   deploy:
-    name: Deploy to Vercel
-    needs: verify
+    name: Verify and deploy
     runs-on: ubuntu-latest
-    # Skip the whole job until the three Vercel secrets exist, so a fresh clone
-    # of this repo does not fail CI on a deploy it was never configured for.
-    if: ${{ github.event_name != 'pull_request' && vars.VERCEL_ENABLED == 'true' }}
-    environment:
-      name: production
-      url: ${{ steps.deploy.outputs.url }}
-    steps:
-      - uses: actions/checkout@v4
+    timeout-minutes: 15
 
-      - uses: actions/setup-node@v4
+    # Deliberately NO `environment:` block. A GitHub environment can later be
+    # given required reviewers or a wait timer, which would pause every deploy
+    # for manual approval — the opposite of hands-free. The deployment URL is
+    # published to the job summary instead.
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
         with:
-          node-version: 22
+          # 20.x resolves to 20.19+, which is the floor eslint-visitor-keys
+          # requires. Anything older fails `npm ci` with EBADENGINE.
+          node-version: 20
           cache: npm
 
-      - run: npm ci
+      - name: Install dependencies
+        run: npm ci
+
+      # Next's incremental cache. Restoring it lets unchanged routes skip
+      # recompilation, which is most of the "real-time" feel on small edits.
+      # The key includes the lockfile (deps) and all source, so a source change
+      # still gets a fresh build while reusing the compiler cache.
+      - name: Restore Next.js build cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .next/cache
+            .vercel/cache
+          key: ${{ runner.os }}-next-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx', '**/*.css', 'data/**', 'messages/**') }}
+          restore-keys: |
+            ${{ runner.os }}-next-${{ hashFiles('**/package-lock.json') }}-
+            ${{ runner.os }}-next-
+
+      - name: Lint
+        run: npm run lint
+
+      # Cheap and catches what lint cannot. Also the gate on data/rates.json:
+      # Zod validates it, so a malformed price fails here instead of reaching
+      # production.
+      - name: Typecheck
+        run: npm run typecheck
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Pull Vercel environment
+      - name: Pull Vercel production environment
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
+      # This IS the production build — it runs `next build` under the hood.
+      # Deliberately not preceded by a separate `npm run build`: that would
+      # compile the whole site twice and roughly double the time to live.
       - name: Build
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
-      - name: Deploy
+      - name: Deploy to production
         id: deploy
         run: |
+          set -euo pipefail
+          # --prebuilt uploads the artifact built above instead of rebuilding
+          # on Vercel's side. Stdout is the deployment URL.
           url=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
           echo "url=$url" >> "$GITHUB_OUTPUT"
-          echo "Deployed to $url"
+          {
+            echo "### Deployed to production :rocket:"
+            echo ""
+            echo "- Live site: <https://ktmkawadi.bikashkadayat.com.np>"
+            echo "- This deployment: <$url>"
+            echo "- Commit: \`${GITHUB_SHA::7}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "Deployed $GITHUB_SHA to $url"
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

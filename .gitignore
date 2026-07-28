@@ -32,6 +32,10 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+# ...but the TEMPLATE must be committed. `.env*` above matches `.env.example`,
+# which meant the one file documenting every environment variable never
+# reached GitHub. It contains no secrets — only names and comments.
+!.env.example
 
 # vercel
 .vercel

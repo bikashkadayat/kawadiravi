@@ -46,12 +46,18 @@ const devanagari = Mukta({
   // names (rate ranges, "WhatsApp", "KTM"). Without the Latin subset those
   // glyphs fall back to Inter mid-sentence and the line looks mismatched.
   subsets: ['devanagari', 'latin'],
-  // Mukta is NOT a variable font, so every weight is a separate file and must
-  // be listed. 800 is included because the headings and wordmark use
-  // `font-extrabold`; omitting it would leave the browser to synthesise a faux
-  // bold, which on Devanagari smears the conjuncts — the exact roughness this
-  // change is meant to fix.
-  weight: ['400', '500', '600', '700', '800'],
+  /*
+   * Mukta is NOT a variable font: every weight is a separate file, and with
+   * two subsets that is 2 files per weight. Listing 400/500/600/700/800 meant
+   * /ne downloaded 10 files (~390 KB) and measured CLS 0.226.
+   *
+   * Two weights is enough. CSS font matching resolves a requested weight to
+   * the nearest DECLARED face — 500 → 400, and 600/800 → 700 — so the site's
+   * font-medium / font-semibold / font-extrabold classes still get a real
+   * drawn weight, not a synthesised one. That is the distinction that matters
+   * for Devanagari, where faux bold smears the conjuncts.
+   */
+  weight: ['400', '700'],
   // Distinct from the `--font-devanagari` @theme token in globals.css. The old
   // setup used the same name for both, so the token resolved to itself.
   variable: '--font-mukta',
