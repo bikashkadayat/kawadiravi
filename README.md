@@ -138,72 +138,76 @@ Both need Pillow (`pip install Pillow`). Re-run `make-og.py` if the brand colour
 ## Deployment
 
 ```
-git push origin main   →   live in ~1–2 minutes
+git push origin main   →   live in ~2 minutes
 ```
 
-That is the entire workflow. Pushing to `main` triggers `.github/workflows/deploy.yml`, which lints, typechecks, builds and deploys straight to **production** at <https://ktmkawadi.bikashkadayat.com.np>. Nothing else to run.
+That is the entire workflow. Pushing to `main` triggers `.github/workflows/deploy.yml`, which lints, typechecks, static-exports the site to `./out`, and publishes it to **GitHub Pages** at <https://ktmkawadi.bikashkadayat.com.np>.
 
-You can also trigger a redeploy without a commit: **Actions → Deploy to Production → Run workflow**.
+You can also redeploy without a commit: **Actions → Deploy to GitHub Pages → Run workflow**.
 
-### One-time setup: three GitHub secrets
+### One-time setup — you MUST do this first
 
-The workflow needs three values. Get them like this:
+**GitHub → repo → Settings → Pages → Build and deployment → Source:**
 
-**1. Link the project** (once, from this folder):
+> ### `GitHub Actions`
 
-```bash
-npx vercel link
+**Not** "Deploy from a branch". This is the whole reason Pages was previously
+showing the README: with "Deploy from a branch" it serves the repository root,
+where the only renderable file is `README.md`. Switching the source to GitHub
+Actions makes Pages serve the artifact this workflow uploads instead.
+
+Then under **Settings → Pages → Custom domain**, enter:
+
+```
+ktmkawadi.bikashkadayat.com.np
 ```
 
-Pick the existing KTM Kawadi project. This writes `.vercel/project.json`:
+and tick **Enforce HTTPS** once the certificate is issued (can take a few minutes).
 
-```json
-{ "orgId": "team_xxxxxxxx", "projectId": "prj_xxxxxxxx" }
-```
+### DNS
 
-`.vercel/` is gitignored, so these never get committed.
-
-**2. Create a token:** Vercel → **Account Settings → Tokens → Create Token**. Scope it to your account, no expiry (or set a reminder). Copy it immediately — it is shown once.
-
-**3. Add all three** at **GitHub → repo → Settings → Secrets and variables → Actions → New repository secret**:
-
-| Secret name | Value | Where from |
-|---|---|---|
-| `VERCEL_TOKEN` | `xxxxxxxx…` | Vercel → Account Settings → Tokens |
-| `VERCEL_ORG_ID` | `team_xxxxxxxx` | `orgId` in `.vercel/project.json` |
-| `VERCEL_PROJECT_ID` | `prj_xxxxxxxx` | `projectId` in the same file |
-
-Names must match exactly — they are case-sensitive.
-
-> The deploy job has **no manual gate**: once the secrets exist, every push to `main` goes live automatically. If a secret is missing the run fails loudly at the Vercel step rather than silently skipping.
-
-### Testing it end to end
-
-1. Change something visible — e.g. a rate in `data/rates.json`, or the tagline in `messages/en.json`.
-2. `git add -A && git commit -m "test deploy" && git push origin main`
-3. Open the repo's **Actions** tab. The "Deploy to Production" run appears within seconds.
-4. When it goes green (~1–2 min), the run's **Summary** shows the live URL and the deployed commit.
-5. Hard-refresh <https://ktmkawadi.bikashkadayat.com.np> and confirm the change is live.
-
-If two pushes land close together, the older run is **cancelled automatically** (`concurrency: production-deploy`) so the newest commit always wins.
-
-### Domain
-
-Already connected in Vercel — **do not change DNS**. For reference, the record is:
+The domain must now point at GitHub, not Vercel. In **Cloudflare DNS** for `bikashkadayat.com.np`, change the existing record:
 
 | Type | Name | Target | Proxy |
 |---|---|---|---|
-| CNAME | `ktmkawadi` | `cname.vercel-dns.com` | **DNS only** (grey cloud) |
+| CNAME | `ktmkawadi` | `bikashkadayat.github.io` | **DNS only** (grey cloud) |
 
-Proxy must stay **off**: Cloudflare's orange-cloud proxy in front of Vercel causes redirect loops and breaks certificate issuance.
+Proxy must stay **off** — Cloudflare's orange cloud in front of Pages breaks certificate issuance.
+
+> `public/CNAME` is committed and copied into `out/` on every build. Without it, GitHub Pages drops the custom domain on each deploy and reverts to the `github.io` URL.
+
+### Testing it end to end
+
+1. Change something visible — a rate in `data/rates.json`, or the tagline in `messages/en.json`.
+2. `git add -A && git commit -m "test deploy" && git push origin main`
+3. Open the repo's **Actions** tab; the run appears within seconds.
+4. When it goes green (~2 min), the run **Summary** shows the live URL and commit.
+5. Hard-refresh <https://ktmkawadi.bikashkadayat.com.np> and confirm the change.
+
+If two pushes land close together the older run is cancelled, so the newest commit always wins.
+
+### What static export costs
+
+GitHub Pages serves files, not a Node server. Three capabilities are unavailable and the code accounts for each:
+
+| Lost | Consequence | Handled by |
+|---|---|---|
+| Middleware | No server-side `/` → `/en` redirect | `app/page.tsx` — a static redirect stub |
+| Locale detection | Everyone lands on English regardless of `Accept-Language` | Header language toggle |
+| Image Optimization | No AVIF/WebP conversion or resizing | `images.unoptimized: true`; assets are pre-sized |
+
+Route handlers, ISR, `headers()` and `rewrites()` are also unavailable. If any of those are ever needed, the site has to move back to a hosted runtime.
+
 
 ### Environment variables
 
-Every one is optional — the site builds and runs with none of them set. Configure in Vercel → Settings → Environment Variables.
+Every one is optional — the site builds and runs with none of them set.
+
+Because this is a **static export**, `NEXT_PUBLIC_*` values are baked into the bundle at build time; there is no runtime environment to read them from. Set them as repository **Variables** (not secrets — these IDs ship in the client bundle regardless): **Settings → Secrets and variables → Actions → Variables → New repository variable**. The workflow passes them to the build step.
 
 | Variable | Effect when unset |
 |---|---|
-| `NEXT_PUBLIC_SITE_URL` | Falls back to the production domain |
+| `NEXT_PUBLIC_SITE_URL` | Falls back to the production domain (the workflow sets it explicitly) |
 | `NEXT_PUBLIC_GA_ID` | Google Analytics not loaded at all |
 | `NEXT_PUBLIC_CLARITY_ID` | Clarity not loaded at all |
 
@@ -227,7 +231,7 @@ With neither analytics ID set, the site ships **zero third-party JavaScript**.
 
 ## Tech
 
-Next.js 16 (App Router) · TypeScript · Tailwind CSS v4 · next-intl · Radix UI · Zod · Vercel
+Next.js 16 (App Router, static export) · TypeScript · Tailwind CSS v4 · next-intl · Radix UI · Zod · GitHub Pages
 
 Tailwind v4 is CSS-first: design tokens live in the `@theme` block in `app/globals.css`. **There is no `tailwind.config.ts`.**
 

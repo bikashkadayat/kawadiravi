@@ -1,4 +1,4 @@
-name: Deploy to Production
+name: Deploy to GitHub Pages
 
 # Push to main → the live site rebuilds and redeploys. Nothing else to run.
 on:
@@ -7,24 +7,25 @@ on:
   # Lets you re-deploy from the Actions tab without pushing a commit.
   workflow_dispatch:
 
-# A newer push supersedes an in-flight deploy: the older build is already
-# obsolete, so cancelling it means the latest commit always wins the race to
-# production instead of queueing behind a stale one.
+# Least privilege: read the repo, publish a Pages artifact, and mint the OIDC
+# token deploy-pages exchanges for permission to publish. Nothing else.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# A newer push supersedes an in-flight deploy so the latest commit always wins.
+# `cancel-in-progress: false` on the deploy side would be safer if Pages
+# rejected concurrent publishes, but cancelling is what keeps this real-time.
 concurrency:
   group: production-deploy
   cancel-in-progress: true
 
 jobs:
-  deploy:
-    name: Verify and deploy
+  build:
+    name: Build static export
     runs-on: ubuntu-latest
     timeout-minutes: 15
-
-    # Deliberately NO `environment:` block. A GitHub environment can later be
-    # given required reviewers or a wait timer, which would pause every deploy
-    # for manual approval — the opposite of hands-free. The deployment URL is
-    # published to the job summary instead.
-
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -32,24 +33,20 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v4
         with:
-          # 20.x resolves to 20.19+, which is the floor eslint-visitor-keys
-          # requires. Anything older fails `npm ci` with EBADENGINE.
+          # 20.x resolves to 20.19+, the floor eslint-visitor-keys requires.
+          # Older Node fails `npm ci` with EBADENGINE.
           node-version: 20
           cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      # Next's incremental cache. Restoring it lets unchanged routes skip
-      # recompilation, which is most of the "real-time" feel on small edits.
-      # The key includes the lockfile (deps) and all source, so a source change
-      # still gets a fresh build while reusing the compiler cache.
+      # Next's incremental compiler cache. Restoring it lets unchanged routes
+      # skip recompilation, which is most of the speed on small content edits.
       - name: Restore Next.js build cache
         uses: actions/cache@v4
         with:
-          path: |
-            .next/cache
-            .vercel/cache
+          path: .next/cache
           key: ${{ runner.os }}-next-${{ hashFiles('**/package-lock.json') }}-${{ hashFiles('**/*.[jt]s', '**/*.[jt]sx', '**/*.css', 'data/**', 'messages/**') }}
           restore-keys: |
             ${{ runner.os }}-next-${{ hashFiles('**/package-lock.json') }}-
@@ -58,46 +55,70 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      # Cheap and catches what lint cannot. Also the gate on data/rates.json:
-      # Zod validates it, so a malformed price fails here instead of reaching
-      # production.
+      # Cheap, and it is the gate on data/rates.json: Zod validates the file at
+      # module load, so a malformed price fails here rather than shipping.
       - name: Typecheck
         run: npm run typecheck
 
-      - name: Install Vercel CLI
-        run: npm install --global vercel@latest
-
-      - name: Pull Vercel production environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-
-      # This IS the production build — it runs `next build` under the hood.
-      # Deliberately not preceded by a separate `npm run build`: that would
-      # compile the whole site twice and roughly double the time to live.
+      # `output: "export"` means this writes ./out — a complete static site.
+      #
+      # NEXT_PUBLIC_* values are inlined into the bundle at BUILD time, and a
+      # static host has no runtime env. So they must be injected here — there
+      # is no dashboard to set them in after the fact.
+      #
+      # `vars` (repo Variables), not `secrets`: a GA measurement ID and a
+      # Clarity project ID are public by definition — they ship in the client
+      # bundle either way. Both are optional; unset means the analytics script
+      # is never emitted at all.
       - name: Build
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        run: npm run build
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          NEXT_PUBLIC_SITE_URL: https://ktmkawadi.bikashkadayat.com.np
+          NEXT_PUBLIC_GA_ID: ${{ vars.NEXT_PUBLIC_GA_ID }}
+          NEXT_PUBLIC_CLARITY_ID: ${{ vars.NEXT_PUBLIC_CLARITY_ID }}
 
-      - name: Deploy to production
-        id: deploy
+      # Fail loudly and early if the export did not produce what Pages needs,
+      # rather than publishing a broken or empty site.
+      - name: Verify export output
         run: |
           set -euo pipefail
-          # --prebuilt uploads the artifact built above instead of rebuilding
-          # on Vercel's side. Stdout is the deployment URL.
-          url=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
-          echo "url=$url" >> "$GITHUB_OUTPUT"
+          test -f out/index.html    || { echo "::error::out/index.html missing"; exit 1; }
+          test -f out/en/index.html || { echo "::error::out/en/index.html missing"; exit 1; }
+          test -d out/_next         || { echo "::error::out/_next missing"; exit 1; }
+          test -f out/.nojekyll     || { echo "::error::out/.nojekyll missing — Pages would strip _next/"; exit 1; }
+          test -f out/CNAME         || { echo "::error::out/CNAME missing — custom domain would be dropped"; exit 1; }
+          echo "Export OK: $(find out -name '*.html' | wc -l) HTML files, $(du -sh out | cut -f1) total"
+
+      - name: Configure Pages
+        uses: actions/configure-pages@v5
+
+      # Uploads ./out as the Pages artifact. `.nojekyll` inside it is what stops
+      # Pages running Jekyll, which would otherwise strip the _next/ folder
+      # because Jekyll ignores directories beginning with an underscore.
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./out
+
+  deploy:
+    name: Publish to Pages
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Summary
+        run: |
           {
-            echo "### Deployed to production :rocket:"
+            echo "### Deployed to GitHub Pages :rocket:"
             echo ""
             echo "- Live site: <https://ktmkawadi.bikashkadayat.com.np>"
-            echo "- This deployment: <$url>"
+            echo "- Pages URL: <${{ steps.deployment.outputs.page_url }}>"
             echo "- Commit: \`${GITHUB_SHA::7}\`"
           } >> "$GITHUB_STEP_SUMMARY"
-          echo "Deployed $GITHUB_SHA to $url"
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

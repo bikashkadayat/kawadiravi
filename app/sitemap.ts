@@ -5,6 +5,14 @@ import { siteConfig } from '@/lib/site-config';
 import { getRatesUpdatedAt } from '@/lib/rates';
 
 /**
+ * Required by `output: "export"`: metadata routes are route handlers under the
+ * hood, and Next refuses to export one unless it is explicitly declared static.
+ * Nothing here reads a request, so forcing static is accurate, not a workaround.
+ */
+export const dynamic = 'force-static';
+
+
+/**
  * Sitemap covering every route in both locales.
  *
  * Routes are listed once with their locale variants declared as `alternates`,

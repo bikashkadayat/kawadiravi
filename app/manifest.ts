@@ -3,6 +3,14 @@ import type { MetadataRoute } from 'next';
 import { siteConfig } from '@/lib/site-config';
 
 /**
+ * Required by `output: "export"`: metadata routes are route handlers under the
+ * hood, and Next refuses to export one unless it is explicitly declared static.
+ * Nothing here reads a request, so forcing static is accurate, not a workaround.
+ */
+export const dynamic = 'force-static';
+
+
+/**
  * PWA manifest.
  *
  * `start_url: '/en'` rather than '/' avoids the installed app opening on a
