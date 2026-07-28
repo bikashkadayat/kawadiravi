@@ -5,26 +5,34 @@
  * email address or social URL. When Bikash's details change, this file is the
  * only file that changes.
  *
- * PLACEHOLDERS — replace before launch:
- *   phone / phoneDisplay / whatsapp / email, and every social `href` still '#'.
+ * STILL PLACEHOLDER — replace before launch:
+ *   email, and every social `href` still '#'.
+ * The phone / WhatsApp numbers below are the real ones.
  */
 
 import type { SiteConfig } from '@/types';
 
 export const siteConfig: SiteConfig = {
-  name: 'KawadiRabi',
-  shortName: 'KawadiRabi',
+  name: 'KTM Kawadi',
+  shortName: 'KTM Kawadi',
   domain: 'kawadirabi.bikashkadayat.com.np',
   url:
     process.env.NEXT_PUBLIC_SITE_URL ?? 'https://kawadirabi.bikashkadayat.com.np',
 
-  // --- Contact (PLACEHOLDER VALUES) ---------------------------------------
+  // --- Contact -------------------------------------------------------------
   /** E.164 with '+', used verbatim in `tel:` links. */
-  phone: '+9779800000000',
+  phoneTel: '+9779823525098',
   /** Display-only formatting; never used to build a link. */
-  phoneDisplay: '+977 980-000-0000',
+  phoneDisplay: '9823525098',
   /** Digits only, no '+' — this is what `wa.me/<number>` expects. */
-  whatsapp: '9779800000000',
+  whatsapp: '9779823525098',
+  /**
+   * Default prefilled WhatsApp text. Surfaces that know the active locale pass
+   * the translated `floating.prefilledMessage` instead; this is the fallback
+   * for anything that does not.
+   */
+  whatsappMessage:
+    'Namaste! I want to sell my scrap. Please arrange a pickup.',
   email: 'info@kawadirabi.com.np',
 
   addressEn: 'Kathmandu, Bagmati Province, Nepal',
@@ -80,7 +88,7 @@ export const siteConfig: SiteConfig = {
 };
 
 /** `tel:` href built from the single source of truth. */
-export const telHref = `tel:${siteConfig.phone}`;
+export const telHref = `tel:${siteConfig.phoneTel}`;
 
 /** True when a social link has a real destination configured. */
 export function isConfiguredSocial(href: string): boolean {

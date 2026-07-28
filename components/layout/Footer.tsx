@@ -8,6 +8,7 @@ import { RATE_CATEGORIES } from '@/lib/rates';
 import { activeSocials, siteConfig, telHref } from '@/lib/site-config';
 import { buildWhatsAppUrl } from '@/lib/whatsapp';
 import { TikTokIcon, WhatsAppIcon } from '@/components/shared/BrandIcons';
+import { Wordmark } from '@/components/shared/Wordmark';
 import type { SocialLink } from '@/types';
 
 /** Icon per social key. Keyed by the union in SocialLink, so a new network
@@ -63,9 +64,10 @@ export async function Footer() {
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           {/* Brand + blurb + socials */}
           <div>
-            <p className="text-xl font-extrabold text-white">
-              {tCommon('brand')}
-            </p>
+            <Wordmark
+              className="text-xl font-extrabold"
+              chipClassName="px-2 py-1"
+            />
             <p className="mt-3 text-sm leading-relaxed text-neutral-300">
               {t('about')}
             </p>

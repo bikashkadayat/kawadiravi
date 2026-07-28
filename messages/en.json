@@ -1,6 +1,6 @@
 {
   "common": {
-    "brand": "KawadiRabi",
+    "brand": "KTM Kawadi",
     "tagline": "Turn your scrap into cash — today",
     "callNow": "Call Now",
     "whatsapp": "WhatsApp",
@@ -15,7 +15,6 @@
     "loading": "Loading…",
     "skipToContent": "Skip to content"
   },
-
   "nav": {
     "home": "Home",
     "rates": "Rates",
@@ -26,49 +25,45 @@
     "closeMenu": "Close menu",
     "mainNavigation": "Main navigation"
   },
-
   "announcement": {
     "freePickup": "Free pickup across Kathmandu Valley",
     "callUs": "Call us",
-    "dismiss": "Dismiss announcement"
+    "dismiss": "Dismiss announcement",
+    "label": "Announcement"
   },
-
   "floating": {
-    "callLabel": "Call Now — KawadiRabi",
-    "whatsappLabel": "Chat with KawadiRabi on WhatsApp",
-    "prefilledMessage": "Hello KawadiRabi! I have some scrap to sell. Could you tell me today's rate and arrange a pickup?"
+    "callLabel": "Call Now — KTM Kawadi",
+    "whatsappLabel": "Chat with KTM Kawadi on WhatsApp",
+    "prefilledMessage": "Namaste! I want to sell my scrap. Please arrange a pickup.",
+    "label": "Quick contact"
   },
-
   "theme": {
     "toggle": "Toggle theme",
     "light": "Light",
     "dark": "Dark",
     "system": "System"
   },
-
   "locale": {
     "switch": "Switch language",
     "en": "English",
     "ne": "नेपाली"
   },
-
   "footer": {
-    "about": "KawadiRabi buys scrap metal, paper, plastic, batteries and e-waste across Kathmandu Valley. Fair weighing, free pickup, cash on the spot.",
+    "about": "KTM Kawadi buys scrap metal, paper, plastic, batteries and e-waste across Kathmandu Valley. Fair weighing, free pickup, cash on the spot.",
     "company": "Company",
     "servicesTitle": "What We Buy",
     "coverage": "Coverage Areas",
     "contactTitle": "Contact",
     "followUs": "Follow us",
     "rights": "All rights reserved.",
-    "builtBy": "KawadiRabi ♻️ — recycling for a cleaner Nepal",
+    "builtBy": "KTM Kawadi ♻️ — recycling for a cleaner Nepal",
     "socialLabel": "Visit our {network} page"
   },
-
   "home": {
     "hero": {
       "badge": "Free pickup · Cash on the spot",
       "title": "Turn your scrap into cash — today",
-      "subtitle": "KawadiRabi buys metal, paper, plastic, batteries and e-waste across Kathmandu Valley. We come to you, weigh it in front of you, and pay cash on the spot.",
+      "subtitle": "KTM Kawadi buys metal, paper, plastic, batteries and e-waste across Kathmandu Valley. We come to you, weigh it in front of you, and pay cash on the spot.",
       "trustWeighing": "Honest weighing",
       "trustPickup": "Free pickup",
       "trustCash": "Cash on the spot",
@@ -98,7 +93,7 @@
       "stepLabel": "Step {number}"
     },
     "whyUs": {
-      "title": "Why choose KawadiRabi",
+      "title": "Why choose KTM Kawadi",
       "subtitle": "Selling scrap should not feel like a gamble.",
       "fairTitle": "Transparent rates",
       "fairBody": "Our rates are published and updated openly. You know the number before we arrive.",
@@ -128,7 +123,6 @@
       "note": "Open Sunday to Friday, 7:00 to 19:00."
     }
   },
-
   "rates": {
     "title": "Today's Scrap Rates",
     "subtitle": "Transparent, up-to-date rates for every material we buy. No hidden deductions, no surprise weighing.",
@@ -162,7 +156,6 @@
       "ewaste": "Laptops, phones, appliances and circuit boards, recycled responsibly."
     }
   },
-
   "services": {
     "title": "Our Services",
     "subtitle": "Household, office and industrial scrap collection across Kathmandu Valley — weighed openly, paid in cash.",
@@ -190,13 +183,12 @@
     "faqTitle": "Frequently asked questions",
     "faqSub": "The questions we are asked most often, answered plainly."
   },
-
   "about": {
-    "title": "About KawadiRabi",
+    "title": "About KTM Kawadi",
     "subtitle": "A Kathmandu scrap-buying service built on honest weighing and fair rates.",
     "storyTitle": "Our story",
     "storyBody1": "Selling scrap in Kathmandu has long been a game of guesswork. Rates are quoted from memory, scales are hidden, and the number agreed on the phone is rarely the number paid at the door. Most people accept it because there is no obvious alternative.",
-    "storyBody2": "KawadiRabi exists to remove that guesswork. We publish our rates openly, weigh everything in front of the customer, and pay the agreed amount in cash before we leave. Nothing about that is complicated — it is simply how the trade should have worked all along.",
+    "storyBody2": "KTM Kawadi exists to remove that guesswork. We publish our rates openly, weigh everything in front of the customer, and pay the agreed amount in cash before we leave. Nothing about that is complicated — it is simply how the trade should have worked all along.",
     "missionTitle": "Our mission",
     "missionBody": "To make recycling the easy, obvious choice for every household and business in Kathmandu Valley — by paying fairly, showing up reliably, and making sure what we collect is genuinely recycled rather than quietly dumped.",
     "valuesTitle": "What we stand for",
@@ -215,7 +207,6 @@
     "trust3": "No charge for pickup, stairs, or loading — ever.",
     "trust4": "One local number, answered by people who do the work."
   },
-
   "contact": {
     "title": "Contact Us",
     "subtitle": "Call, WhatsApp, or send us the details and we will get straight back to you.",
@@ -241,34 +232,32 @@
     "formMessage": "Details",
     "formMessagePlaceholder": "Roughly how much, and where should we collect from?",
     "formSubmit": "Open in WhatsApp",
-    "formIntro": "Hello KawadiRabi! I would like to book a scrap pickup.",
+    "formIntro": "Hello KTM Kawadi! I would like to book a scrap pickup.",
     "formRequired": "Please add your name and either a phone number or some details.",
     "formOptional": "optional"
   },
-
   "meta": {
     "home": {
-      "title": "KawadiRabi — Scrap Pickup & Best Rates in Kathmandu Valley",
-      "description": "Sell your scrap for the best rate in Kathmandu, Lalitpur and Bhaktapur. Free pickup, honest weighing, cash on the spot. Call or WhatsApp KawadiRabi today."
+      "title": "KTM Kawadi — Scrap Pickup & Best Rates in Kathmandu Valley",
+      "description": "Sell your scrap for the best rate in Kathmandu, Lalitpur and Bhaktapur. Free pickup, honest weighing, cash on the spot. Call or WhatsApp KTM Kawadi today."
     },
     "rates": {
       "title": "Today's Scrap Rates — Iron, Copper, Paper, E-Waste",
-      "description": "Live scrap rates for iron, copper, brass, aluminium, paper, plastic, batteries and e-waste across Kathmandu Valley. Updated regularly by KawadiRabi."
+      "description": "Live scrap rates for iron, copper, brass, aluminium, paper, plastic, batteries and e-waste across Kathmandu Valley. Updated regularly by KTM Kawadi."
     },
     "services": {
       "title": "Our Services — Free Scrap Pickup Across Kathmandu Valley",
       "description": "Household, office and industrial scrap pickup. We buy metal, paper, plastic, batteries and e-waste, weigh it in front of you and pay cash immediately."
     },
     "about": {
-      "title": "About KawadiRabi — Fair Rates, Cleaner Nepal",
-      "description": "KawadiRabi is a Kathmandu-based scrap buying and recycling service built on honest weighing, fair rates and responsible disposal."
+      "title": "About KTM Kawadi — Fair Rates, Cleaner Nepal",
+      "description": "KTM Kawadi is a Kathmandu-based scrap buying and recycling service built on honest weighing, fair rates and responsible disposal."
     },
     "contact": {
-      "title": "Contact KawadiRabi — Book a Free Scrap Pickup",
-      "description": "Call or WhatsApp KawadiRabi to book a free scrap pickup anywhere in Kathmandu Valley. Same-day service, cash paid on the spot."
+      "title": "Contact KTM Kawadi — Book a Free Scrap Pickup",
+      "description": "Call or WhatsApp KTM Kawadi to book a free scrap pickup anywhere in Kathmandu Valley. Same-day service, cash paid on the spot."
     }
   },
-
   "notFound": {
     "title": "Page not found",
     "description": "That page does not exist — but we still buy your scrap.",

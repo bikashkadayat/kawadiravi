@@ -15,7 +15,10 @@ export async function AnnouncementBar() {
   const t = await getTranslations('announcement');
 
   return (
-    <div className="bg-primary-900 text-primary-50 text-sm">
+    <aside
+      aria-label={t('label')}
+      className="bg-primary-900 text-primary-50 text-sm"
+    >
       <div className="container-page flex h-10 items-center justify-center gap-4 sm:justify-between">
         <p className="flex items-center gap-2">
           <Truck className="size-4 shrink-0" aria-hidden="true" />
@@ -32,6 +35,6 @@ export async function AnnouncementBar() {
           </span>
         </a>
       </div>
-    </div>
+    </aside>
   );
 }

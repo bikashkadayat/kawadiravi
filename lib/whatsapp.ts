@@ -17,7 +17,10 @@ import { siteConfig } from '@/lib/site-config';
  */
 export function buildWhatsAppUrl(message?: string): string {
   const base = `https://wa.me/${siteConfig.whatsapp}`;
-  const text = message?.trim();
+  // Callers that know the active locale pass the translated message; anything
+  // else falls back to siteConfig.whatsappMessage so a WhatsApp link is never
+  // opened with an empty compose box.
+  const text = (message ?? siteConfig.whatsappMessage).trim();
   return text ? `${base}?text=${encodeURIComponent(text)}` : base;
 }
 

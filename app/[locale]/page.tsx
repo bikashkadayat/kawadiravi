@@ -29,7 +29,10 @@ export default async function HomePage({
   setRequestLocale(locale);
 
   return (
-    <>
+    // The only page without its own <main>: every other page declares one, and
+    // without it axe reported "no main landmark" plus 86 elements sitting
+    // outside any landmark at all.
+    <main>
       <Hero />
       <RatesPreview />
       <WhatWeBuy />
@@ -38,6 +41,6 @@ export default async function HomePage({
       <CoverageArea />
       <Testimonials />
       <CtaBand />
-    </>
+    </main>
   );
 }

@@ -42,20 +42,37 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const { request } = event;
 
-  // Only page navigations get the offline treatment.
-  if (request.mode !== 'navigate') return;
+  // Page navigations fall back to the offline page.
+  if (request.mode === 'navigate') {
+    event.respondWith(
+      fetch(request).catch(async () => {
+        const cache = await caches.open(CACHE_VERSION);
+        const cached = await cache.match(OFFLINE_URL);
+        return (
+          cached ??
+          new Response('Offline', {
+            status: 503,
+            headers: { 'Content-Type': 'text/plain' },
+          })
+        );
+      }),
+    );
+    return;
+  }
 
+  /*
+   * Anything else: network first, but fall back to the cache IF we precached
+   * it. Without this the offline page rendered with a broken image — the logo
+   * was sitting in the cache, but only navigations were being intercepted, so
+   * the <img> request went to the dead network and failed.
+   *
+   * Still no opportunistic caching of other responses: a stale cached rate is
+   * worse than no page at all.
+   */
   event.respondWith(
     fetch(request).catch(async () => {
-      const cache = await caches.open(CACHE_VERSION);
-      const cached = await cache.match(OFFLINE_URL);
-      return (
-        cached ??
-        new Response('Offline', {
-          status: 503,
-          headers: { 'Content-Type': 'text/plain' },
-        })
-      );
+      const cached = await caches.match(request);
+      return cached ?? Response.error();
     }),
   );
 });

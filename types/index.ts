@@ -1,5 +1,5 @@
 /**
- * Shared TypeScript types for KawadiRabi.
+ * Shared TypeScript types for KTM Kawadi.
  *
  * The rate types here are the *inferred* counterparts of the Zod schemas in
  * `lib/rates.ts`. Zod owns the runtime contract; this file re-exports the
@@ -45,12 +45,14 @@ export interface SiteConfig {
   shortName: string;
   domain: string;
   url: string;
-  /** E.164, used for `tel:` links. */
-  phone: string;
+  /** E.164 with '+', used verbatim in `tel:` links. */
+  phoneTel: string;
   /** Pretty form for display only. */
   phoneDisplay: string;
   /** Digits only, no '+', used for `wa.me/<number>`. */
   whatsapp: string;
+  /** Default prefilled WhatsApp message when no localized one is supplied. */
+  whatsappMessage: string;
   email: string;
   addressEn: string;
   addressNe: string;

@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import type { ReactNode } from 'react';
 import { notFound } from 'next/navigation';
-import { Inter, Noto_Sans_Devanagari } from 'next/font/google';
+import { Inter, Mukta } from 'next/font/google';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
@@ -29,10 +29,34 @@ const inter = Inter({
   display: 'swap',
 });
 
-const devanagari = Noto_Sans_Devanagari({
-  subsets: ['devanagari'],
-  variable: '--font-devanagari',
+/**
+ * `preload: false` is deliberate and measured.
+ *
+ * next/font emits a <link rel="preload"> for every declared font, and both
+ * families are declared at module scope for BOTH locales. That meant the
+ * English pages were preloading a 121 KB Devanagari file they never render —
+ * on throttled mobile it competed with the hero text and pushed LCP to 3.6s.
+ *
+ * Without the preload the file is fetched only when `:lang(ne)` actually
+ * applies it. Nepali pages show the swap fallback for a moment longer, which
+ * is a far smaller cost than delaying first paint for every English visitor.
+ */
+const devanagari = Mukta({
+  // `latin` as well as `devanagari`: Nepali copy is full of Latin digits and
+  // names (rate ranges, "WhatsApp", "KTM"). Without the Latin subset those
+  // glyphs fall back to Inter mid-sentence and the line looks mismatched.
+  subsets: ['devanagari', 'latin'],
+  // Mukta is NOT a variable font, so every weight is a separate file and must
+  // be listed. 800 is included because the headings and wordmark use
+  // `font-extrabold`; omitting it would leave the browser to synthesise a faux
+  // bold, which on Devanagari smears the conjuncts — the exact roughness this
+  // change is meant to fix.
+  weight: ['400', '500', '600', '700', '800'],
+  // Distinct from the `--font-devanagari` @theme token in globals.css. The old
+  // setup used the same name for both, so the token resolved to itself.
+  variable: '--font-mukta',
   display: 'swap',
+  preload: false,
 });
 
 /** Pre-render both locales at build time. */

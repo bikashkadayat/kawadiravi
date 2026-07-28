@@ -31,7 +31,7 @@ CARDS = {
     "en": {
         "bold": LATIN_BOLD,
         "regular": LATIN,
-        "brand": "KawadiRabi",
+        "brand": "KTM Kawadi",
         "headline": "Turn your scrap into cash",
         "sub": "Free pickup across Kathmandu Valley  ·  Cash on the spot",
         "pill": "Metal  ·  Paper  ·  Plastic  ·  Battery  ·  E-Waste",
@@ -41,7 +41,7 @@ CARDS = {
     "ne": {
         "bold": DEVA_BOLD,
         "regular": DEVA,
-        "brand": "कवाडीरबि",
+        "brand": "केटीएम कवाडी",
         "headline": "आफ्नो कवाडीलाई नगदमा बदल्नुहोस्",
         "sub": "काठमाडौं उपत्यकाभर निःशुल्क पिकअप  |  तत्कालै नगद",
         "pill": "फलाम | कागज | प्लास्टिक | ब्याट्री | इ-वेस्ट",

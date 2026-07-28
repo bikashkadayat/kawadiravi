@@ -12,6 +12,7 @@ import { buildWhatsAppUrl } from '@/lib/whatsapp';
 import { cn } from '@/lib/utils';
 import { WhatsAppIcon } from '@/components/shared/BrandIcons';
 import { LocaleToggle } from '@/components/layout/LocaleToggle';
+import { Wordmark } from '@/components/shared/Wordmark';
 
 /**
  * Hamburger menu for small screens.
@@ -54,9 +55,7 @@ export function MobileNav() {
           </Dialog.Title>
 
           <div className="flex h-16 items-center justify-between border-b px-4">
-            <span className="text-primary-900 dark:text-primary-300 font-extrabold">
-              {tCommon('brand')}
-            </span>
+            <Wordmark className="font-extrabold" />
             <Dialog.Close asChild>
               <button
                 type="button"

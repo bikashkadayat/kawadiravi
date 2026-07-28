@@ -1,6 +1,6 @@
-# KawadiRabi — Architecture & Design Specification
+# KTM Kawadi — Architecture & Design Specification
 
-**Project:** KawadiRabi ♻️ — scrap & recycling pickup service
+**Project:** KTM Kawadi ♻️ — scrap & recycling pickup service
 **Owner:** Bikash Kadayat
 **Domain:** `kawadirabi.bikashkadayat.com.np`
 **Reference (inspiration only, not copied):** thulokawadi.com
@@ -25,7 +25,7 @@ Every other page and section exists only to raise the probability of one of thos
 
 The brief asks for "significantly more modern" than thulokawadi.com. Concretely, that means:
 
-| Dimension | Typical Nepali scrap site | KawadiRabi |
+| Dimension | Typical Nepali scrap site | KTM Kawadi |
 |---|---|---|
 | Rendering | Client-rendered WordPress + plugins | Static pre-rendered Next.js, no CMS runtime |
 | Rates | Image screenshot of a price list | Structured JSON → searchable, filterable, indexable table |
@@ -39,7 +39,7 @@ The brief asks for "significantly more modern" than thulokawadi.com. Concretely,
 
 The site is built **directly in `/home/dell/Desktop/Kawadiravi`** (the working directory), not in a nested subfolder.
 
-> Note: the directory is spelled `Kawadiravi` while the brand is `KawadiRabi`. The folder name is cosmetic and never appears in a URL or in the deployed output, so this is left as-is. The `package.json` name, all UI copy, and the domain all use **KawadiRabi**.
+> Note: the directory is spelled `Kawadiravi`, the npm package is `kawadirabi`, the domain is `kawadirabi.bikashkadayat.com.np` — and the **display brand is `KTM Kawadi`**. Only the display name was renamed; the folder, package name and domain are cosmetic/infrastructural and never shown to a visitor, so they were deliberately left alone.
 
 ### 2.1 Folder tree
 
@@ -435,7 +435,7 @@ Why locale-prefixed rather than a client toggle: a Nepali-language query like "�
 
 ## 10. PWA plan
 
-- `app/manifest.ts` — name "KawadiRabi — Scrap Pickup & Best Rates", short name "KawadiRabi", `display: standalone`, `theme_color` `#0F5132`, `background_color` `#FFFFFF`, `start_url: /en`
+- `app/manifest.ts` — name "KTM Kawadi — Scrap Pickup & Best Rates", short name "KTM Kawadi", `display: standalone`, `theme_color` `#0F5132`, `background_color` `#FFFFFF`, `start_url: /en`
 - Icons at 192/256/384/512 plus a maskable 512 (Android adaptive) and an Apple touch icon
 - Offline fallback page telling the user the phone number still works without data — the most useful possible offline state for this business
 - Service worker kept minimal: precache the shell + last-viewed rates; **never** cache-first the rates page, so a stale price is never shown as current
@@ -498,12 +498,76 @@ Claude does not run `git commit`, `git push`, or any history-modifying command i
 
 ## 14. Open items for later milestones
 
-1. **Real contact details** — placeholders (`+9779800000000`, `info@kawadirabi.com.np`, `#` socials) are in use until Bikash supplies the real ones. One file: `lib/site-config.ts`. Socials still set to `#` are hidden by the Footer rather than rendered as dead links.
+1. **Real contact details** — the phone and WhatsApp numbers are real (`+9779823525098` / `9779823525098`). Still placeholder: `info@kawadirabi.com.np` and the `#` socials. One file: `lib/site-config.ts`. Socials still set to `#` are hidden by the Footer rather than rendered as dead links. Note `public/offline.html` duplicates the number by necessity — it is static HTML served by the service worker with no access to the config.
 2. **Real rate values** — seed data in M1 is realistic but illustrative and must be replaced before launch.
+2b. **`framer-motion` is installed but unused** — no imports anywhere. Safe to remove (`npm uninstall framer-motion`); kept only in case a later feature needs genuinely interactive motion that CSS cannot express. See §15.
 3. **Logo source file** — the current assets are extracted from a presentation mockup (§4.4b). A real SVG or transparent PNG would produce a sharper mark, especially at 192px and below. The extraction script lives at `docs/extract-logo.py` and can be re-pointed at a better source.
 4. **Testimonials** — sample data, clearly placeholder; must be replaced with genuine reviews before going live, since fabricated testimonials on a live business site are a real credibility and legal risk.
 5. **Default locale** — currently `en`. If Nepali should be the landing language, it is a one-line change in `i18n/routing.ts`.
 
 ---
 
-*M0 complete — planning only. No application code written.*
+## 15. What actually got built (M1–M6)
+
+This section records where the implementation **diverged from the plan above**, and why. Where the two disagree, this section is correct.
+
+### Platform
+
+| Planned | Built | Why |
+|---|---|---|
+| Next.js 15 | **Next.js 16.2.12** | `create-next-app@latest` now installs 16. Same App Router; pinning back is a one-line change |
+| `middleware.ts` | **`proxy.ts`** | Next 16 renamed the file convention. Same contract (default export + `config.matcher`); handler still imports from `next-intl/middleware` |
+| `eslint` key in `next.config.ts` | *removed* | Next 16 dropped it along with `next lint`. Linting is a standalone `npm run lint` that CI runs **before** `npm run build` |
+| Formspree fallback | *not built* | The contact form composes a `wa.me` link and hands off. No backend, no third-party service, no stored personal data — the fallback would have been dead config |
+| `framer-motion` for animation | *installed but unused* | See "Animation" below |
+
+### Animation — the most consequential decision
+
+**No JavaScript animation anywhere.** Framer Motion server-renders its hidden start frame (`opacity: 0`) and only reveals content once the bundle hydrates.
+
+This was caught in M2 by screenshotting the built page: the floating Call/WhatsApp buttons — the site's only two conversions — shipped as `style="opacity:0"` and were invisible until hydration. On a lead-generation site aimed at constrained mobile networks that is the worst possible component to make JS-dependent. The same pattern applied to `AnimatedSection` would have blanked the entire homepage.
+
+Both now use CSS:
+
+- `FloatingActions` — CSS keyframe entrance, CSS hover. Ships **zero JS**.
+- `AnimatedSection` — CSS scroll-driven animation (`animation-timeline: view()`), a **server component** that adds one class.
+
+`.reveal` animates **transform only, never opacity**. An earlier version faded 0 → 1, which left body text at partial opacity for its whole scroll-entry range; composited against the background that measured as low as **2.8:1** and Lighthouse correctly failed it. Animating position alone keeps every string at full contrast and removes the last way content could fail to appear.
+
+The rule: **never server-render `opacity: 0` for real content.** Every failure mode — no JS, unsupported browser, reduced motion — must land on *visible*.
+
+### Additions not in the original plan
+
+| File | Purpose |
+|---|---|
+| `app/not-found.tsx` | Global 404 for paths outside any locale. Supplies its own `<html>`/`<body>` because the root layout deliberately does not |
+| `lib/metadata.ts` | `buildPageMetadata()`. Next inherits the parent `openGraph` wholesale, so setting only `title` on a child page left every inner page previewing as the **homepage** when shared on WhatsApp |
+| `lib/icons.ts` | Explicit kebab-case → lucide map, so an unknown icon name is a build error, not a blank space |
+| `lib/faqs.ts` | Q&A pairs in TS, not the message files — a half-translated entry becomes a type error |
+| `components/shared/JsonLd.tsx` | Escapes `<` so a string containing `</script>` cannot break out |
+| `public/sw.js`, `public/offline.html` | Offline fallback only. **No caching of pages** — a stale cached rate is worse than no page |
+| `docs/make-og.py` | Generates the two OG cards. Static PNGs, because the Nepali card needs Devanagari shaping |
+
+### Accessibility decisions
+
+- Gold and WhatsApp-green buttons carry **near-black** text (11.5:1 / 9.96:1). White would be 1.72:1 and 1.98:1 — both fail badly.
+- Active-nav highlight uses `primary-900` in dark mode, **not** `primary-950`: the latter *is* the dark background, so the highlight was invisible.
+- Accessible names **contain** their visible text (WCAG 2.5.3). "Call Now — KTM Kawadi", not "Call KTM Kawadi now", so speech input matching the visible "Call Now" works.
+- Star ratings use visually-hidden text, not `aria-label` — which is prohibited on a generic `<p>`.
+- `/rates` renders a mobile sticky CTA and suppresses the floating buttons there via `body:has([data-sticky-cta])`, so a 390px screen shows **one** set of conversion buttons, not two overlapping.
+
+### Verified
+
+Build, typecheck and lint clean with **zero warnings**. 10 routes prerendered. Message files at parity (204 keys each).
+
+Lighthouse: desktop **100 / 100 / 100**, mobile **97 / 100 / 100** (perf / a11y / best-practices). SEO shows 92 only because `canonical` points at the production domain while testing on localhost.
+
+Mobile LCP went 3.6s → 2.6s by setting `preload: false` on Noto Sans Devanagari: next/font was preloading a **121 KB** Devanagari file on English pages that never render it.
+
+Checked by driving a real browser, not by reading source: rates search/filter (including Nepali "तामा" matching on the English page), FAQ accordion single-open behaviour, contact form message composition, mobile-nav focus trap and Escape-restores-focus, service worker registration, offline fallback **with the server genuinely stopped**, and a keyboard-only pass (skip link first, every stop with a visible focus ring, all widgets operable).
+
+Editing one `minRate` in `data/rates.json` was confirmed to update `/en/rates`, `/ne/rates` and both homepages with no other edit; deliberately corrupting the file was confirmed to fail the build with exact paths.
+
+---
+
+*M0–M6 complete.*

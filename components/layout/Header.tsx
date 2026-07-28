@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { LocaleToggle } from '@/components/layout/LocaleToggle';
 import { MobileNav } from '@/components/layout/MobileNav';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
+import { Wordmark } from '@/components/shared/Wordmark';
 
 /**
  * Sticky site header.
@@ -52,9 +53,7 @@ export function Header() {
             priority
             className="size-10 rounded-full"
           />
-          <span className="text-primary-900 dark:text-primary-300 text-lg font-extrabold tracking-tight sm:text-xl">
-            {tCommon('brand')}
-          </span>
+          <Wordmark className="text-lg font-extrabold tracking-tight sm:text-xl" />
         </Link>
 
         {/* Desktop navigation. */}

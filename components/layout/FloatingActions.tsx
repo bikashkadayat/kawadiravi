@@ -33,7 +33,10 @@ export async function FloatingActions() {
     // `floating-actions` is a styling hook, not a Tailwind class: globals.css
     // uses it to hide these buttons on pages that render their own sticky
     // bottom CTA at mobile widths (see the `[data-sticky-cta]` rule).
-    <div className="floating-actions pb-safe pointer-events-none fixed right-0 bottom-0 z-50 p-4 sm:p-6">
+    <aside
+      aria-label={t('label')}
+      className="floating-actions pb-safe pointer-events-none fixed right-0 bottom-0 z-50 p-4 sm:p-6"
+    >
       <div className="pointer-events-auto flex flex-col items-end gap-3">
         {/* WhatsApp — brand green with near-black text (9.96:1). */}
         <a
@@ -61,6 +64,6 @@ export async function FloatingActions() {
           </span>
         </a>
       </div>
-    </div>
+    </aside>
   );
 }

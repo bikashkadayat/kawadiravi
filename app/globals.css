@@ -63,7 +63,10 @@
 
   /* Fonts are injected by next/font in app/layout.tsx. */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-devanagari: var(--font-devanagari), var(--font-inter), sans-serif;
+  /* Mukta first, Inter as the Latin fallback. The next/font variable is
+     `--font-mukta`, deliberately NOT `--font-devanagari` — naming both the
+     same made this token resolve to itself. */
+  --font-devanagari: var(--font-mukta), var(--font-inter), sans-serif;
 
   --radius-sm: 0.5rem;
   --radius: 0.75rem;
@@ -115,10 +118,27 @@
    * Devanagari renders visually smaller than Latin at the same font-size,
    * so Nepali pages get a small size bump and looser leading.
    */
+  /*
+   * Nepali typography.
+   *
+   * The +5% size bump that was here existed to compensate for Noto Sans
+   * Devanagari's small x-height. Mukta is drawn noticeably larger at the same
+   * point size, so the bump is now only +2% — any more and Nepali headings
+   * overflow their containers on a 360px screen.
+   */
   :lang(ne) {
     font-family: var(--font-devanagari);
-    font-size: 1.05em;
-    line-height: 1.75;
+    font-size: 1.02em;
+    line-height: 1.7;
+  }
+
+  /*
+   * Devanagari needs more leading than Latin because matras sit above and
+   * below the baseline, but 1.7 is too airy for large headings — it breaks
+   * them into disconnected lines. Tighten those specifically.
+   */
+  :lang(ne) :is(h1, h2, h3, h4) {
+    line-height: 1.45;
   }
 
   /* A single visible focus ring for every interactive element. */
