@@ -29,6 +29,7 @@ export async function Footer() {
   const tNav = await getTranslations('nav');
   const tRates = await getTranslations('rates');
   const tCommon = await getTranslations('common');
+  const tFloating = await getTranslations('floating');
   const locale = await getLocale();
 
   /**
@@ -38,6 +39,11 @@ export async function Footer() {
    *
    * WhatsApp is the exception: it needs no external URL because it is derived
    * from the phone number we already have, so it is always live.
+   *
+   * It passes `floating.prefilledMessage` for the same reason every other
+   * WhatsApp control on the site does — without it this one link fell through
+   * to the `siteConfig.whatsappMessage` default, so a visitor reading the
+   * Nepali site got an English compose box from the footer alone.
    */
   const socials = [
     ...activeSocials(),
@@ -46,7 +52,7 @@ export async function Footer() {
           {
             key: 'whatsapp' as const,
             label: 'WhatsApp',
-            href: buildWhatsAppUrl(),
+            href: buildWhatsAppUrl(tFloating('prefilledMessage')),
           },
         ]
       : []),

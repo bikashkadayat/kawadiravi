@@ -27,12 +27,19 @@ export const siteConfig: SiteConfig = {
   /** Digits only, no '+' — this is what `wa.me/<number>` expects. */
   whatsapp: '9779823525098',
   /**
-   * Default prefilled WhatsApp text. Surfaces that know the active locale pass
-   * the translated `floating.prefilledMessage` instead; this is the fallback
-   * for anything that does not.
+   * Default prefilled WhatsApp text.
+   *
+   * NEPALI, deliberately. Surfaces that know the active locale pass the
+   * translated `floating.prefilledMessage` instead, so this string is only
+   * reached from non-localised contexts — and the overwhelming majority of
+   * people who message this business write in Nepali, so Nepali is the safer
+   * default than English.
+   *
+   * `buildWhatsAppUrl` runs this through encodeURIComponent, which is what
+   * keeps the Devanagari intact across the wa.me hand-off.
    */
   whatsappMessage:
-    'Namaste! I want to sell my scrap. Please arrange a pickup.',
+    'नमस्ते! मलाई मेरो पुराना सामान (कवाडी) बेच्नु छ। कृपया पिकअपको लागि सम्पर्क गर्नुहोस्।',
   email: 'info@ktmkawadi.bikashkadayat.com.np',
 
   addressEn: 'Kathmandu, Bagmati Province, Nepal',

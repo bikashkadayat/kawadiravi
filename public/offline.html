@@ -68,9 +68,17 @@
 
       <div class="actions">
         <a class="call" href="tel:+9779823525098">Call 9823525098</a>
+        <!--
+          The only WhatsApp link on the site that cannot go through
+          lib/whatsapp.ts: this file is served straight from the cache by the
+          service worker, with no React, no next-intl and no active locale to
+          read. So the text is pre-encoded by hand and must be kept in sync
+          with `siteConfig.whatsappMessage` — decoded it reads:
+          "नमस्ते! मलाई मेरो पुराना सामान (कवाडी) बेच्नु छ। कृपया पिकअपको लागि सम्पर्क गर्नुहोस्।"
+        -->
         <a
           class="wa"
-          href="https://wa.me/9779823525098?text=Namaste!%20I%20want%20to%20sell%20my%20scrap.%20Please%20arrange%20a%20pickup."
+          href="https://wa.me/9779823525098?text=%E0%A4%A8%E0%A4%AE%E0%A4%B8%E0%A5%8D%E0%A4%A4%E0%A5%87!%20%E0%A4%AE%E0%A4%B2%E0%A4%BE%E0%A4%88%20%E0%A4%AE%E0%A5%87%E0%A4%B0%E0%A5%8B%20%E0%A4%AA%E0%A5%81%E0%A4%B0%E0%A4%BE%E0%A4%A8%E0%A4%BE%20%E0%A4%B8%E0%A4%BE%E0%A4%AE%E0%A4%BE%E0%A4%A8%20(%E0%A4%95%E0%A4%B5%E0%A4%BE%E0%A4%A1%E0%A5%80)%20%E0%A4%AC%E0%A5%87%E0%A4%9A%E0%A5%8D%E0%A4%A8%E0%A5%81%20%E0%A4%9B%E0%A5%A4%20%E0%A4%95%E0%A5%83%E0%A4%AA%E0%A4%AF%E0%A4%BE%20%E0%A4%AA%E0%A4%BF%E0%A4%95%E0%A4%85%E0%A4%AA%E0%A4%95%E0%A5%8B%20%E0%A4%B2%E0%A4%BE%E0%A4%97%E0%A4%BF%20%E0%A4%B8%E0%A4%AE%E0%A5%8D%E0%A4%AA%E0%A4%B0%E0%A5%8D%E0%A4%95%20%E0%A4%97%E0%A4%B0%E0%A5%8D%E0%A4%A8%E0%A5%81%E0%A4%B9%E0%A5%8B%E0%A4%B8%E0%A5%8D%E0%A5%A4"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Chat with KTM Kawadi on WhatsApp"

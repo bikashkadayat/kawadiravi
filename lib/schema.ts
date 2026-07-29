@@ -18,10 +18,16 @@ import type { FaqItem, Locale } from '@/types';
  * an empty `sameAs` is worse than none at all. Until the real Facebook and
  * TikTok URLs are filled into `site-config.ts`, the WhatsApp deep link is the
  * one genuinely public profile this business has, so it stands in.
+ *
+ * `''` rather than no argument: `sameAs` must be the bare profile URL. Omitting
+ * the argument would fall through to `siteConfig.whatsappMessage` and bake a
+ * percent-encoded prefilled message into the identifier, which is not the same
+ * URL Google would see anywhere else — and, since that default is Nepali,
+ * would put Devanagari in the English pages' structured data.
  */
 function sameAsProfiles(): string[] {
   const socials = activeSocials().map((social) => social.href);
-  return socials.length > 0 ? socials : [buildWhatsAppUrl()];
+  return socials.length > 0 ? socials : [buildWhatsAppUrl('')];
 }
 
 /**
