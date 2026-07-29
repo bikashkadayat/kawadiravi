@@ -17,7 +17,6 @@ import { WhatsAppIcon } from '@/components/shared/BrandIcons';
 export async function CtaBand() {
   const t = await getTranslations('home.cta');
   const tCommon = await getTranslations('common');
-  const tFloating = await getTranslations('floating');
 
   return (
     // No bottom padding: this is always the last section, and the footer
@@ -41,7 +40,7 @@ export async function CtaBand() {
           </Button>
           <Button asChild variant="whatsapp" size="lg">
             <a
-              href={buildWhatsAppUrl(tFloating('prefilledMessage'))}
+              href={buildWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
             >

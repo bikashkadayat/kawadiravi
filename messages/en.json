@@ -34,7 +34,6 @@
   "floating": {
     "callLabel": "Call Now — KTM Kawadi",
     "whatsappLabel": "Chat with KTM Kawadi on WhatsApp",
-    "prefilledMessage": "Hello! I want to sell my scrap (kawadi). Please contact me for a pickup.",
     "label": "Quick contact"
   },
   "theme": {
@@ -62,7 +61,7 @@
   "home": {
     "hero": {
       "badge": "Free pickup · Cash on the spot",
-      "title": "KTM Kawadi – Kathmandu's Trusted Kawadi & Scrap Pickup",
+      "title": "KTM Kawadi – Kathmandu's Trusted Kawadi & Scrap Pickup Service",
       "subtitle": "Turn your scrap into cash today. KTM Kawadi buys metal, paper, plastic, batteries and e-waste across Kathmandu Valley — we come to you, weigh it in front of you, and pay cash on the spot.",
       "trustWeighing": "Honest weighing",
       "trustPickup": "Free pickup",
@@ -246,7 +245,7 @@
   },
   "meta": {
     "home": {
-      "title": "KTM Kawadi – Kathmandu's #1 Scrap (Kawadi) Buyer | Best Rates & Free Pickup",
+      "title": "KTM Kawadi – Kathmandu's #1 Kawadi & Scrap Buyer | Best Rates, Free Pickup",
       "description": "KTM Kawadi buys kawadi and scrap in Kathmandu at the best rates — copper, brass, iron, aluminium, paper and e-waste. Free doorstep pickup, cash on the spot."
     },
     "rates": {

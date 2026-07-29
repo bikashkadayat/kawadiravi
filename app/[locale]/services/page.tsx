@@ -56,7 +56,6 @@ export default async function ServicesPage({
   const tRates = await getTranslations('rates');
   const tNav = await getTranslations('nav');
   const tCommon = await getTranslations('common');
-  const tFloating = await getTranslations('floating');
   const tCta = await getTranslations('home.cta');
 
   const categories = getPopulatedCategories();
@@ -223,7 +222,7 @@ export default async function ServicesPage({
             </Button>
             <Button asChild variant="whatsapp" size="lg">
               <a
-                href={buildWhatsAppUrl(tFloating('prefilledMessage'))}
+                href={buildWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
               >

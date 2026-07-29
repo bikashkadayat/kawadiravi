@@ -26,7 +26,6 @@ import { WhatsAppIcon } from '@/components/shared/BrandIcons';
 export async function StickyRatesCta() {
   const t = await getTranslations('rates');
   const tCommon = await getTranslations('common');
-  const tFloating = await getTranslations('floating');
 
   return (
     <div
@@ -46,7 +45,7 @@ export async function StickyRatesCta() {
             {tCommon('callNow')}
           </a>
           <a
-            href={buildWhatsAppUrl(tFloating('prefilledMessage'))}
+            href={buildWhatsAppUrl()}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-whatsapp hover:bg-whatsapp-hover flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full px-3 py-2 text-center leading-tight font-semibold text-neutral-950 transition-colors"

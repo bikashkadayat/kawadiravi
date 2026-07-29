@@ -34,7 +34,6 @@ import { Wordmark } from '@/components/shared/Wordmark';
 export function MobileNav() {
   const t = useTranslations('nav');
   const tCommon = useTranslations('common');
-  const tFloating = useTranslations('floating');
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -122,7 +121,7 @@ export function MobileNav() {
               {tCommon('callNow')}
             </a>
             <a
-              href={buildWhatsAppUrl(tFloating('prefilledMessage'))}
+              href={buildWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-whatsapp hover:bg-whatsapp-hover flex min-h-12 items-center justify-center gap-2 rounded-full px-3 py-2 text-center leading-tight font-semibold text-neutral-950 transition-colors"

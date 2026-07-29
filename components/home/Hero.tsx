@@ -20,7 +20,6 @@ import { WhatsAppIcon } from '@/components/shared/BrandIcons';
 export async function Hero() {
   const t = await getTranslations('home.hero');
   const tCommon = await getTranslations('common');
-  const tFloating = await getTranslations('floating');
 
   const trustPoints = [
     { icon: Scale, label: t('trustWeighing') },
@@ -56,7 +55,7 @@ export async function Hero() {
             </Button>
             <Button asChild variant="whatsapp" size="lg">
               <a
-                href={buildWhatsAppUrl(tFloating('prefilledMessage'))}
+                href={buildWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
               >

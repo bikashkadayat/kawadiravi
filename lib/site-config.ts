@@ -27,13 +27,20 @@ export const siteConfig: SiteConfig = {
   /** Digits only, no '+' — this is what `wa.me/<number>` expects. */
   whatsapp: '9779823525098',
   /**
-   * Default prefilled WhatsApp text.
+   * ★ THE prefilled WhatsApp text. Every WhatsApp button on the site uses
+   * this exact string — there is no per-locale variant and no other copy of
+   * it anywhere in the repo.
    *
-   * NEPALI, deliberately. Surfaces that know the active locale pass the
-   * translated `floating.prefilledMessage` instead, so this string is only
-   * reached from non-localised contexts — and the overwhelming majority of
-   * people who message this business write in Nepali, so Nepali is the safer
-   * default than English.
+   * It is NEPALI on every page, including the English ones, and that is
+   * deliberate rather than an oversight. The message is not read by the
+   * visitor; it is read by whoever answers the business phone, and they work
+   * in Nepali. An English visitor still sees English buttons and English UI —
+   * only the text that lands in the shop's inbox is Nepali.
+   *
+   * There used to be a `floating.prefilledMessage` key in messages/en.json
+   * and messages/ne.json that overrode this per locale. It was deleted, not
+   * merely translated, so that no future edit can reintroduce an English
+   * compose box by touching a translation file.
    *
    * `buildWhatsAppUrl` runs this through encodeURIComponent, which is what
    * keeps the Devanagari intact across the wa.me hand-off.
@@ -64,8 +71,21 @@ export const siteConfig: SiteConfig = {
   ],
 
   /**
-   * Socials with href '#' are treated as "not configured" and are hidden by
-   * the Footer rather than rendered as dead links.
+   * ── TODO (Bikash) — paste your real profile URLs below ───────────────────
+   * The footer now renders an icon for EVERY entry here, so Facebook and
+   * TikTok are visible on the site right now but still point at '#', which
+   * means tapping them does nothing. Replace each '#' with the real URL, e.g.
+   *     { key: 'facebook', label: 'Facebook', href: 'https://facebook.com/ktmkawadi' },
+   *     { key: 'tiktok',   label: 'TikTok',   href: 'https://tiktok.com/@ktmkawadi' },
+   * Delete any row you do not actually have — an icon that goes nowhere is
+   * worse than one that is absent.
+   *
+   * These URLs are also what `lib/schema.ts` publishes as `sameAs` in the
+   * LocalBusiness JSON-LD, which is the strongest signal tying this site to
+   * your Google Business Profile. That builder still filters on
+   * `isConfiguredSocial`, so a '#' is omitted from structured data even
+   * though the footer shows its icon.
+   * ────────────────────────────────────────────────────────────────────────
    */
   socials: [
     { key: 'facebook', label: 'Facebook', href: '#' },
@@ -75,6 +95,13 @@ export const siteConfig: SiteConfig = {
     { key: 'youtube', label: 'YouTube', href: '#' },
   ],
 
+  /**
+   * Service area, as real text on the page AND as `areaServed` in the
+   * LocalBusiness / Service JSON-LD. This is the list that makes "kawadi in
+   * Lalitpur"-style long-tail queries resolvable, so it is worth keeping
+   * complete — but only with municipalities the pickup vehicle genuinely
+   * reaches. Every entry below is a Kathmandu Valley local unit.
+   */
   coverage: [
     { nameEn: 'Kathmandu', nameNe: 'काठमाडौं' },
     { nameEn: 'Lalitpur', nameNe: 'ललितपुर' },
@@ -83,8 +110,13 @@ export const siteConfig: SiteConfig = {
     { nameEn: 'Madhyapur Thimi', nameNe: 'मध्यपुर थिमी' },
     { nameEn: 'Tokha', nameNe: 'टोखा' },
     { nameEn: 'Budhanilkantha', nameNe: 'बुढानीलकण्ठ' },
-    { nameEn: 'Chandragiri', nameNe: 'चन्द्रागिरी' },
+    { nameEn: 'Kageshwori Manohara', nameNe: 'कागेश्वरी मनोहरा' },
     { nameEn: 'Gokarneshwor', nameNe: 'गोकर्णेश्वर' },
+    { nameEn: 'Chandragiri', nameNe: 'चन्द्रागिरी' },
+    { nameEn: 'Nagarjun', nameNe: 'नागार्जुन' },
+    { nameEn: 'Tarakeshwar', nameNe: 'तारकेश्वर' },
+    { nameEn: 'Dakshinkali', nameNe: 'दक्षिणकाली' },
+    { nameEn: 'Shankharapur', nameNe: 'शङ्खरापुर' },
     { nameEn: 'Suryabinayak', nameNe: 'सूर्यविनायक' },
     { nameEn: 'Godawari', nameNe: 'गोदावरी' },
     { nameEn: 'Mahalaxmi', nameNe: 'महालक्ष्मी' },

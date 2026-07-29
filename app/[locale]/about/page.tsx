@@ -49,7 +49,6 @@ export default async function AboutPage({
   const t = await getTranslations('about');
   const tNav = await getTranslations('nav');
   const tCommon = await getTranslations('common');
-  const tFloating = await getTranslations('floating');
   const activeLocale = await getLocale();
 
   const values = [
@@ -195,7 +194,7 @@ export default async function AboutPage({
           </Button>
           <Button asChild variant="whatsapp" size="lg">
             <a
-              href={buildWhatsAppUrl(tFloating('prefilledMessage'))}
+              href={buildWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
             >

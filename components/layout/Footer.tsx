@@ -5,7 +5,7 @@ import { getLocale, getTranslations } from 'next-intl/server';
 import { Link } from '@/i18n/routing';
 import { navItems } from '@/lib/nav';
 import { RATE_CATEGORIES } from '@/lib/rates';
-import { activeSocials, siteConfig, telHref } from '@/lib/site-config';
+import { siteConfig, telHref } from '@/lib/site-config';
 import { buildWhatsAppUrl } from '@/lib/whatsapp';
 import { TikTokIcon, WhatsAppIcon } from '@/components/shared/BrandIcons';
 import { Wordmark } from '@/components/shared/Wordmark';
@@ -24,95 +24,112 @@ const socialIcons: Record<
   youtube: Youtube,
 };
 
+/**
+ * Shared column-heading style.
+ *
+ * No `tracking-*` on purpose. Letter-spacing is applied to the whole string,
+ * and on Devanagari that pushes apart the pieces of a conjunct — "कम्पनी"
+ * visibly comes unglued. `uppercase` is safe because Devanagari is caseless,
+ * so it is simply a no-op on the Nepali side.
+ */
+const HEADING_CLASS =
+  'mb-3 text-sm font-semibold text-neutral-400 uppercase';
+
+/** Icon-button style shared by every social link. size-11 = a 44px target. */
+const SOCIAL_CLASS =
+  'inline-flex size-11 items-center justify-center rounded-full bg-white/10 text-white transition-colors hover:bg-white/20';
+
+/** Row style shared by the tappable contact lines (44px minimum target). */
+const CONTACT_LINK_CLASS =
+  'flex min-h-11 items-start gap-2.5 py-1 text-neutral-300 transition-colors hover:text-white';
+
 export async function Footer() {
   const t = await getTranslations('footer');
   const tNav = await getTranslations('nav');
   const tRates = await getTranslations('rates');
   const tCommon = await getTranslations('common');
-  const tFloating = await getTranslations('floating');
   const locale = await getLocale();
 
   /**
-   * Socials with a placeholder '#' href are hidden rather than rendered as
-   * dead links — a link that goes nowhere is worse for both users and SEO than
-   * no link at all.
+   * EVERY network in site-config gets an icon, in config order.
    *
-   * WhatsApp is the exception: it needs no external URL because it is derived
-   * from the phone number we already have, so it is always live.
+   * This used to run through `activeSocials()`, which drops any href still set
+   * to the '#' placeholder. Since every entry in site-config is currently '#',
+   * that filter removed all five and the row rendered a lone WhatsApp button —
+   * the "Follow us" heading over a single icon, which looked like a bug.
    *
-   * It passes `floating.prefilledMessage` for the same reason every other
-   * WhatsApp control on the site does — without it this one link fell through
-   * to the `siteConfig.whatsappMessage` default, so a visitor reading the
-   * Nepali site got an English compose box from the footer alone.
+   * Showing the full row is the explicit brief. The cost is real and worth
+   * naming: until the '#' placeholders in `lib/site-config.ts` are replaced
+   * with real profile URLs, those icons navigate nowhere. `isConfiguredSocial`
+   * is still exported and still used by `lib/schema.ts`, so the JSON-LD
+   * `sameAs` continues to list only genuinely reachable profiles — a dead link
+   * in the footer is a UX wrinkle, but a dead link in structured data is a
+   * trust signal to Google that would not survive contact with a crawler.
+   *
+   * WhatsApp is special-cased: it needs no configured URL because it is
+   * derived from the phone number, and its prefilled text comes from
+   * `siteConfig.whatsappMessage` like every other WhatsApp control.
    */
-  const socials = [
-    ...activeSocials(),
-    ...(siteConfig.socials.some((s) => s.key === 'whatsapp')
-      ? [
-          {
-            key: 'whatsapp' as const,
-            label: 'WhatsApp',
-            href: buildWhatsAppUrl(tFloating('prefilledMessage')),
-          },
-        ]
-      : []),
-  ].filter(
-    // De-duplicate in case a real WhatsApp URL is configured later.
-    (s, i, arr) => arr.findIndex((x) => x.key === s.key) === i,
-  );
+  const whatsappHref = buildWhatsAppUrl();
+  const socials = siteConfig.socials.map((social) => ({
+    ...social,
+    href: social.key === 'whatsapp' ? whatsappHref : social.href,
+  }));
 
   const year = new Date().getFullYear();
   const address = locale === 'ne' ? siteConfig.addressNe : siteConfig.addressEn;
+  const city = locale === 'ne' ? 'काठमाडौं' : 'Kathmandu';
 
   return (
     <footer className="bg-primary-950 mt-20 text-neutral-200">
       <div className="container-page py-14">
-        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+        {/*
+          `grid-cols-2` at the BASE size, not from `sm`.
+          The old ladder started at one implicit column, so on a 430px phone
+          "Company" and "What We Buy" — five short labels each — got a
+          full-width row apiece with roughly two thirds of it empty. Pairing
+          them fills that space and halves the footer's height on mobile.
+          Brand and Contact span both columns because their content is prose
+          and a full-width email; only the two link lists want to be narrow.
+        */}
+        <div className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
           {/* Brand + blurb + socials */}
-          <div>
+          <div className="col-span-2 lg:col-span-1">
             <Wordmark
               className="text-xl font-extrabold"
               chipClassName="px-2 py-1"
             />
-            <p className="mt-3 text-sm leading-relaxed text-neutral-300">
+            <p className="mt-3 max-w-prose text-sm leading-relaxed text-neutral-300">
               {t('about')}
             </p>
 
-            {socials.length > 0 && (
-              <>
-                <p className="mt-6 text-sm font-semibold text-white">
-                  {t('followUs')}
-                </p>
-                <ul className="mt-3 flex flex-wrap gap-2">
-                  {socials.map((social) => {
-                    const Icon = socialIcons[social.key];
-                    return (
-                      <li key={social.key}>
-                        <a
-                          href={social.href}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          aria-label={t('socialLabel', {
-                            network: social.label,
-                          })}
-                          className="hover:bg-primary-800 inline-flex size-11 items-center justify-center rounded-full bg-white/10 transition-colors"
-                        >
-                          <Icon className="size-5" aria-hidden="true" />
-                        </a>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </>
-            )}
+            <p className={`mt-6 ${HEADING_CLASS}`}>{t('followUs')}</p>
+            <ul className="flex flex-wrap gap-3">
+              {socials.map((social) => {
+                const Icon = socialIcons[social.key];
+                return (
+                  <li key={social.key}>
+                    <a
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={t('socialLabel', { network: social.label })}
+                      className={SOCIAL_CLASS}
+                    >
+                      <Icon className="size-5" aria-hidden="true" />
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
           </div>
 
           {/* Company / navigation */}
           <nav aria-labelledby="footer-company">
-            <p id="footer-company" className="font-semibold text-white">
+            <p id="footer-company" className={HEADING_CLASS}>
               {t('company')}
             </p>
-            <ul className="mt-2 text-sm">
+            <ul className="text-sm">
               {navItems.map((item) => (
                 <li key={item.href}>
                   {/* min-h-11 = 44px touch target. The list gap dropped from
@@ -132,23 +149,26 @@ export async function Footer() {
           {/* What we buy — derived from the rate categories, so it can never
               drift out of sync with data/rates.json. */}
           <div>
-            <p className="font-semibold text-white">{t('servicesTitle')}</p>
-            <ul className="mt-4 space-y-2.5 text-sm text-neutral-300">
+            <p className={HEADING_CLASS}>{t('servicesTitle')}</p>
+            {/* Same min-h-11 row height as the Company links next door. These
+                are plain text and need no tap target, but without a matching
+                rhythm the two columns sit at different line positions and the
+                pair reads as misaligned on a phone. */}
+            <ul className="text-sm text-neutral-300">
               {RATE_CATEGORIES.map((category) => (
-                <li key={category}>{tRates(`categories.${category}`)}</li>
+                <li key={category} className="flex min-h-11 items-center">
+                  {tRates(`categories.${category}`)}
+                </li>
               ))}
             </ul>
           </div>
 
           {/* Contact */}
-          <div>
-            <p className="font-semibold text-white">{t('contactTitle')}</p>
-            <ul className="mt-4 space-y-3 text-sm">
+          <div className="col-span-2 lg:col-span-1">
+            <p className={HEADING_CLASS}>{t('contactTitle')}</p>
+            <ul className="space-y-1 text-sm">
               <li>
-                <a
-                  href={telHref}
-                  className="flex min-h-11 items-center gap-2.5 text-neutral-300 transition-colors hover:text-white"
-                >
+                <a href={telHref} className={CONTACT_LINK_CLASS}>
                   <Phone className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
                   <span>{siteConfig.phoneDisplay}</span>
                 </a>
@@ -156,20 +176,30 @@ export async function Footer() {
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="flex min-h-11 items-center gap-2.5 break-all text-neutral-300 transition-colors hover:text-white"
+                  className={CONTACT_LINK_CLASS}
                 >
                   <Mail className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
-                  <span>{siteConfig.email}</span>
+                  {/* overflow-wrap:anywhere, not break-words and not break-all.
+                      break-words alone does nothing here — the address has no
+                      spaces, so there is no break opportunity to take, and the
+                      unbreakable token sets the grid column's min-content width
+                      and pushes the page sideways at 320px. `anywhere` both
+                      permits the mid-token break AND, unlike break-all, is
+                      counted when the column's intrinsic width is computed, so
+                      the column stops being sized by the longest word. */}
+                  <span className="[overflow-wrap:anywhere]">
+                    {siteConfig.email}
+                  </span>
                 </a>
               </li>
-              <li className="flex items-start gap-2.5 text-neutral-300">
+              <li className="flex items-start gap-2.5 py-2 text-neutral-300">
                 <MapPin className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
                 <span>{address}</span>
               </li>
               {siteConfig.hours.map((slot) => (
                 <li
                   key={slot.days.join('-')}
-                  className="flex items-start gap-2.5 text-neutral-300"
+                  className="flex items-start gap-2.5 py-1 text-neutral-300"
                 >
                   <Clock className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
                   <span>
@@ -186,8 +216,8 @@ export async function Footer() {
 
         {/* Coverage areas */}
         <div className="mt-12 border-t border-white/10 pt-8">
-          <p className="font-semibold text-white">{t('coverage')}</p>
-          <ul className="mt-3 flex flex-wrap gap-x-2 gap-y-2 text-sm text-neutral-300">
+          <p className={HEADING_CLASS}>{t('coverage')}</p>
+          <ul className="flex flex-wrap gap-2 text-sm text-neutral-300">
             {siteConfig.coverage.map((area) => (
               <li
                 key={area.nameEn}
@@ -199,12 +229,26 @@ export async function Footer() {
           </ul>
         </div>
 
-        {/* Legal strip. Bottom padding clears the floating buttons. */}
-        <div className="mt-10 flex flex-col gap-2 border-t border-white/10 pt-8 pb-20 text-sm text-neutral-400 sm:flex-row sm:items-center sm:justify-between sm:pb-8">
+        {/*
+          Legal strip.
+
+          The bottom padding is the floating Call/WhatsApp stack, measured
+          rather than guessed: `FloatingActions` is p-4 + h-14 + gap-3 + h-14
+          + p-4 = 156px, rising to 172px once its padding goes to p-6 at `sm`.
+          The previous `pb-20` reserved 80px, which is why the last rows still
+          sat behind the buttons. env(safe-area-inset-bottom) is added on top
+          so a notched iPhone clears its home indicator too.
+
+          From `lg` the reservation switches from vertical to horizontal: the
+          buttons are only ~220px wide and pinned right, so `lg:pr-64` walks
+          the right-hand text out from under them and the footer stops
+          carrying 170px of dead green space on desktop.
+        */}
+        <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-6 pb-[calc(9.75rem+env(safe-area-inset-bottom))] text-center text-sm text-neutral-400 sm:pb-[calc(11rem+env(safe-area-inset-bottom))] lg:flex-row lg:items-center lg:justify-between lg:pr-64 lg:pb-12 lg:text-left">
           <p>
-            © {year} {tCommon('brand')}. {t('rights')}
+            © {year} {tCommon('brand')} · {city} ♻️
           </p>
-          <p>{t('builtBy')}</p>
+          <p>{t('rights')}</p>
         </div>
       </div>
     </footer>

@@ -74,7 +74,7 @@ whatsapp: '9779823525098',    // digits only, no '+' — what wa.me expects
 Two deliberate exceptions:
 
 - **`public/offline.html`** duplicates the phone number. It is static HTML served by the service worker with no network and no access to the config, so it cannot import anything. **Update it whenever the number changes.**
-- The **prefilled WhatsApp message** is translated, so it lives in `messages/en.json` and `messages/ne.json` under `floating.prefilledMessage`. `siteConfig.whatsappMessage` is the fallback for any caller that does not know the locale.
+- The **prefilled WhatsApp message** is NOT translated. It lives only in `siteConfig.whatsappMessage` (`lib/site-config.ts`) and is Nepali on every page, English pages included — it is read by the shop, not by the visitor. `lib/whatsapp.ts` is the only place a `wa.me` URL is built.
 
 ### Social links
 

@@ -46,7 +46,6 @@ export default async function ContactPage({
 
   const t = await getTranslations('contact');
   const tNav = await getTranslations('nav');
-  const tFloating = await getTranslations('floating');
   const activeLocale = await getLocale();
 
   const address =
@@ -94,7 +93,7 @@ export default async function ContactPage({
 
           <li>
             <a
-              href={buildWhatsAppUrl(tFloating('prefilledMessage'))}
+              href={buildWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
               className="bg-whatsapp hover:bg-whatsapp-hover flex h-full flex-col rounded-2xl p-6 text-neutral-950 transition-colors"

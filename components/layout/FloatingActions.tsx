@@ -40,7 +40,7 @@ export async function FloatingActions() {
       <div className="pointer-events-auto flex flex-col items-end gap-3">
         {/* WhatsApp — brand green with near-black text (9.96:1). */}
         <a
-          href={buildWhatsAppUrl(t('prefilledMessage'))}
+          href={buildWhatsAppUrl()}
           target="_blank"
           rel="noopener noreferrer"
           aria-label={t('whatsappLabel')}
