@@ -10,12 +10,19 @@ export interface NavItem {
   /** Locale-agnostic path; the next-intl <Link> adds the /en or /ne prefix. */
   href: string;
   /** Key under the `nav` namespace in messages/{en,ne}.json. */
-  labelKey: 'home' | 'rates' | 'services' | 'about' | 'contact';
+  labelKey:
+    | 'home'
+    | 'rates'
+    | 'calculator'
+    | 'services'
+    | 'about'
+    | 'contact';
 }
 
 export const navItems: NavItem[] = [
   { href: '/', labelKey: 'home' },
   { href: '/rates', labelKey: 'rates' },
+  { href: '/calculator', labelKey: 'calculator' },
   { href: '/services', labelKey: 'services' },
   { href: '/about', labelKey: 'about' },
   { href: '/contact', labelKey: 'contact' },

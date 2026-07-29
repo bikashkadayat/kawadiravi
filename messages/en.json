@@ -18,6 +18,7 @@
   "nav": {
     "home": "Home",
     "rates": "Rates",
+    "calculator": "Calculator",
     "services": "Services",
     "about": "About",
     "contact": "Contact",
@@ -263,11 +264,88 @@
     "contact": {
       "title": "Contact KTM Kawadi | Book Free Kawadi Pickup in Kathmandu",
       "description": "Call or WhatsApp KTM Kawadi to book a free kawadi pickup anywhere in Kathmandu Valley. Same-day scrap collection, honest weighing, cash paid on the spot."
+    },
+    "book": {
+      "title": "Book Free Kawadi Pickup in Kathmandu | KTM Kawadi",
+      "description": "Schedule a free kawadi and scrap pickup anywhere in Kathmandu Valley. Choose your date and time slot — booking opens WhatsApp with the details ready to send."
+    },
+    "calculator": {
+      "title": "Scrap Value Calculator | What Is My Kawadi Worth? | KTM Kawadi",
+      "description": "Work out what your kawadi is worth before you sell. Pick your scrap, enter the weight, and get an instant estimate from KTM Kawadi's published Kathmandu rates."
     }
   },
   "notFound": {
     "title": "Page not found",
     "description": "That page does not exist — but we still buy your scrap.",
     "backHome": "Back to home"
+  },
+  "booking": {
+    "navLabel": "Book Pickup",
+    "cta": "Book Pickup",
+    "title": "Book a Free Kawadi Pickup in Kathmandu",
+    "subtitle": "Pick a date and time that suits you. Submitting opens WhatsApp with your booking details ready to send — no account, no waiting on hold.",
+    "name": "Full name",
+    "namePlaceholder": "e.g. Sita Shrestha",
+    "phone": "Phone number",
+    "phonePlaceholder": "10 digits, e.g. 9812345678",
+    "address": "Pickup address",
+    "addressPlaceholder": "House / tole / landmark",
+    "area": "Area",
+    "areaPlaceholder": "Select your area",
+    "scrapTypes": "What are you selling?",
+    "weight": "Approximate weight",
+    "weightPlaceholder": "e.g. around 50 kg",
+    "date": "Preferred date",
+    "timeSlot": "Preferred time",
+    "timeSlotPlaceholder": "Select a time slot",
+    "notes": "Notes",
+    "notesPlaceholder": "Anything we should know — floor, parking, access",
+    "optional": "optional",
+    "submit": "Book on WhatsApp",
+    "privacyNote": "Nothing is stored on this website. Your details go straight into a WhatsApp message that you send yourself.",
+    "redirecting": "Taking you to WhatsApp…",
+    "openManually": "Open WhatsApp now",
+    "addToCalendar": "Add to my calendar",
+    "errName": "Please enter your name.",
+    "errPhoneRequired": "Please enter your phone number.",
+    "errPhoneLength": "Please enter a 10-digit phone number.",
+    "errAddress": "Please enter the pickup address.",
+    "errDate": "Please choose a pickup date.",
+    "errDatePast": "Please choose today or a later date.",
+    "errTimeSlot": "Please choose a time slot.",
+    "assureFree": "Pickup is genuinely free — no transport charge and no minimum load.",
+    "assureCash": "Cash paid on the spot, at the rate agreed before we arrive.",
+    "assureSameDay": "Same-day pickup wherever the schedule allows.",
+    "assureConfirm": "We reply on WhatsApp to confirm your slot before setting out.",
+    "preferCall": "Prefer to just call?",
+    "hoursNote": "Sunday–Friday 7:00–19:00 · Saturday 8:00–17:00"
+  },
+  "calculator": {
+    "title": "Scrap Value Calculator",
+    "subtitle": "Pick what you have, enter a rough weight, and see what it is worth before anyone comes to collect it.",
+    "homeTitle": "Calculate My Scrap Value",
+    "homeSubtitle": "Estimate what your kawadi is worth in a few seconds, using today's published rates.",
+    "openFull": "Open the full calculator",
+    "rowsLabel": "Items to value",
+    "item": "Item",
+    "itemPlaceholder": "Choose an item…",
+    "unitKg": "Weight (kg)",
+    "unitPiece": "Quantity (pieces)",
+    "unitKgShort": "kg",
+    "unitPieceShort": "pcs",
+    "addRow": "Add another item",
+    "removeRow": "Remove item {number}",
+    "totalLabel": "Estimated value",
+    "disclaimer": "This is an estimate only. The final rate is confirmed on site after weighing, and metal prices move with the market.",
+    "ratesNote": "Rates come straight from our published rate list and are updated regularly.",
+    "bookOnWhatsApp": "Book Pickup on WhatsApp",
+    "schedule": "Pick a date & time",
+    "categories": {
+      "metals": "Metals",
+      "paper": "Paper",
+      "plastic": "Plastic",
+      "battery": "Batteries",
+      "ewaste": "E-Waste & Appliances"
+    }
   }
 }

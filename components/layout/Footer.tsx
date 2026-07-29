@@ -242,9 +242,18 @@ export async function Footer() {
           From `lg` the reservation switches from vertical to horizontal: the
           buttons are only ~220px wide and pinned right, so `lg:pr-64` walks
           the right-hand text out from under them and the footer stops
-          carrying 170px of dead green space on desktop.
+          carrying 240px of dead green space on desktop.
+
+          These track FloatingActions, and the numbers are MEASURED, not
+          derived: the stack renders 208px tall at base and 216px at `sm`.
+          The arithmetic looks like it should be 224px, but `.pb-safe` sets
+          padding-bottom to env(safe-area-inset-bottom), which REPLACES the
+          16px that `p-4` would otherwise contribute at the bottom — so only
+          the top padding counts. Both this value and the stack carry the same
+          env() term, so the ~16px of clearance holds on a notched phone too.
+          Add or remove a floating button and re-measure.
         */}
-        <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-6 pb-[calc(9.75rem+env(safe-area-inset-bottom))] text-center text-sm text-neutral-400 sm:pb-[calc(11rem+env(safe-area-inset-bottom))] lg:flex-row lg:items-center lg:justify-between lg:pr-64 lg:pb-12 lg:text-left">
+        <div className="mt-8 flex flex-col gap-2 border-t border-white/10 pt-6 pb-[calc(14rem+env(safe-area-inset-bottom))] text-center text-sm text-neutral-400 sm:pb-[calc(15rem+env(safe-area-inset-bottom))] lg:flex-row lg:items-center lg:justify-between lg:pr-64 lg:pb-12 lg:text-left">
           <p>
             © {year} {tCommon('brand')} · {city} ♻️
           </p>

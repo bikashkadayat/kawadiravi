@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import * as Dialog from '@radix-ui/react-dialog';
-import { Menu, Phone, X } from 'lucide-react';
+import { CalendarCheck, Menu, Phone, X } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { Link, usePathname } from '@/i18n/routing';
@@ -34,6 +34,7 @@ import { Wordmark } from '@/components/shared/Wordmark';
 export function MobileNav() {
   const t = useTranslations('nav');
   const tCommon = useTranslations('common');
+  const tBooking = useTranslations('booking');
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -113,6 +114,16 @@ export function MobileNav() {
           {/* Both conversions repeated at the foot of the menu, so a user who
               opened it to navigate can convert without closing it first. */}
           <div className="pb-safe flex flex-col gap-2 border-t p-4">
+            {/* Booking first: below `xl` the header has no Book button, so the
+                sheet is the primary way into /book on phones and tablets. */}
+            <Link
+              href="/book"
+              onClick={() => setOpen(false)}
+              className="bg-primary-800 hover:bg-primary-900 flex min-h-12 items-center justify-center gap-2 rounded-full px-3 py-2 text-center leading-tight font-semibold text-white transition-colors"
+            >
+              <CalendarCheck className="size-5 shrink-0" aria-hidden="true" />
+              {tBooking('cta')}
+            </Link>
             <a
               href={telHref}
               className="bg-accent hover:bg-accent-hover flex min-h-12 items-center justify-center gap-2 rounded-full px-3 py-2 text-center leading-tight font-semibold text-neutral-950 transition-colors"

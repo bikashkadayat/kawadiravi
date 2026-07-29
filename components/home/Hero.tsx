@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import { BadgeCheck, Banknote, Phone, Scale, Truck } from 'lucide-react';
+import { BadgeCheck, Banknote, CalendarCheck, Calculator, Phone, Scale, Truck } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
 import { Link } from '@/i18n/routing';
@@ -20,6 +20,8 @@ import { WhatsAppIcon } from '@/components/shared/BrandIcons';
 export async function Hero() {
   const t = await getTranslations('home.hero');
   const tCommon = await getTranslations('common');
+  const tBooking = await getTranslations('booking');
+  const tCalc = await getTranslations('calculator');
 
   const trustPoints = [
     { icon: Scale, label: t('trustWeighing') },
@@ -47,6 +49,15 @@ export async function Hero() {
           {/* The two conversions, repeated here because a visitor who is
               already convinced should never have to scroll to act. */}
           <div className="mt-8 flex flex-wrap gap-3">
+            {/* Booking leads: it is the only CTA that captures the date, the
+                address and what is being sold in one go, so it saves the shop
+                a round of questions that Call and WhatsApp both require. */}
+            <Button asChild variant="primary" size="lg">
+              <Link href="/book">
+                <CalendarCheck aria-hidden="true" />
+                {tBooking('cta')}
+              </Link>
+            </Button>
             <Button asChild variant="call" size="lg">
               <a href={telHref}>
                 <Phone aria-hidden="true" />
@@ -63,8 +74,15 @@ export async function Hero() {
                 {tCommon('whatsappUs')}
               </a>
             </Button>
+            {/* Replaces the old "View Rates" button rather than joining it.
+                Five CTAs in one hero is noise, and this one is strictly more
+                useful: it answers "what is MY pile worth?" and the rate list
+                is one tap away inside it — plus still in the nav. */}
             <Button asChild variant="outline" size="lg">
-              <Link href="/rates">{tCommon('viewRates')}</Link>
+              <Link href="/calculator">
+                <Calculator aria-hidden="true" />
+                {tCalc('homeTitle')}
+              </Link>
             </Button>
           </div>
 

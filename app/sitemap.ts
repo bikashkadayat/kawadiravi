@@ -34,9 +34,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const routes = [
     { path: '', priority: 1.0, changeFrequency: 'weekly' as const },
     { path: '/rates', priority: 0.9, changeFrequency: 'weekly' as const },
+    // Tracks /rates: the calculator's whole output is those numbers, so it
+    // goes stale on exactly the same schedule.
+    { path: '/calculator', priority: 0.9, changeFrequency: 'weekly' as const },
     { path: '/services', priority: 0.8, changeFrequency: 'monthly' as const },
     { path: '/about', priority: 0.6, changeFrequency: 'yearly' as const },
     { path: '/contact', priority: 0.8, changeFrequency: 'monthly' as const },
+    // The booking form is a primary conversion route, so it ranks with /rates
+    // rather than with the static marketing pages.
+    { path: '/book', priority: 0.9, changeFrequency: 'monthly' as const },
   ];
 
   return routes.flatMap((route) =>

@@ -6,6 +6,7 @@ import { JsonLd } from '@/components/shared/JsonLd';
 import { Hero } from '@/components/home/Hero';
 import { Intro } from '@/components/home/Intro';
 import { RatesPreview } from '@/components/home/RatesPreview';
+import { CalculatorSection } from '@/components/home/CalculatorSection';
 import { WhatWeBuy } from '@/components/home/WhatWeBuy';
 import { HowItWorks } from '@/components/home/HowItWorks';
 import { WhyChooseUs } from '@/components/home/WhyChooseUs';
@@ -44,6 +45,7 @@ export default async function HomePage({
       <Hero />
       <Intro />
       <RatesPreview />
+      <CalculatorSection />
       <WhatWeBuy />
       <HowItWorks />
       <WhyChooseUs />

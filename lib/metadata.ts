@@ -6,7 +6,14 @@ import { siteConfig } from '@/lib/site-config';
 import type { Locale } from '@/types';
 
 /** Page namespaces that have their own metadata block. */
-export type MetaNamespace = 'home' | 'rates' | 'services' | 'about' | 'contact';
+export type MetaNamespace =
+  | 'home'
+  | 'rates'
+  | 'services'
+  | 'about'
+  | 'contact'
+  | 'book'
+  | 'calculator';
 
 /**
  * Search keywords per page, per locale.
@@ -66,6 +73,21 @@ const KEYWORDS: Record<Locale, Record<MetaNamespace, string[]>> = {
       'kawadi phone number kathmandu',
       'scrap buyer near me kathmandu',
     ],
+    calculator: [
+      'kawadi price calculator',
+      'scrap value calculator nepal',
+      'scrap rate calculator kathmandu',
+      'how much is my scrap worth kathmandu',
+      'kawadi value estimate',
+    ],
+    book: [
+      'book kawadi pickup kathmandu',
+      'schedule scrap pickup kathmandu',
+      'online kawadi service',
+      'kawadi pickup booking nepal',
+      'free scrap pickup booking kathmandu',
+      'kabadi pickup booking',
+    ],
   },
   ne: {
     home: [
@@ -95,6 +117,19 @@ const KEYWORDS: Record<Locale, Record<MetaNamespace, string[]>> = {
     ],
     about: ['केटीएम कवाडी', 'काठमाडौं कवाडी पसल', 'भरपर्दो कवाडी खरिदकर्ता'],
     contact: ['कवाडी सम्पर्क', 'कवाडी पिकअप बुक', 'कवाडी फोन नम्बर काठमाडौं'],
+    calculator: [
+      'कवाडी मूल्य क्याल्कुलेटर',
+      'कवाडीको भाउ हिसाब',
+      'मेरो कवाडीको मूल्य',
+      'स्क्र्याप मूल्य अनुमान नेपाल',
+    ],
+    book: [
+      'कवाडी पिकअप बुक',
+      'अनलाइन कवाडी सेवा',
+      'काठमाडौं कवाडी बुकिङ',
+      'निःशुल्क कवाडी पिकअप बुक',
+      'पुरानो सामान बिक्री काठमाडौं',
+    ],
   },
 };
 

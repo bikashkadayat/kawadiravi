@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import Image from 'next/image';
-import { Phone } from 'lucide-react';
+import { CalendarCheck, Phone } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
 import { Link, usePathname } from '@/i18n/routing';
@@ -25,6 +25,7 @@ import { Wordmark } from '@/components/shared/Wordmark';
 export function Header() {
   const t = useTranslations('nav');
   const tCommon = useTranslations('common');
+  const tBooking = useTranslations('booking');
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
 
@@ -99,6 +100,28 @@ export function Header() {
             className="ml-1 hidden xl:inline-flex"
           >
             <Link href="/rates">{tCommon('viewRates')}</Link>
+          </Button>
+
+          {/*
+            Booking CTA.
+
+            `xl:inline-flex`, NOT `lg:`. At 1024px the bar already holds the
+            logo, five nav links, both toggles and the gold Call button; adding
+            a fourth control there reproduced the sideways scroll that the
+            lg/xl split in this file exists to prevent. Below xl the route is
+            still one tap away — it is the first item in the mobile sheet's CTA
+            block and the primary button in the hero.
+          */}
+          <Button
+            asChild
+            variant="primary"
+            size="sm"
+            className="ml-1 hidden xl:inline-flex"
+          >
+            <Link href="/book">
+              <CalendarCheck aria-hidden="true" />
+              {tBooking('cta')}
+            </Link>
           </Button>
 
           {/* Primary CTA. Gold = call, same as the floating button. */}

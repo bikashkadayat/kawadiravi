@@ -1,6 +1,8 @@
-import { Banknote, PhoneCall, Scale } from 'lucide-react';
+import { Banknote, CalendarCheck, PhoneCall, Scale } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
+import { Link } from '@/i18n/routing';
+import { Button } from '@/components/ui/button';
 import { AnimatedSection } from '@/components/shared/AnimatedSection';
 import { SectionHeading } from '@/components/shared/SectionHeading';
 
@@ -13,6 +15,7 @@ import { SectionHeading } from '@/components/shared/SectionHeading';
  */
 export async function HowItWorks() {
   const t = await getTranslations('home.howItWorks');
+  const tBooking = await getTranslations('booking');
 
   const steps = [
     { icon: PhoneCall, title: t('step1Title'), body: t('step1Body') },
@@ -54,6 +57,16 @@ export async function HowItWorks() {
           </li>
         ))}
       </ol>
+
+      {/* The natural next action once someone has read the three steps. */}
+      <div className="mt-10 flex justify-center">
+        <Button asChild variant="primary" size="lg">
+          <Link href="/book">
+            <CalendarCheck aria-hidden="true" />
+            {tBooking('cta')}
+          </Link>
+        </Button>
+      </div>
     </AnimatedSection>
   );
 }

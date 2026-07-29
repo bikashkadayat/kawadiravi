@@ -1,6 +1,7 @@
-import { Phone } from 'lucide-react';
+import { CalendarCheck, Phone } from 'lucide-react';
 import { getTranslations } from 'next-intl/server';
 
+import { Link } from '@/i18n/routing';
 import { telHref } from '@/lib/site-config';
 import { buildWhatsAppUrl } from '@/lib/whatsapp';
 import { WhatsAppIcon } from '@/components/shared/BrandIcons';
@@ -28,6 +29,7 @@ import { WhatsAppIcon } from '@/components/shared/BrandIcons';
 export async function FloatingActions() {
   const t = await getTranslations('floating');
   const tCommon = await getTranslations('common');
+  const tBooking = await getTranslations('booking');
 
   return (
     // `floating-actions` is a styling hook, not a Tailwind class: globals.css
@@ -38,6 +40,35 @@ export async function FloatingActions() {
       className="floating-actions pb-safe pointer-events-none fixed right-0 bottom-0 z-50 p-4 sm:p-6"
     >
       <div className="pointer-events-auto flex flex-col items-end gap-3">
+        {/*
+          Book — brand green with white text (5.85:1).
+
+          Deliberately a DIFFERENT green from the WhatsApp button below it:
+          primary-800 is a dark forest green against WhatsApp's #25D366, so the
+          two never read as the same control at a glance. Colour meaning is
+          load-bearing on this site (gold = call, #25D366 = WhatsApp), and this
+          adds a third without borrowing either.
+
+          Adding this button took the stack from ~148px to ~208px tall (216px
+          from `sm`), which is why `Footer` reserves 14rem/15rem at the bottom.
+          The two are coupled: change the button count here and the footer's
+          padding must be re-measured, or its last rows go back under these.
+
+          On /book the button hides itself — see the [data-booking-page] rule
+          in globals.css — because it would link to the current page.
+        */}
+        <Link
+          href="/book"
+          data-floating-book
+          aria-label={tBooking('cta')}
+          className="bg-primary-800 hover:bg-primary-900 shadow-float animate-float-in flex h-14 items-center gap-2 rounded-full px-4 text-white transition-transform duration-200 [animation-delay:300ms] hover:scale-105 active:scale-95 sm:px-5"
+        >
+          <CalendarCheck className="size-7 shrink-0" aria-hidden="true" />
+          <span className="hidden font-semibold lg:inline">
+            {tBooking('cta')}
+          </span>
+        </Link>
+
         {/* WhatsApp — brand green with near-black text (9.96:1). */}
         <a
           href={buildWhatsAppUrl()}

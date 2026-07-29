@@ -238,6 +238,45 @@
     }
   }
 
+  /*
+   * A floating "Book Pickup" button on the booking page itself would navigate
+   * to the page the user is already looking at, and at desktop widths it sat
+   * directly on top of the page's own phone-number card. Hidden there, which
+   * also drops that page's floating stack back to two buttons.
+   *
+   * Same mechanism as the [data-sticky-cta] rule above: the page marks itself
+   * and the layout-level component reacts, because FloatingActions is rendered
+   * by the locale layout and has no knowledge of the active route.
+   */
+  body:has([data-booking-page]) .floating-actions [data-floating-book] {
+    display: none;
+  }
+
+  /*
+   * Calculator grand total.
+   *
+   * A CSS keyframe rather than Framer Motion: framer-motion is in
+   * package.json but imported by nothing, so animating this one number in JS
+   * would be the sole reason the library entered any bundle. Re-keying the
+   * element on its own value restarts the animation, and the global
+   * prefers-reduced-motion block above already collapses the duration to ~0.
+   *
+   * Scale + colour only, never opacity — the same rule as `.reveal`: a number
+   * that fades through partial opacity fails contrast while it animates.
+   */
+  @keyframes total-pop {
+    from {
+      transform: scale(1.06);
+    }
+    to {
+      transform: none;
+    }
+  }
+
+  .animate-total-pop {
+    animation: total-pop 0.28s ease-out;
+  }
+
   /* Mobile nav sheet. Radix unmounts the overlay and panel when closed, so
      these run on open without needing data-state variants. */
   @keyframes overlay-in {
