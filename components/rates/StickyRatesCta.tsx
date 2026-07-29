@@ -17,6 +17,11 @@ import { WhatsAppIcon } from '@/components/shared/BrandIcons';
  * Above `md` this bar is hidden and the floating buttons take over again.
  *
  * Ships no JavaScript, same as FloatingActions: these are plain links.
+ *
+ * `min-h-12` rather than `h-12`: at 320px the Nepali label
+ * "अहिले फोन गर्नुहोस्" wraps to two lines, and a fixed height let the second
+ * line spill out of the pill. A minimum height keeps the 48px touch target
+ * while allowing the button to grow for the one label that needs it.
  */
 export async function StickyRatesCta() {
   const t = await getTranslations('rates');
@@ -35,7 +40,7 @@ export async function StickyRatesCta() {
         <div className="flex gap-2">
           <a
             href={telHref}
-            className="bg-accent hover:bg-accent-hover flex h-12 flex-1 items-center justify-center gap-2 rounded-full font-semibold text-neutral-950 transition-colors"
+            className="bg-accent hover:bg-accent-hover flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full px-3 py-2 text-center leading-tight font-semibold text-neutral-950 transition-colors"
           >
             <Phone className="size-5" aria-hidden="true" />
             {tCommon('callNow')}
@@ -44,7 +49,7 @@ export async function StickyRatesCta() {
             href={buildWhatsAppUrl(tFloating('prefilledMessage'))}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-whatsapp hover:bg-whatsapp-hover flex h-12 flex-1 items-center justify-center gap-2 rounded-full font-semibold text-neutral-950 transition-colors"
+            className="bg-whatsapp hover:bg-whatsapp-hover flex min-h-12 flex-1 items-center justify-center gap-2 rounded-full px-3 py-2 text-center leading-tight font-semibold text-neutral-950 transition-colors"
           >
             <WhatsAppIcon className="size-5" aria-hidden="true" />
             {tCommon('whatsapp')}

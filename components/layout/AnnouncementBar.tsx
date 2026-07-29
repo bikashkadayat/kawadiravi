@@ -19,7 +19,10 @@ export async function AnnouncementBar() {
       aria-label={t('label')}
       className="bg-primary-900 text-primary-50 text-sm"
     >
-      <div className="container-page flex h-10 items-center justify-center gap-4 sm:justify-between">
+      {/* min-h-11 rather than a fixed h-10: the phone link inside measured only
+          20px tall, under the 44px touch minimum. Four extra pixels on a thin
+          strip, and the link now fills the full height. */}
+      <div className="container-page flex min-h-11 items-center justify-center gap-4 sm:justify-between">
         <p className="flex items-center gap-2">
           <Truck className="size-4 shrink-0" aria-hidden="true" />
           <span>{t('freePickup')}</span>
@@ -27,7 +30,7 @@ export async function AnnouncementBar() {
 
         <a
           href={telHref}
-          className="hidden items-center gap-2 font-semibold underline-offset-4 hover:underline sm:flex"
+          className="hidden min-h-11 items-center gap-2 font-semibold underline-offset-4 hover:underline sm:flex"
         >
           <Phone className="size-4 shrink-0" aria-hidden="true" />
           <span>

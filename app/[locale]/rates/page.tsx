@@ -3,7 +3,10 @@ import { getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { routing } from '@/i18n/routing';
 import { buildPageMetadata } from '@/lib/metadata';
+import { buildBreadcrumbSchema } from '@/lib/schema';
 import { getAllRates, getRatesUpdatedAt } from '@/lib/rates';
+import type { Locale } from '@/types';
+import { JsonLd } from '@/components/shared/JsonLd';
 import { RatesExplorer } from '@/components/rates/RatesExplorer';
 import { StickyRatesCta } from '@/components/rates/StickyRatesCta';
 
@@ -43,10 +46,23 @@ export default async function RatesPage({
   setRequestLocale(locale);
 
   const t = await getTranslations('rates');
+  const tNav = await getTranslations('nav');
   const rates = getAllRates();
 
   return (
     <>
+      {/* Breadcrumb trail. Google renders this in place of the raw URL in the
+          result snippet, which is more clickable on a mobile SERP. */}
+      <JsonLd
+        data={buildBreadcrumbSchema(
+          [
+            { name: tNav('home'), path: '' },
+            { name: tNav('rates'), path: '/rates' },
+          ],
+          locale as Locale,
+        )}
+      />
+
       <main className="container-page py-12 pb-32 sm:py-16 md:pb-16">
         <header className="mx-auto max-w-2xl text-center">
           <h1 className="text-primary-900 dark:text-primary-200 text-[length:var(--text-h1)] font-extrabold tracking-tight text-balance">

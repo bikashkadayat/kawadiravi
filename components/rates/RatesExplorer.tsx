@@ -70,7 +70,7 @@ export function RatesExplorer({ rates }: { rates: Rate[] }) {
             type="button"
             onClick={() => setQuery('')}
             aria-label={t('clearSearch')}
-            className="hover:bg-surface-muted absolute top-1/2 right-2 flex size-9 -translate-y-1/2 items-center justify-center rounded-full transition-colors"
+            className="hover:bg-surface-muted absolute top-1/2 right-2 flex size-11 -translate-y-1/2 items-center justify-center rounded-full transition-colors"
           >
             <X className="size-5" aria-hidden="true" />
           </button>
@@ -94,7 +94,9 @@ export function RatesExplorer({ rates }: { rates: Rate[] }) {
               aria-checked={active}
               onClick={() => setCategory(key)}
               className={cn(
-                'h-10 rounded-full border px-4 text-sm font-semibold transition-colors',
+                // h-11 (44px), not h-10: these chips are the primary control on the
+                // page at mobile widths and were 4px under the touch minimum.
+                'h-11 rounded-full border px-4 text-sm font-semibold transition-colors',
                 active
                   ? 'border-primary-800 bg-primary-800 text-white'
                   : 'bg-surface hover:border-primary-400',

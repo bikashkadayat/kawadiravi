@@ -4,10 +4,13 @@ import { getLocale, getTranslations, setRequestLocale } from 'next-intl/server';
 
 import { routing } from '@/i18n/routing';
 import { buildPageMetadata } from '@/lib/metadata';
+import { buildBreadcrumbSchema } from '@/lib/schema';
 import { siteConfig, telHref } from '@/lib/site-config';
 import { buildWhatsAppUrl } from '@/lib/whatsapp';
+import type { Locale } from '@/types';
 import { AnimatedSection } from '@/components/shared/AnimatedSection';
 import { SectionHeading } from '@/components/shared/SectionHeading';
+import { JsonLd } from '@/components/shared/JsonLd';
 import { WhatsAppIcon } from '@/components/shared/BrandIcons';
 import { ContactForm } from '@/components/contact/ContactForm';
 
@@ -42,6 +45,7 @@ export default async function ContactPage({
   setRequestLocale(locale);
 
   const t = await getTranslations('contact');
+  const tNav = await getTranslations('nav');
   const tFloating = await getTranslations('floating');
   const activeLocale = await getLocale();
 
@@ -53,6 +57,15 @@ export default async function ContactPage({
       {/* No LocalBusiness block here: the locale layout emits it on every
           page, so repeating it would duplicate the same @id twice in one
           document. */}
+      <JsonLd
+        data={buildBreadcrumbSchema(
+          [
+            { name: tNav('home'), path: '' },
+            { name: tNav('contact'), path: '/contact' },
+          ],
+          locale as Locale,
+        )}
+      />
       <header className="from-primary-50 dark:from-primary-950 bg-gradient-to-b to-transparent py-14 sm:py-20">
         <div className="container-page mx-auto max-w-2xl text-center">
           <h1 className="text-primary-900 dark:text-primary-200 text-[length:var(--text-h1)] font-extrabold tracking-tight text-balance">

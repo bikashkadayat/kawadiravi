@@ -157,6 +157,21 @@
     scroll-behavior: smooth;
     /* Offset anchor jumps so the sticky header does not cover the target. */
     scroll-padding-top: 6rem;
+
+    /*
+     * Sideways-scroll safeguard.
+     *
+     * `clip`, NOT `hidden`. `overflow-x: hidden` on html/body makes the element
+     * a scroll container, which silently kills `position: sticky` on every
+     * descendant — that would unpin the site header and the /rates CTA bar.
+     * `clip` trims the overflow without creating a scroll container, so sticky
+     * keeps working.
+     *
+     * This is a net, not a fix: it hides a symptom rather than the cause, so
+     * anything it catches is still a bug. The one real offender (the header at
+     * 768px) was fixed at source in Header.tsx / MobileNav.tsx.
+     */
+    overflow-x: clip;
   }
 }
 

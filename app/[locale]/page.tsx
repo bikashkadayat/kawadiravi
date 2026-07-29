@@ -1,6 +1,10 @@
 import { setRequestLocale } from 'next-intl/server';
 
+import { buildServiceSchema } from '@/lib/schema';
+import type { Locale } from '@/types';
+import { JsonLd } from '@/components/shared/JsonLd';
 import { Hero } from '@/components/home/Hero';
+import { Intro } from '@/components/home/Intro';
 import { RatesPreview } from '@/components/home/RatesPreview';
 import { WhatWeBuy } from '@/components/home/WhatWeBuy';
 import { HowItWorks } from '@/components/home/HowItWorks';
@@ -33,7 +37,12 @@ export default async function HomePage({
     // without it axe reported "no main landmark" plus 86 elements sitting
     // outside any landmark at all.
     <main>
+      {/* Service entity, tied to the LocalBusiness by @id. The homepage is what
+          ranks for "kawadi pickup nepal", so it declares the service too. */}
+      <JsonLd data={buildServiceSchema(locale as Locale)} />
+
       <Hero />
+      <Intro />
       <RatesPreview />
       <WhatWeBuy />
       <HowItWorks />

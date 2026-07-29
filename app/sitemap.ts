@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next';
 
 import { routing } from '@/i18n/routing';
-import { siteConfig } from '@/lib/site-config';
+import { absoluteUrl } from '@/lib/site-config';
 import { getRatesUpdatedAt } from '@/lib/rates';
 
 /**
@@ -22,9 +22,12 @@ export const dynamic = 'force-static';
  * `/rates` carries the real `updatedAt` from data/rates.json, so editing a
  * price also signals a genuine content change — the other pages use the build
  * date, which is the honest answer for static marketing copy.
+ *
+ * Every URL comes from `absoluteUrl()` so it carries the same trailing slash
+ * the canonical tag does. Listing `/en/rates` here while the page canonicalises
+ * to `/en/rates/` would have Google crawl one URL and index another.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = siteConfig.url;
   const buildDate = new Date();
   const ratesDate = new Date(getRatesUpdatedAt());
 
@@ -38,13 +41,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return routes.flatMap((route) =>
     routing.locales.map((locale) => ({
-      url: `${base}/${locale}${route.path}`,
+      url: absoluteUrl(`/${locale}${route.path}`),
       lastModified: route.path === '/rates' ? ratesDate : buildDate,
       changeFrequency: route.changeFrequency,
       priority: route.priority,
       alternates: {
         languages: Object.fromEntries(
-          routing.locales.map((alt) => [alt, `${base}/${alt}${route.path}`]),
+          routing.locales.map((alt) => [
+            alt,
+            absoluteUrl(`/${alt}${route.path}`),
+          ]),
         ),
       },
     })),

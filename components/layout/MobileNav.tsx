@@ -15,7 +15,7 @@ import { LocaleToggle } from '@/components/layout/LocaleToggle';
 import { Wordmark } from '@/components/shared/Wordmark';
 
 /**
- * Hamburger menu for small screens.
+ * Hamburger menu for phones and tablets.
  *
  * Radix Dialog rather than a hand-rolled panel because it handles the parts
  * that are easy to get wrong: focus trapping, restoring focus to the trigger
@@ -23,6 +23,13 @@ import { Wordmark } from '@/components/shared/Wordmark';
  *
  * z-[60] puts the sheet above FloatingActions (z-50) so the Call/WhatsApp
  * buttons cannot overlap an open menu.
+ *
+ * BREAKPOINT: `lg:hidden`, not `md:hidden`. The header's desktop nav used to
+ * appear at `md`, which meant that at exactly 768px the bar had to hold the
+ * logo, five nav links, both toggles AND the Call button — 855px of content in
+ * a 768px viewport, so every page scrolled sideways at tablet width. The
+ * trigger and `Header`'s `lg:block` nav are two halves of one switch and must
+ * stay on the same breakpoint.
  */
 export function MobileNav() {
   const t = useTranslations('nav');
@@ -37,7 +44,7 @@ export function MobileNav() {
         <button
           type="button"
           aria-label={t('openMenu')}
-          className="hover:bg-surface-muted inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors md:hidden dark:hover:bg-white/10"
+          className="hover:bg-surface-muted inline-flex h-11 w-11 items-center justify-center rounded-full transition-colors lg:hidden dark:hover:bg-white/10"
         >
           <Menu className="size-6" aria-hidden="true" />
         </button>
@@ -81,7 +88,7 @@ export function MobileNav() {
                       onClick={() => setOpen(false)}
                       aria-current={active ? 'page' : undefined}
                       className={cn(
-                        'flex h-12 items-center rounded-lg px-4 text-base font-medium transition-colors',
+                        'flex min-h-12 items-center rounded-lg px-4 py-2 text-base font-medium transition-colors',
                         active
                           ? // primary-900 in dark, NOT primary-950 — the latter
                             // is the dark background colour, so the highlight
@@ -109,7 +116,7 @@ export function MobileNav() {
           <div className="pb-safe flex flex-col gap-2 border-t p-4">
             <a
               href={telHref}
-              className="bg-accent hover:bg-accent-hover flex h-12 items-center justify-center gap-2 rounded-full font-semibold text-neutral-950 transition-colors"
+              className="bg-accent hover:bg-accent-hover flex min-h-12 items-center justify-center gap-2 rounded-full px-3 py-2 text-center leading-tight font-semibold text-neutral-950 transition-colors"
             >
               <Phone className="size-5" aria-hidden="true" />
               {tCommon('callNow')}
@@ -118,7 +125,7 @@ export function MobileNav() {
               href={buildWhatsAppUrl(tFloating('prefilledMessage'))}
               target="_blank"
               rel="noopener noreferrer"
-              className="bg-whatsapp hover:bg-whatsapp-hover flex h-12 items-center justify-center gap-2 rounded-full font-semibold text-neutral-950 transition-colors"
+              className="bg-whatsapp hover:bg-whatsapp-hover flex min-h-12 items-center justify-center gap-2 rounded-full px-3 py-2 text-center leading-tight font-semibold text-neutral-950 transition-colors"
             >
               <WhatsAppIcon className="size-5" aria-hidden="true" />
               {tCommon('whatsappUs')}

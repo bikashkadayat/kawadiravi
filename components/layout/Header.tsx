@@ -44,7 +44,10 @@ export function Header() {
     >
       <div className="container-page flex h-16 items-center justify-between gap-4">
         {/* Logo + wordmark, always links home. */}
-        <Link href="/" className="flex shrink-0 items-center gap-2.5">
+        <Link
+          href="/"
+          className="flex min-h-11 shrink-0 items-center gap-2.5"
+        >
           <Image
             src="/logo-mark.png"
             alt=""
@@ -57,7 +60,7 @@ export function Header() {
         </Link>
 
         {/* Desktop navigation. */}
-        <nav aria-label={t('mainNavigation')} className="hidden md:block">
+        <nav aria-label={t('mainNavigation')} className="hidden lg:block">
           <ul className="flex items-center gap-1">
             {navItems.map((item) => {
               const active = isActivePath(pathname, item.href);
@@ -93,13 +96,13 @@ export function Header() {
             asChild
             variant="outline"
             size="sm"
-            className="ml-1 hidden lg:inline-flex"
+            className="ml-1 hidden xl:inline-flex"
           >
             <Link href="/rates">{tCommon('viewRates')}</Link>
           </Button>
 
           {/* Primary CTA. Gold = call, same as the floating button. */}
-          <Button asChild variant="call" size="sm" className="ml-1 hidden md:inline-flex">
+          <Button asChild variant="call" size="sm" className="ml-1 hidden lg:inline-flex">
             <a href={telHref}>
               <Phone aria-hidden="true" />
               {tCommon('callNow')}

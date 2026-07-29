@@ -7,7 +7,11 @@ import { buildPageMetadata } from '@/lib/metadata';
 import { categoryIcons } from '@/lib/icons';
 import { getPopulatedCategories, getRatesByCategory } from '@/lib/rates';
 import { faqs } from '@/lib/faqs';
-import { buildFaqSchema } from '@/lib/schema';
+import {
+  buildBreadcrumbSchema,
+  buildFaqSchema,
+  buildServiceSchema,
+} from '@/lib/schema';
 import { telHref } from '@/lib/site-config';
 import { buildWhatsAppUrl } from '@/lib/whatsapp';
 import type { Locale } from '@/types';
@@ -50,6 +54,7 @@ export default async function ServicesPage({
 
   const t = await getTranslations('services');
   const tRates = await getTranslations('rates');
+  const tNav = await getTranslations('nav');
   const tCommon = await getTranslations('common');
   const tFloating = await getTranslations('floating');
   const tCta = await getTranslations('home.cta');
@@ -76,6 +81,21 @@ export default async function ServicesPage({
     <main className="pb-16">
       {/* FAQPage schema, built from the same array the accordion renders. */}
       <JsonLd data={buildFaqSchema(faqs, locale as Locale)} />
+
+      {/* The pickup service as its own entity, linked to the LocalBusiness by
+          @id. This is the page that describes the service, so this is where it
+          belongs rather than sitewide. */}
+      <JsonLd data={buildServiceSchema(locale as Locale)} />
+
+      <JsonLd
+        data={buildBreadcrumbSchema(
+          [
+            { name: tNav('home'), path: '' },
+            { name: tNav('services'), path: '/services' },
+          ],
+          locale as Locale,
+        )}
+      />
 
       <header className="from-primary-50 dark:from-primary-950 bg-gradient-to-b to-transparent py-14 sm:py-20">
         <div className="container-page mx-auto max-w-2xl text-center">

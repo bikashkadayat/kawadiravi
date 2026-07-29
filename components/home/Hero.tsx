@@ -82,11 +82,13 @@ export async function Hero() {
           </ul>
         </div>
 
-        {/* Brand mark + live figures. Decorative image, so alt="". */}
+        {/* Brand mark + live figures. The mark carries a real alt rather than
+            alt="": it is the LCP image and the only image on the homepage, so
+            it is what Google Images has to work with. */}
         <div className="flex flex-col items-center gap-8">
           <Image
             src="/logo-mark.png"
-            alt=""
+            alt={t('logoAlt')}
             width={340}
             height={340}
             priority

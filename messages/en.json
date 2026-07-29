@@ -62,14 +62,15 @@
   "home": {
     "hero": {
       "badge": "Free pickup · Cash on the spot",
-      "title": "Turn your scrap into cash — today",
-      "subtitle": "KTM Kawadi buys metal, paper, plastic, batteries and e-waste across Kathmandu Valley. We come to you, weigh it in front of you, and pay cash on the spot.",
+      "title": "KTM Kawadi – Kathmandu's Trusted Kawadi & Scrap Pickup",
+      "subtitle": "Turn your scrap into cash today. KTM Kawadi buys metal, paper, plastic, batteries and e-waste across Kathmandu Valley — we come to you, weigh it in front of you, and pay cash on the spot.",
       "trustWeighing": "Honest weighing",
       "trustPickup": "Free pickup",
       "trustCash": "Cash on the spot",
       "trustRates": "Best market rates",
       "itemsPriced": "items priced",
-      "areasCovered": "areas covered"
+      "areasCovered": "areas covered",
+      "logoAlt": "KTM Kawadi scrap pickup in Kathmandu"
     },
     "ratesPreview": {
       "title": "Today's top rates",
@@ -109,8 +110,8 @@
       "localBody": "A Kathmandu team you can call directly — not a call centre or an app queue."
     },
     "coverage": {
-      "title": "Where we pick up",
-      "subtitle": "Free pickup across Kathmandu Valley.",
+      "title": "Kawadi pickup areas across Kathmandu Valley",
+      "subtitle": "Free kawadi and scrap pickup in Kathmandu, Lalitpur, Bhaktapur, Kirtipur and the surrounding municipalities.",
       "note": "Not on the list? Call anyway — we often travel a little further for larger loads."
     },
     "testimonials": {
@@ -121,10 +122,16 @@
       "title": "Ready to clear your scrap?",
       "subtitle": "One call is all it takes. We handle the lifting, the weighing and the loading.",
       "note": "Open Sunday to Friday, 7:00 to 19:00."
+    },
+    "intro": {
+      "title": "Kawadi & scrap buying in Kathmandu, done honestly",
+      "body1": "Kawadi is what Kathmandu calls the scrap that piles up in every home, office and building site — old iron rods, copper wire, brass fittings, aluminium utensils, newspapers, cardboard, plastic drums, dead batteries and broken electronics. KTM Kawadi buys all of it at published rates and recycles it responsibly, so it leaves your house and stays out of the landfill.",
+      "body2": "We are a Kathmandu-based team, not an app queue. Tell us roughly what you have and where you are, and we bring a calibrated scale to your door anywhere in Kathmandu Valley — free of charge, including carrying it down from the upper floors.",
+      "linksLead": "Ready when you are: <rates>see today's kawadi rates in Kathmandu</rates>, <services>how our free scrap pickup works</services>, or <contact>book a kawadi pickup in Kathmandu</contact>."
     }
   },
   "rates": {
-    "title": "Today's Scrap Rates",
+    "title": "Today's Kawadi & Scrap Rates in Kathmandu",
     "subtitle": "Transparent, up-to-date rates for every material we buy. No hidden deductions, no surprise weighing.",
     "updatedOn": "Rates updated on {date}",
     "searchPlaceholder": "Search for copper, कागज, laptop…",
@@ -157,7 +164,7 @@
     }
   },
   "services": {
-    "title": "Our Services",
+    "title": "Kawadi Pickup Services Across Kathmandu Valley",
     "subtitle": "Household, office and industrial scrap collection across Kathmandu Valley — weighed openly, paid in cash.",
     "whatWeCollect": "What we collect",
     "whatWeCollectSub": "Five categories, one phone call. If you are unsure whether we take something, just ask.",
@@ -184,7 +191,7 @@
     "faqSub": "The questions we are asked most often, answered plainly."
   },
   "about": {
-    "title": "About KTM Kawadi",
+    "title": "About KTM Kawadi — Kathmandu's Kawadi Buyer",
     "subtitle": "A Kathmandu scrap-buying service built on honest weighing and fair rates.",
     "storyTitle": "Our story",
     "storyBody1": "Selling scrap in Kathmandu has long been a game of guesswork. Rates are quoted from memory, scales are hidden, and the number agreed on the phone is rarely the number paid at the door. Most people accept it because there is no obvious alternative.",
@@ -205,10 +212,11 @@
     "trust1": "The rate quoted on the phone is the rate paid at the door.",
     "trust2": "Weighing happens where you can see it, every single time.",
     "trust3": "No charge for pickup, stairs, or loading — ever.",
-    "trust4": "One local number, answered by people who do the work."
+    "trust4": "One local number, answered by people who do the work.",
+    "logoAlt": "KTM Kawadi logo — trusted kawadi and scrap recycling in Kathmandu"
   },
   "contact": {
-    "title": "Contact Us",
+    "title": "Contact KTM Kawadi — Book a Kawadi Pickup in Kathmandu",
     "subtitle": "Call, WhatsApp, or send us the details and we will get straight back to you.",
     "callTitle": "Call us",
     "callBody": "Fastest way to book a pickup. Speak to the team directly.",
@@ -238,24 +246,24 @@
   },
   "meta": {
     "home": {
-      "title": "KTM Kawadi — Scrap Pickup & Best Rates in Kathmandu Valley",
-      "description": "Sell your scrap for the best rate in Kathmandu, Lalitpur and Bhaktapur. Free pickup, honest weighing, cash on the spot. Call or WhatsApp KTM Kawadi today."
+      "title": "KTM Kawadi – Kathmandu's #1 Scrap (Kawadi) Buyer | Best Rates & Free Pickup",
+      "description": "KTM Kawadi buys kawadi and scrap in Kathmandu at the best rates — copper, brass, iron, aluminium, paper and e-waste. Free doorstep pickup, cash on the spot."
     },
     "rates": {
-      "title": "Today's Scrap Rates — Iron, Copper, Paper, E-Waste",
-      "description": "Live scrap rates for iron, copper, brass, aluminium, paper, plastic, batteries and e-waste across Kathmandu Valley. Updated regularly by KTM Kawadi."
+      "title": "Today's Kawadi & Scrap Rates in Kathmandu | KTM Kawadi",
+      "description": "Live kawadi rates in Kathmandu for copper, brass, iron, aluminium, paper, plastic, batteries and e-waste. Updated regularly by KTM Kawadi — call before you sell."
     },
     "services": {
-      "title": "Our Services — Free Scrap Pickup Across Kathmandu Valley",
-      "description": "Household, office and industrial scrap pickup. We buy metal, paper, plastic, batteries and e-waste, weigh it in front of you and pay cash immediately."
+      "title": "Kawadi Pickup Services in Kathmandu | Free Scrap Collection",
+      "description": "Free kawadi and scrap pickup across Kathmandu, Lalitpur and Bhaktapur. Household, office and industrial collection, weighed in front of you, cash paid on the spot."
     },
     "about": {
-      "title": "About KTM Kawadi — Fair Rates, Cleaner Nepal",
-      "description": "KTM Kawadi is a Kathmandu-based scrap buying and recycling service built on honest weighing, fair rates and responsible disposal."
+      "title": "About KTM Kawadi | Trusted Kawadi Buyer in Kathmandu",
+      "description": "KTM Kawadi is a Kathmandu kawadi and scrap buying service built on honest weighing, transparent rates and responsible recycling across Kathmandu Valley."
     },
     "contact": {
-      "title": "Contact KTM Kawadi — Book a Free Scrap Pickup",
-      "description": "Call or WhatsApp KTM Kawadi to book a free scrap pickup anywhere in Kathmandu Valley. Same-day service, cash paid on the spot."
+      "title": "Contact KTM Kawadi | Book Free Kawadi Pickup in Kathmandu",
+      "description": "Call or WhatsApp KTM Kawadi to book a free kawadi pickup anywhere in Kathmandu Valley. Same-day scrap collection, honest weighing, cash paid on the spot."
     }
   },
   "notFound": {

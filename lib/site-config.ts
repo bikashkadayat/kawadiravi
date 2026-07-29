@@ -90,6 +90,25 @@ export const siteConfig: SiteConfig = {
 /** `tel:` href built from the single source of truth. */
 export const telHref = `tel:${siteConfig.phoneTel}`;
 
+/**
+ * Absolute URL for a site path, with the trailing slash `next.config.ts`
+ * actually serves.
+ *
+ * This exists because the site used to disagree with itself: `trailingSlash:
+ * true` makes Next emit `<link rel="canonical" href=".../en/">`, while the
+ * sitemap and the JSON-LD built their URLs by hand and emitted `.../en`. To
+ * Google those are two URLs, and a sitemap that lists a URL the canonical tag
+ * points away from is a self-inflicted crawl problem. Every absolute URL on
+ * this site now comes from here.
+ *
+ * @param path Locale-prefixed path such as '/en' or '/en/rates'. '' yields the
+ *             bare origin with a trailing slash.
+ */
+export function absoluteUrl(path = ''): string {
+  const clean = path.replace(/\/+$/, '');
+  return `${siteConfig.url}${clean}/`;
+}
+
 /** True when a social link has a real destination configured. */
 export function isConfiguredSocial(href: string): boolean {
   return href.trim() !== '' && href.trim() !== '#';

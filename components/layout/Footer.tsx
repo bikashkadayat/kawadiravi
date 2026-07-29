@@ -106,12 +106,15 @@ export async function Footer() {
             <p id="footer-company" className="font-semibold text-white">
               {t('company')}
             </p>
-            <ul className="mt-4 space-y-2.5 text-sm">
+            <ul className="mt-2 text-sm">
               {navItems.map((item) => (
                 <li key={item.href}>
+                  {/* min-h-11 = 44px touch target. The list gap dropped from
+                      space-y-2.5 to nothing in exchange, so the column grows by
+                      far less than 5x17px and the footer rhythm is preserved. */}
                   <Link
                     href={item.href}
-                    className="text-neutral-300 underline-offset-4 transition-colors hover:text-white hover:underline"
+                    className="flex min-h-11 items-center text-neutral-300 underline-offset-4 transition-colors hover:text-white hover:underline"
                   >
                     {tNav(item.labelKey)}
                   </Link>
@@ -138,7 +141,7 @@ export async function Footer() {
               <li>
                 <a
                   href={telHref}
-                  className="flex items-start gap-2.5 text-neutral-300 transition-colors hover:text-white"
+                  className="flex min-h-11 items-center gap-2.5 text-neutral-300 transition-colors hover:text-white"
                 >
                   <Phone className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
                   <span>{siteConfig.phoneDisplay}</span>
@@ -147,7 +150,7 @@ export async function Footer() {
               <li>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="flex items-start gap-2.5 break-all text-neutral-300 transition-colors hover:text-white"
+                  className="flex min-h-11 items-center gap-2.5 break-all text-neutral-300 transition-colors hover:text-white"
                 >
                   <Mail className="mt-0.5 size-4 shrink-0" aria-hidden="true" />
                   <span>{siteConfig.email}</span>

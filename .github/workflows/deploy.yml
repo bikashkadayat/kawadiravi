@@ -76,6 +76,13 @@ jobs:
           NEXT_PUBLIC_SITE_URL: https://ktmkawadi.bikashkadayat.com.np
           NEXT_PUBLIC_GA_ID: ${{ vars.NEXT_PUBLIC_GA_ID }}
           NEXT_PUBLIC_CLARITY_ID: ${{ vars.NEXT_PUBLIC_CLARITY_ID }}
+          # TODO (Bikash): create repo Variable NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+          # with the `content` value Google Search Console gives you for the
+          # HTML-tag method (Settings → Secrets and variables → Actions →
+          # Variables). A Search Console token is public by design — it ships in
+          # the page head — so a Variable is correct here, not a Secret.
+          # While unset, no verification meta tag is emitted at all.
+          NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION: ${{ vars.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION }}
 
       # Fail loudly and early if the export did not produce what Pages needs,
       # rather than publishing a broken or empty site.
