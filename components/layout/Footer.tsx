@@ -41,7 +41,7 @@ const SOCIAL_CLASS =
 
 /** Row style shared by the tappable contact lines (44px minimum target). */
 const CONTACT_LINK_CLASS =
-  'flex min-h-11 items-start gap-2.5 py-1 text-neutral-300 transition-colors hover:text-white';
+  'flex min-h-11 items-start gap-2.5 py-1 text-neutral-300 transition-colors hover:text-accent';
 
 export async function Footer() {
   const t = await getTranslations('footer');
@@ -80,8 +80,17 @@ export async function Footer() {
   const address = locale === 'ne' ? siteConfig.addressNe : siteConfig.addressEn;
   const city = locale === 'ne' ? 'काठमाडौं' : 'Kathmandu';
 
+  /*
+   * Dark SLATE, not a dark blue.
+   *
+   * Measured both: white on slate-900 is 17.85:1 vs 8.72:1 on blue-800, and
+   * more decisively the orange accent links are 6.37:1 on slate but only
+   * 3.11:1 on blue-800 — the exact "orange on blue" pairing the palette rules
+   * out. In dark mode the page background is itself slate-900, so the footer
+   * drops to slate-950 to stay a distinct surface.
+   */
   return (
-    <footer className="bg-primary-950 mt-20 text-neutral-200">
+    <footer className="mt-20 bg-neutral-900 text-neutral-200 dark:bg-neutral-950">
       <div className="container-page py-14">
         {/*
           `grid-cols-2` at the BASE size, not from `sm`.
@@ -96,6 +105,7 @@ export async function Footer() {
           {/* Brand + blurb + socials */}
           <div className="col-span-2 lg:col-span-1">
             <Wordmark
+              onDark
               className="text-xl font-extrabold"
               chipClassName="px-2 py-1"
             />
@@ -137,7 +147,7 @@ export async function Footer() {
                       far less than 5x17px and the footer rhythm is preserved. */}
                   <Link
                     href={item.href}
-                    className="flex min-h-11 items-center text-neutral-300 underline-offset-4 transition-colors hover:text-white hover:underline"
+                    className="hover:text-accent flex min-h-11 items-center text-neutral-300 underline-offset-4 transition-colors hover:underline"
                   >
                     {tNav(item.labelKey)}
                   </Link>

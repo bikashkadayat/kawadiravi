@@ -41,13 +41,12 @@ export async function FloatingActions() {
     >
       <div className="pointer-events-auto flex flex-col items-end gap-3">
         {/*
-          Book — brand green with white text (5.85:1).
+          Book — brand blue with white text (8.72:1).
 
-          Deliberately a DIFFERENT green from the WhatsApp button below it:
-          primary-800 is a dark forest green against WhatsApp's #25D366, so the
-          two never read as the same control at a glance. Colour meaning is
-          load-bearing on this site (gold = call, #25D366 = WhatsApp), and this
-          adds a third without borrowing either.
+          The rebrand made this easier, not harder: primary-800 is now a deep
+          blue, so it cannot be confused with the WhatsApp green beneath it the
+          way the old forest green could. Colour meaning stays load-bearing
+          (orange = call, #25D366 = WhatsApp, blue = brand/navigate).
 
           Adding this button took the stack from ~148px to ~208px tall (216px
           from `sm`), which is why `Footer` reserves 14rem/15rem at the bottom.

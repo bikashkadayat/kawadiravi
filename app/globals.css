@@ -9,46 +9,68 @@
 
 @theme {
   /* ---------------------------------------------------------------------
-   * Brand green. primary-900 (#106432) is sampled directly from the logo.
+   * Brand blue. primary-600 (#2563EB) is the brand blue; 700/800 are the
+   * darker shades used wherever white text sits on top.
+   *
+   * MEASURED, because two of these carry white text:
+   *   white on primary-600  5.17:1
+   *   white on primary-700  6.70:1
+   *   white on primary-800  8.72:1   <- the default button
+   *
+   * primary-600 must NOT be used as text on a dark background: against the
+   * dark-mode surface (#0F172A) it is only 3.45:1. Dark mode uses
+   * primary-300/400 for text instead (9.90:1 / 7.02:1).
    * ------------------------------------------------------------------- */
-  --color-primary-50: #edfcf3;
-  --color-primary-100: #d6f7e3;
-  --color-primary-200: #adedc8;
-  --color-primary-300: #79dda4;
-  --color-primary-400: #45c97e;
-  --color-primary-500: #22b25c;
-  --color-primary-600: #1a9a4e;
-  --color-primary-700: #178544;
-  --color-primary-800: #14743b;
-  --color-primary-900: #106432;
-  --color-primary-950: #08341a;
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #172554;
 
   /* ---------------------------------------------------------------------
-   * Gold. Sampled from the logo wordmark (#ffb918).
-   * MEANS "CALL". If a gold button does not dial the phone, it is a bug.
+   * Orange. The high-conversion action colour.
+   *
+   * ALWAYS PAIRED WITH NEAR-BLACK TEXT, never white. White on #F97316 is
+   * 2.80:1 and fails WCAG AA outright; `text-neutral-950` on it is 7.20:1.
+   * This is the same trap the old gold had (white on #FFB918 was 1.72:1), so
+   * the rule survives the rebrand unchanged: do not "fix" these to white.
+   *
+   * If white lettering is ever required, the accent itself has to darken to
+   * about #C2410C (5.18:1) — the text colour alone cannot rescue #F97316.
    * ------------------------------------------------------------------- */
-  --color-accent: #ffb918;
-  --color-accent-hover: #e5a30d;
-  --color-accent-soft: #fff6e0;
+  --color-accent: #f97316;
+  --color-accent-hover: #ea580c;
+  --color-accent-soft: #fff7ed;
 
   /* WhatsApp brand green. Used ONLY on WhatsApp controls, never decoratively. */
   --color-whatsapp: #25d366;
   --color-whatsapp-hover: #1da851;
 
-  /* Warm neutrals, so the green reads organic rather than clinical. */
-  --color-neutral-50: #fafaf9;
-  --color-neutral-100: #f5f5f4;
-  --color-neutral-200: #e7e5e4;
-  --color-neutral-300: #d6d3d1;
-  --color-neutral-400: #a8a29e;
-  --color-neutral-500: #78716c;
-  --color-neutral-600: #57534e;
-  --color-neutral-700: #44403c;
-  --color-neutral-800: #292524;
-  --color-neutral-900: #1c1917;
-  --color-neutral-950: #0c0a09;
+  /* Cool slate neutrals. The old palette was warm stone, chosen to keep the
+     green reading organic; against blue that same warmth turns muddy. */
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  --color-neutral-950: #020617;
 
-  --color-success: #1a9a4e;
+  /* Status colours, NOT brand colours. `success` stays green on purpose —
+     green means "succeeded" independently of any brand palette, and recolouring
+     it blue would make a success state indistinguishable from a brand accent.
+     None of these four are currently referenced by any component. */
+  --color-success: #16a34a;
   --color-warning: #f79009;
   --color-destructive: #d92d20;
   --color-info: #0ba5ec;
@@ -83,21 +105,28 @@
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #1c1917;
-  --surface: #fafaf9;
-  --surface-muted: #f5f5f4;
-  --border-color: #e7e5e4;
-  --muted-foreground: #57534e;
+  /* Page sits on slate-50 and CARDS are pure white, so a card reads as raised
+     without needing a shadow. That is the reverse of the old scheme, where the
+     page was white and surfaces were tinted. */
+  --background: #f8fafc;
+  --foreground: #0f172a; /* 17.06:1 on the background */
+  --surface: #ffffff;
+  --surface-muted: #f1f5f9;
+  --border-color: #e2e8f0;
+  --muted-foreground: #475569; /* 7.24:1 on the background */
 }
 
 .dark {
-  --background: #08341a; /* primary-950 — keeps the brand present in dark mode */
-  --foreground: #f5f5f4;
-  --surface: #0f2a1a;
-  --surface-muted: #14301f;
-  --border-color: #1f4530;
-  --muted-foreground: #b8c2bb;
+  /* Dark slate, NOT a dark brand blue. Tinting the whole dark canvas blue
+     leaves the blue buttons with nothing to sit against, and it is what
+     forces orange links into the low-contrast "orange on blue" pairing the
+     palette is meant to avoid. */
+  --background: #0f172a;
+  --foreground: #f1f5f9;
+  --surface: #1e293b;
+  --surface-muted: #334155;
+  --border-color: #334155;
+  --muted-foreground: #cbd5e1;
 }
 
 @layer base {

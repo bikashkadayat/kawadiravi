@@ -51,13 +51,13 @@ export default function RootRedirect() {
           alignItems: 'center',
           justifyContent: 'center',
           fontFamily: 'system-ui, sans-serif',
-          background: '#08341a',
+          background: '#0f172a',
           color: '#ffffff',
         }}
       >
         <p>
           Redirecting to{' '}
-          <a href={target} style={{ color: '#ffb918' }}>
+          <a href={target} style={{ color: '#fb923c' }}>
             {siteConfig.name}
           </a>
           …

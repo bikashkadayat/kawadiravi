@@ -158,8 +158,8 @@ export async function generateMetadata({
 /** Brand green in the mobile browser chrome; matches the manifest. */
 export const viewport: Viewport = {
   themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#106432' },
-    { media: '(prefers-color-scheme: dark)', color: '#08341a' },
+    { media: '(prefers-color-scheme: light)', color: '#2563eb' },
+    { media: '(prefers-color-scheme: dark)', color: '#0f172a' },
   ],
   width: 'device-width',
   initialScale: 1,
