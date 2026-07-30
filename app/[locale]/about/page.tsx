@@ -83,6 +83,27 @@ export default async function AboutPage({
         </div>
       </header>
 
+      {/* Brand cover: the founders, the truck and the promise in one frame.
+          It belongs on this page rather than the homepage because the story
+          section right below it is what the photo illustrates.
+
+          WebP, not the delivered PNG: `images.unoptimized` is forced on by the
+          static export, so whatever is committed is exactly what every visitor
+          downloads. The 1.9 MB PNG becomes 100 KB at 1600px wide, which is the
+          difference between a usable and an unusable page on mobile data.
+          Re-export it with docs/make-cover.py. */}
+      <div className="container-page -mt-4 pb-10 sm:pb-14">
+        <Image
+          src="/images/cover.webp"
+          alt={t('coverAlt')}
+          width={1600}
+          height={640}
+          priority
+          sizes="(min-width: 1280px) 1200px, 100vw"
+          className="h-auto w-full rounded-2xl border shadow-sm"
+        />
+      </div>
+
       {/* Story */}
       <AnimatedSection className="container-page py-14">
         <div className="grid items-center gap-10 lg:grid-cols-2 lg:gap-16">
@@ -106,7 +127,7 @@ export default async function AboutPage({
               width={320}
               height={320}
               sizes="(min-width: 1024px) 320px, 55vw"
-              className="w-52 max-w-full drop-shadow-xl sm:w-64 lg:w-80"
+              className="w-52 max-w-full drop-shadow-xl sm:w-64 lg:w-80 dark:rounded-full dark:bg-white dark:p-4"
             />
           </div>
         </div>

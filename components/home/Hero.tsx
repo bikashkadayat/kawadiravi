@@ -110,7 +110,7 @@ export async function Hero() {
             height={340}
             priority
             sizes="(min-width: 1024px) 340px, 60vw"
-            className="w-56 max-w-full drop-shadow-xl sm:w-72 lg:w-[340px]"
+            className="w-56 max-w-full drop-shadow-xl sm:w-72 lg:w-[340px] dark:rounded-full dark:bg-white dark:p-4"
           />
 
           <dl className="grid w-full max-w-sm grid-cols-2 gap-4">

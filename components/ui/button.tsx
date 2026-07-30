@@ -8,18 +8,19 @@ import { cn } from '@/lib/utils';
  * The one place button styling is defined.
  *
  * CONTRAST IS NOT COSMETIC HERE — see docs/ARCHITECTURE.md §4.1. White text on
- * our orange (#F97316) is 2.80:1 and on WhatsApp green (#25D366) is 1.98:1;
+ * our gold (#F4B113) is 1.88:1 and on WhatsApp green (#25D366) is 1.98:1;
  * both fail WCAG AA. Those two variants therefore use near-black text, which
- * measures 7.20:1 and 10.17:1 respectively. Do not "fix" them to white.
+ * measures 10.71:1 and 10.17:1 respectively. Do not "fix" them to white.
  *
- * The rebrand from gold to orange did not change this rule, only the numbers:
- * the old gold was 1.72:1 against white and failed for exactly the same
- * reason. A saturated warm hue bright enough to read as an action colour is
- * never dark enough to carry white text.
+ * Every accent this brand has shipped has failed the same way — the orange
+ * that briefly replaced the gold was 2.80:1 against white. A saturated warm
+ * hue bright enough to read as an action colour is never dark enough to carry
+ * white text.
  *
- * Colour also carries meaning: orange ALWAYS means "call", WhatsApp green
- * ALWAYS means "open WhatsApp", blue is brand and navigation. Never use any of
- * them decoratively.
+ * Colour also carries meaning: gold ALWAYS means "call", WhatsApp green ALWAYS
+ * means "open WhatsApp", brand green is navigation and primary action. The two
+ * greens are close enough that this matters: never use WhatsApp green
+ * decoratively, or a button will promise a chat it does not open.
  */
 const buttonVariants = cva(
   // Base: shared layout, focus ring, disabled state, and a tap target that
@@ -28,9 +29,9 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        /** Default brand action. White on primary-800 (#1E40AF) = 8.72:1. */
+        /** Default brand action. White on primary-800 (#05572A) = 8.74:1. */
         primary: 'bg-primary-800 text-white hover:bg-primary-900',
-        /** CALL. Orange + near-black = 7.20:1. Never white — see above. */
+        /** CALL. Gold + near-black = 10.71:1. Never white — see above. */
         call: 'bg-accent text-neutral-950 hover:bg-accent-hover',
         /** WHATSAPP. Brand green + near-black = 10.17:1. */
         whatsapp: 'bg-whatsapp text-neutral-950 hover:bg-whatsapp-hover',

@@ -16,9 +16,9 @@ WhatsApp and X all crop from).
 from PIL import Image, ImageDraw, ImageFont
 
 W, H = 1200, 630
-GREEN = (16, 100, 50)      # --color-primary-900, sampled from the logo
-GREEN_DARK = (8, 52, 26)   # --color-primary-950
-GOLD = (255, 185, 24)      # --color-accent
+GREEN = (5, 77, 44)        # --color-primary-900, sampled from the logo wordmark
+GREEN_DARK = (7, 51, 34)   # --color-primary-950
+GOLD = (244, 177, 19)      # --color-accent, sampled from the logo tagline rule
 WHITE = (255, 255, 255)
 MUTED = (200, 219, 206)
 
@@ -78,10 +78,21 @@ def build(locale, spec):
     # Gold accent rule down the left edge.
     draw.rectangle((0, 0, 12, H), fill=GOLD)
 
-    # Logo mark, right side.
+    # Logo mark, right side, on a white disc.
+    #
+    # The disc is not decoration: the mark is transparent artwork whose darkest
+    # strokes are #054D2C — the same green as this card's background. Pasted
+    # straight onto the gradient, the stupa, the "K" and half the truck vanish.
+    disc, inset = 320, 26
+    plate = Image.new("L", (disc * 4, disc * 4), 0)
+    ImageDraw.Draw(plate).ellipse((0, 0, disc * 4 - 1, disc * 4 - 1), fill=255)
+    plate = plate.resize((disc, disc), Image.LANCZOS)
+    img.paste(Image.new("RGB", (disc, disc), WHITE), (W - 370, (H - disc) // 2), plate)
+
+    side = disc - inset * 2
     mark = Image.open("public/logo-mark.png").convert("RGBA")
-    mark = mark.resize((300, 300), Image.LANCZOS)
-    img.paste(mark, (W - 360, (H - 300) // 2), mark)
+    mark = mark.resize((side, side), Image.LANCZOS)
+    img.paste(mark, (W - 370 + inset, (H - disc) // 2 + inset), mark)
 
     left = 70
     text_width = W - 360 - left - 40

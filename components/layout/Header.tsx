@@ -49,13 +49,17 @@ export function Header() {
           href="/"
           className="flex min-h-11 shrink-0 items-center gap-2.5"
         >
+          {/* The mark is transparent green artwork, so on the dark theme its
+              darkest strokes would sink into the header. The white disc only
+              appears in dark mode; in light mode the page is already near-white
+              and a plate would be an invisible no-op. */}
           <Image
             src="/logo-mark.png"
             alt=""
             width={40}
             height={40}
             priority
-            className="size-10 rounded-full"
+            className="size-10 rounded-full dark:bg-white dark:p-px"
           />
           <Wordmark className="text-lg font-extrabold tracking-tight sm:text-xl" />
         </Link>

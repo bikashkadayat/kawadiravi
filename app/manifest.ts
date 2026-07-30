@@ -16,10 +16,10 @@ export const dynamic = 'force-static';
  * `start_url: '/en'` rather than '/' avoids the installed app opening on a
  * redirect — the middleware would bounce '/' to '/en' on every launch.
  *
- * Two icon entries per size with different `purpose` values: `any` keeps the
- * circular badge intact in contexts that show it as-is, while the `maskable`
- * variant has the brand-green bleed Android needs to crop it into a squircle
- * without clipping the arrowheads.
+ * Two icon entries per size with different `purpose` values: `any` ships the
+ * transparent mark, which sits correctly on whatever the surface behind it is,
+ * while the `maskable` variant adds the full-bleed white plate Android needs to
+ * crop it into a squircle without clipping the recycling arrowheads.
  */
 export default function manifest(): MetadataRoute.Manifest {
   return {
@@ -32,7 +32,9 @@ export default function manifest(): MetadataRoute.Manifest {
     display: 'standalone',
     orientation: 'portrait',
     background_color: '#ffffff',
-    theme_color: '#2563eb',
+    // primary-600, the logo's arrow green. Must stay in step with the
+    // themeColor in app/[locale]/layout.tsx.
+    theme_color: '#087e2f',
     categories: ['business', 'utilities'],
     lang: 'en',
     dir: 'ltr',

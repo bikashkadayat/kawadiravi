@@ -113,7 +113,7 @@ lib/                  site-config, rates, whatsapp, schema, metadata, faqs, icon
 messages/             en.json, ne.json
 data/rates.json       ← the only file needed to change prices
 i18n/, proxy.ts       Locale routing (Next 16 renamed `middleware` to `proxy`)
-docs/                 ARCHITECTURE.md, extract-logo.py, make-og.py
+docs/                 ARCHITECTURE.md, image scripts, brand/ (logo originals)
 ```
 
 ### Two conventions worth knowing
@@ -127,11 +127,15 @@ docs/                 ARCHITECTURE.md, extract-logo.py, make-og.py
 ## Regenerating images
 
 ```bash
-python3 docs/extract-logo.py   # logo + favicon + PWA icon set
+python3 docs/extract-logo.py   # logo + favicon + PWA icon set, from docs/brand/icon.png
 python3 docs/make-og.py        # Open Graph share cards (en + ne)
+python3 docs/make-cover.py     # About-page cover banner, from docs/brand/cover.png
 ```
 
-Both need Pillow (`pip install Pillow`). Re-run `make-og.py` if the brand colours or tagline change.
+All three need Pillow (`pip install Pillow`) and run from the project root. The
+brand originals live in `docs/brand/`, deliberately outside `public/` so the
+multi-megabyte sources are not shipped to visitors. Re-run `extract-logo.py`
+after replacing the logo, and `make-og.py` if the brand colours or tagline change.
 
 ---
 

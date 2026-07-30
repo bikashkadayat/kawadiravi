@@ -34,7 +34,16 @@
         .card { border-color: #334155; }
       }
       .card { max-width: 26rem; }
-      img { width: 88px; height: 88px; border-radius: 50%; }
+      /* White plate under the mark: the icon is transparent green artwork and
+         its darkest strokes disappear against the dark-scheme background. */
+      img {
+        width: 88px;
+        height: 88px;
+        border-radius: 50%;
+        background: #fff;
+        padding: 4px;
+        box-sizing: border-box;
+      }
       h1 { margin: 1.25rem 0 0; font-size: 1.5rem; line-height: 1.3; }
       p { margin: 0.75rem 0 0; line-height: 1.6; opacity: 0.8; }
       .ne { font-size: 0.95rem; }
@@ -49,7 +58,7 @@
         text-decoration: none;
         color: #020617;
       }
-      .call { background: #f97316; }
+      .call { background: #f4b113; }
       .wa { background: #25d366; }
       .retry {
         background: transparent;

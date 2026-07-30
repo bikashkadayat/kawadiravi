@@ -3,20 +3,19 @@ import { cn } from '@/lib/utils';
 /**
  * The "KTM Kawadi" wordmark, two-tone.
  *
- * WHY "KTM" IS AN ORANGE CHIP RATHER THAN ORANGE TEXT
+ * WHY "KTM" IS A GOLD CHIP RATHER THAN GOLD TEXT
  *
- * The accent orange (#F97316) on the light header measures **2.66:1**. WCAG AA
- * needs 4.5:1 for body text and 3:1 even for large text, so orange lettering on
- * a light background fails — and this is the company's own name, the single
- * most important string on the page. Any orange dark enough to pass reads as
- * brown, not orange. (The previous gold had the identical problem at 1.72:1;
- * the rebrand improved the number without crossing the threshold.)
+ * The accent gold (#F4B113, sampled from the logo's tagline rule) on the light
+ * header measures **1.79:1**. WCAG AA needs 4.5:1 for body text and 3:1 even
+ * for large text, so gold lettering on a light background fails — and this is
+ * the company's own name, the single most important string on the page. Any
+ * gold dark enough to pass reads as brown, not gold.
  *
- * Putting the orange in the *background* of a chip and the text in near-black
- * gives 7.20:1, keeps the orange every bit as prominent, and looks identical in
- * light and dark themes. "Kawadi" then carries the brand blue.
+ * Putting the gold in the *background* of a chip and the text in near-black
+ * gives 10.71:1, keeps the gold every bit as prominent, and looks identical in
+ * light and dark themes. "Kawadi" then carries the brand green.
  *
- * If the plain-orange-text look is preferred despite the contrast cost, swap
+ * If the plain-gold-text look is preferred despite the contrast cost, swap
  * the chip span for `text-accent` — it is a one-line change, isolated here.
  */
 export function Wordmark({

@@ -9,51 +9,56 @@
 
 @theme {
   /* ---------------------------------------------------------------------
-   * Brand blue. primary-600 (#2563EB) is the brand blue; 700/800 are the
-   * darker shades used wherever white text sits on top.
+   * Brand green, sampled from the logo: primary-600 is the bright arrow green
+   * (#098933 in the artwork, nudged one step darker to keep white legible on
+   * it), 900/950 are the dark greens of the "KTM" wordmark (#054D2C, #073322).
+   * 700/800 fill in the shades that carry white text.
    *
-   * MEASURED, because two of these carry white text:
-   *   white on primary-600  5.17:1
-   *   white on primary-700  6.70:1
-   *   white on primary-800  8.72:1   <- the default button
+   * MEASURED, because three of these carry white text:
+   *   white on primary-600  5.20:1
+   *   white on primary-700  6.68:1
+   *   white on primary-800  8.74:1   <- the default button
    *
    * primary-600 must NOT be used as text on a dark background: against the
-   * dark-mode surface (#0F172A) it is only 3.45:1. Dark mode uses
-   * primary-300/400 for text instead (9.90:1 / 7.02:1).
+   * dark-mode canvas (#0F172A) it is only 3.43:1. Dark mode uses
+   * primary-300/400 for text instead (11.11:1 / 8.22:1).
    * ------------------------------------------------------------------- */
-  --color-primary-50: #eff6ff;
-  --color-primary-100: #dbeafe;
-  --color-primary-200: #bfdbfe;
-  --color-primary-300: #93c5fd;
-  --color-primary-400: #60a5fa;
-  --color-primary-500: #3b82f6;
-  --color-primary-600: #2563eb;
-  --color-primary-700: #1d4ed8;
-  --color-primary-800: #1e40af;
-  --color-primary-900: #1e3a8a;
-  --color-primary-950: #172554;
+  --color-primary-50: #ecfdf3;
+  --color-primary-100: #d3f8e1;
+  --color-primary-200: #a8f0c5;
+  --color-primary-300: #6ee2a3;
+  --color-primary-400: #2fc87b;
+  --color-primary-500: #12a355;
+  --color-primary-600: #087e2f;
+  --color-primary-700: #076b28;
+  --color-primary-800: #05572a;
+  --color-primary-900: #054d2c;
+  --color-primary-950: #073322;
 
   /* ---------------------------------------------------------------------
-   * Orange. The high-conversion action colour.
+   * Gold. The high-conversion action colour, sampled from the rule under the
+   * logo's "SCRAP TODAY, CASH TODAY" tagline (#F4B113).
    *
-   * ALWAYS PAIRED WITH NEAR-BLACK TEXT, never white. White on #F97316 is
-   * 2.80:1 and fails WCAG AA outright; `text-neutral-950` on it is 7.20:1.
-   * This is the same trap the old gold had (white on #FFB918 was 1.72:1), so
-   * the rule survives the rebrand unchanged: do not "fix" these to white.
+   * ALWAYS PAIRED WITH NEAR-BLACK TEXT, never white. White on #F4B113 is
+   * 1.88:1 and fails WCAG AA outright; `text-neutral-950` on it is 10.71:1.
+   * The orange that briefly replaced the gold had the identical trap (white on
+   * #F97316 was 2.80:1), so the rule is unchanged: do not "fix" these to white.
    *
-   * If white lettering is ever required, the accent itself has to darken to
-   * about #C2410C (5.18:1) — the text colour alone cannot rescue #F97316.
+   * If white lettering is ever required, the accent has to darken to roughly
+   * #8A5A00 — the text colour alone cannot rescue a gold this luminous.
    * ------------------------------------------------------------------- */
-  --color-accent: #f97316;
-  --color-accent-hover: #ea580c;
-  --color-accent-soft: #fff7ed;
+  --color-accent: #f4b113;
+  --color-accent-hover: #d99a08;
+  --color-accent-soft: #fff8e6;
 
-  /* WhatsApp brand green. Used ONLY on WhatsApp controls, never decoratively. */
+  /* WhatsApp brand green. Used ONLY on WhatsApp controls, never decoratively —
+     which matters more now that the brand is also green: this lighter, minty
+     #25D366 is WhatsApp's, not ours, and must not leak into brand surfaces. */
   --color-whatsapp: #25d366;
   --color-whatsapp-hover: #1da851;
 
-  /* Cool slate neutrals. The old palette was warm stone, chosen to keep the
-     green reading organic; against blue that same warmth turns muddy. */
+  /* Cool slate neutrals. Deliberately not warm stone: the brand greens are
+     deep and slightly blue-shifted, and warm greys next to them read dirty. */
   --color-neutral-50: #f8fafc;
   --color-neutral-100: #f1f5f9;
   --color-neutral-200: #e2e8f0;
@@ -66,10 +71,10 @@
   --color-neutral-900: #0f172a;
   --color-neutral-950: #020617;
 
-  /* Status colours, NOT brand colours. `success` stays green on purpose —
-     green means "succeeded" independently of any brand palette, and recolouring
-     it blue would make a success state indistinguishable from a brand accent.
-     None of these four are currently referenced by any component. */
+  /* Status colours, NOT brand colours. `success` is a lighter, yellower green
+     than any brand shade on purpose: with a green brand, a success state has to
+     be distinguishable from an ordinary branded surface, so do not collapse
+     this into primary-600. None of these four is referenced by a component yet. */
   --color-success: #16a34a;
   --color-warning: #f79009;
   --color-destructive: #d92d20;
@@ -117,10 +122,10 @@
 }
 
 .dark {
-  /* Dark slate, NOT a dark brand blue. Tinting the whole dark canvas blue
-     leaves the blue buttons with nothing to sit against, and it is what
-     forces orange links into the low-contrast "orange on blue" pairing the
-     palette is meant to avoid. */
+  /* Dark slate, NOT a dark brand green. Tinting the whole dark canvas green
+     leaves the green buttons with nothing to sit against — primary-800 on a
+     green canvas is barely a shape — and it drags the gold accent towards the
+     muddy olive pairing the palette exists to avoid. */
   --background: #0f172a;
   --foreground: #f1f5f9;
   --surface: #1e293b;

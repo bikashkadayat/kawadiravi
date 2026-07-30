@@ -26,7 +26,7 @@ export default function GlobalNotFound() {
           </p>
           <Link
             href="/en"
-            className="mt-8 inline-flex h-11 items-center rounded-full bg-[#1e40af] px-6 font-semibold text-white transition hover:bg-[#1e3a8a]"
+            className="mt-8 inline-flex h-11 items-center rounded-full bg-[#05572a] px-6 font-semibold text-white transition hover:bg-[#054d2c]"
           >
             Go to homepage
           </Link>

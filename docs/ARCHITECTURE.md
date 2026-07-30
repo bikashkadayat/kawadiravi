@@ -124,11 +124,12 @@ Kawadiravi/
 │   └── index.ts                    # Rate, RateCategory, SiteConfig, Testimonial, FaqItem…
 │
 ├── public/
-│   ├── logo.svg · logo-mark.svg
+│   ├── logo-mark.png               # Transparent brand mark (see §4.4b)
 │   ├── icons/                      # PWA icons: 192, 256, 384, 512, maskable
-│   └── images/                     # Hero art, category illustrations, OG fallback
+│   └── images/                     # cover.webp + the two OG share cards
 │
 ├── docs/ARCHITECTURE.md            # ← this file
+├── docs/brand/                     # Logo originals as delivered — build inputs, not shipped
 ├── .github/workflows/deploy.yml    # CI: lint → typecheck → build → deploy
 ├── proxy.ts                        # next-intl locale detection & routing
 │                                   #   (Next 16 renamed the `middleware` file
@@ -181,28 +182,28 @@ Kawadiravi/
 
 ### 4.1 Color
 
-The palette is **sampled directly from the supplied logo**, not invented: the wordmark green measures `#106432` and the gold `#FFB918`. Those two values anchor the ramps below, so the site and the logo are the same brand rather than two near-misses.
+The palette is **sampled directly from the supplied logo**, not invented: the wordmark green measures `#054D2C`, the recycling arrows `#098933`, and the rule under the tagline `#F4B113`. Those values anchor the ramps below, so the site and the logo are the same brand rather than two near-misses. (The site briefly shipped a blue/orange palette; the greens below restore it to the logo.)
 
 | Token | Value | Role |
 |---|---|---|
-| `--color-primary-50` | `#EDFCF3` | Tinted section backgrounds |
-| `--color-primary-100` | `#D6F7E3` | Badge fills |
-| `--color-primary-200` | `#ADEDC8` | Hover tints |
-| `--color-primary-300` | `#79DDA4` | Dark-mode headings |
-| `--color-primary-400` | `#45C97E` | Decorative accents |
-| `--color-primary-500` | `#22B25C` | Interactive green |
-| `--color-primary-600` | `#1A9A4E` | Focus ring |
-| `--color-primary-700` | `#178544` | Mid surfaces |
-| `--color-primary-800` | `#14743B` | Primary button |
-| **`--color-primary-900`** | **`#106432`** | **Brand green — sampled from the logo** |
-| `--color-primary-950` | `#08341A` | Dark-mode page background |
-| **`--color-accent`** | **`#FFB918`** | **Call button, high-intent CTAs only — from the logo** |
-| `--color-accent-hover` | `#E5A30D` | Accent hover |
-| `--color-accent-soft` | `#FFF6E0` | Accent-tinted background |
+| `--color-primary-50` | `#ECFDF3` | Tinted section backgrounds |
+| `--color-primary-100` | `#D3F8E1` | Badge fills |
+| `--color-primary-200` | `#A8F0C5` | Hover tints, `::selection` |
+| `--color-primary-300` | `#6EE2A3` | Dark-mode headings and links |
+| `--color-primary-400` | `#2FC87B` | Decorative accents |
+| `--color-primary-500` | `#12A355` | Interactive green |
+| **`--color-primary-600`** | **`#087E2F`** | **Arrow green from the logo — focus ring** |
+| `--color-primary-700` | `#076B28` | Mid surfaces |
+| **`--color-primary-800`** | **`#05572A`** | **Primary button** |
+| **`--color-primary-900`** | **`#054D2C`** | **Wordmark green from the logo — headings** |
+| `--color-primary-950` | `#073322` | Deepest brand shade |
+| **`--color-accent`** | **`#F4B113`** | **Call button, high-intent CTAs only — from the logo** |
+| `--color-accent-hover` | `#D99A08` | Accent hover |
+| `--color-accent-soft` | `#FFF8E6` | Accent-tinted background |
 | **`--color-whatsapp`** | **`#25D366`** | **WhatsApp control only — never decorative** |
 | `--color-whatsapp-hover` | `#1DA851` | WhatsApp hover |
 
-Neutrals use a warm gray ramp (`--color-neutral-50` `#FAFAF9` → `--color-neutral-950` `#0C0A09`) rather than a cold blue-gray, so the green reads organic instead of clinical. Semantic aliases: `success` → `primary-600`, `warning` → `#F79009`, `destructive` → `#D92D20`, `info` → `#0BA5EC`.
+Neutrals use a cool slate ramp (`--color-neutral-50` `#F8FAFC` → `--color-neutral-950` `#020617`). The brand greens are deep and slightly blue-shifted, and a warm gray beside them reads dirty. Semantic aliases: `success` → `#16A34A` (deliberately lighter and yellower than any brand shade, so a success state is not mistaken for an ordinary branded surface), `warning` → `#F79009`, `destructive` → `#D92D20`, `info` → `#0BA5EC`.
 
 **Color discipline rules — these matter more than the values:**
 
@@ -214,19 +215,21 @@ Neutrals use a warm gray ramp (`--color-neutral-50` `#FAFAF9` → `--color-neutr
 
 | Pair | Ratio | Verdict |
 |---|---|---|
-| White on `primary-800` `#14743B` | 5.85:1 | ✓ — this is why the primary button is 800, not 700 |
-| White on `primary-700` `#178544` | 4.69:1 | ✓ but tight; reserved for large text only |
-| White on `primary-900` `#106432` | 7.26:1 | ✓ AAA — footer, hero overlays |
-| `neutral-950` on `accent` `#FFB918` | 11.5:1 | ✓ AAA |
-| White on `accent` `#FFB918` | 1.72:1 | ✗ — **gold buttons must take dark text** |
-| `neutral-950` on `whatsapp` `#25D366` | 9.96:1 | ✓ AAA |
+| White on `primary-800` `#05572A` | 8.74:1 | ✓ AAA — this is why the primary button is 800, not 700 |
+| White on `primary-700` `#076B28` | 6.68:1 | ✓ |
+| White on `primary-600` `#087E2F` | 5.20:1 | ✓ but tight; never used as text on dark (3.43:1 there) |
+| White on `primary-900` `#054D2C` | 9.98:1 | ✓ AAA — footer, hero overlays |
+| `primary-300` `#6EE2A3` on the dark canvas `#0F172A` | 11.11:1 | ✓ AAA — dark-mode text green |
+| `neutral-950` on `accent` `#F4B113` | 10.71:1 | ✓ AAA |
+| White on `accent` `#F4B113` | 1.88:1 | ✗ — **gold buttons must take dark text** |
+| `neutral-950` on `whatsapp` `#25D366` | 10.17:1 | ✓ AAA |
 | White on `whatsapp` `#25D366` | 1.98:1 | ✗ — **WhatsApp buttons must take dark text** |
 
 The two failing rows are the trap almost every scrap-site clone falls into: white-on-gold and white-on-WhatsApp-green look fine to a designer on a bright monitor and are unreadable in sunlight on a phone. Both CTAs therefore use `neutral-950` text.
 
 ### 4.2 Dark mode
 
-Class-based (`next-themes`, `.dark` on `<html>`), with tokens redefined under `.dark` rather than duplicated per component. Page background flips to `primary-950`, surfaces to `neutral-900`. Accent and WhatsApp colors are **not** dimmed in dark mode — the CTAs must stay the loudest thing on the screen in both themes.
+Class-based (`next-themes`, `.dark` on `<html>`), with tokens redefined under `.dark` rather than duplicated per component. Page background flips to slate `#0F172A` and surfaces to `#1E293B` — deliberately **not** a dark brand green, because a green canvas leaves the green buttons with nothing to sit against. Accent and WhatsApp colors are **not** dimmed in dark mode — the CTAs must stay the loudest thing on the screen in both themes. The logo mark is transparent green artwork, so wherever it appears on the dark theme it is given a white disc (`dark:bg-white dark:rounded-full`); without it the darkest strokes sink into the canvas.
 
 ### 4.3 Typography
 
@@ -257,20 +260,28 @@ Devanagari renders visually smaller at equal `font-size`, so `lang="ne"` gets a 
 
 ### 4.4b Logo assets
 
-The owner supplied a **presentation mockup** — two logo variants rendered on a dark gradient with a glow — rather than a source file, so there was no alpha channel to recover. The artwork is circular, which made a reliable extraction possible: locate the artwork bounds by colour saturation, crop to a square, snap the near-neutral glow to pure white, and mask everything outside the inscribed circle. The result is a clean circular badge whose own white disc is preserved, so it reads correctly on light *and* dark backgrounds.
+The owner supplies the brand originals as flattened PNGs — green artwork on an opaque white sheet, no alpha channel. `docs/extract-logo.py` keys the sheet out by flood-filling inward from the border, which is the one step that matters: the artwork is **not** a filled disc (the recycling arrows leave the corners empty), so the earlier "mask to an inscribed circle" treatment clipped the arrowheads, and a naive "all white is transparent" rule would have punched holes through the white strokes inside the truck and the stupa. Flood fill reaches only the sheet, because those interior whites are not connected to the edge. Background pixels then take an alpha derived from how much ink was blended into them, which is what gives the cut-out a soft edge instead of a jagged one.
+
+Sources live in `docs/brand/`, not `public/` — they are build inputs, and `public/` is copied verbatim into the deploy, so a 1 MB source PNG in there is a megabyte of dead weight on every visitor's CDN.
 
 | File | Size | Use |
 |---|---|---|
-| `public/logo-mark.png` | 512² | Header mark, hero |
-| `public/icons/icon-{192,256,384,512}.png` | as named | PWA icon set |
-| `public/icons/icon-maskable-512.png` | 512² | Android adaptive — brand-green bleed, mark at 72% safe zone |
-| `public/icons/apple-icon.png` · `app/apple-icon.png` | 180² | iOS home screen |
+| `public/logo-mark.png` | 512² | Header mark, hero, About page — transparent |
+| `public/icons/icon-{192,256,384,512}.png` | as named | PWA icon set — transparent |
+| `public/icons/icon-maskable-512.png` | 512² | Android adaptive — white bleed, mark at 74% safe zone |
+| `public/icons/apple-icon.png` · `app/apple-icon.png` | 180² | iOS home screen — opaque, because iOS composites alpha onto black |
 | `app/icon.png` | 512² | Favicon (Next derives the sizes) |
-| `public/images/logo-source.png` | 1536×1024 | The original upload, kept for re-export |
+| `app/favicon.ico` | 16–256² | Legacy `/favicon.ico` requests |
+| `public/images/cover.webp` | 1600×640 | About-page brand banner |
+| `docs/brand/{icon,logo-lockup,cover}.png` | as delivered | Originals, kept for re-export |
 
-**The wordmark is rendered as live HTML text**, not shipped as an image: "Kawadi" in `primary-900` + "Rabi" in `accent`, mirroring the logo's own two-tone treatment. That keeps it crisp at every size, recolourable in dark mode, selectable and indexable — and avoids shipping a 2 MB gradient PNG to a bandwidth-constrained audience.
+Because the mark is transparent green artwork, anywhere it sits on a dark surface it needs a white plate: `dark:bg-white dark:rounded-full` in the header/hero/About, a drawn white disc in `docs/make-og.py`, and a full-bleed white plate in the maskable and Apple icons. Skipping it costs the stupa, the "K" and half the truck.
 
-> If a true source logo exists (SVG, or PNG with transparency), dropping it in and re-exporting will beat any extraction from a mockup. Logged in §14.
+The cover banner is re-exported by `docs/make-cover.py` to WebP at 1600px. `images.unoptimized` is forced on by the static export, so the committed file is byte for byte what a visitor downloads — 1.9 MB of PNG would be unusable on mobile data, 100 KB of WebP is not.
+
+**The wordmark is rendered as live HTML text**, not shipped as an image: "KTM" as a gold chip + "Kawadi" in `primary-900`, mirroring the logo's own two-tone treatment. That keeps it crisp at every size, recolourable in dark mode, selectable and indexable — and avoids shipping a 1 MB lockup PNG to a bandwidth-constrained audience.
+
+> A true vector source (SVG) would still beat any raster export, especially below 192px. Logged in §14.
 
 ### 4.5 Button variants
 
@@ -501,7 +512,7 @@ Claude does not run `git commit`, `git push`, or any history-modifying command i
 1. **Real contact details** — the phone and WhatsApp numbers are real (`+9779823525098` / `9779823525098`). Still placeholder: `info@ktmkawadi.bikashkadayat.com.np` and the `#` socials. One file: `lib/site-config.ts`. Socials still set to `#` are hidden by the Footer rather than rendered as dead links. Note `public/offline.html` duplicates the number by necessity — it is static HTML served by the service worker with no access to the config.
 2. **Real rate values** — seed data in M1 is realistic but illustrative and must be replaced before launch.
 2b. **`framer-motion` is installed but unused** — no imports anywhere. Safe to remove (`npm uninstall framer-motion`); kept only in case a later feature needs genuinely interactive motion that CSS cannot express. See §15.
-3. **Logo source file** — the current assets are extracted from a presentation mockup (§4.4b). A real SVG or transparent PNG would produce a sharper mark, especially at 192px and below. The extraction script lives at `docs/extract-logo.py` and can be re-pointed at a better source.
+3. **Vector logo source** — the icon set is exported from the delivered raster PNG (§4.4b). An SVG would produce a sharper mark below 192px and remove the background-keying step entirely. The extraction script lives at `docs/extract-logo.py` and can be re-pointed at a better source.
 4. **Testimonials** — sample data, clearly placeholder; must be replaced with genuine reviews before going live, since fabricated testimonials on a live business site are a real credibility and legal risk.
 5. **Default locale** — currently `en`. If Nepali should be the landing language, it is a one-line change in `i18n/routing.ts`.
 
@@ -547,10 +558,11 @@ The rule: **never server-render `opacity: 0` for real content.** Every failure m
 | `components/shared/JsonLd.tsx` | Escapes `<` so a string containing `</script>` cannot break out |
 | `public/sw.js`, `public/offline.html` | Offline fallback only. **No caching of pages** — a stale cached rate is worse than no page |
 | `docs/make-og.py` | Generates the two OG cards. Static PNGs, because the Nepali card needs Devanagari shaping |
+| `docs/extract-logo.py`, `docs/make-cover.py` | Re-export the icon set and the cover banner from the originals in `docs/brand/` |
 
 ### Accessibility decisions
 
-- Gold and WhatsApp-green buttons carry **near-black** text (11.5:1 / 9.96:1). White would be 1.72:1 and 1.98:1 — both fail badly.
+- Gold and WhatsApp-green buttons carry **near-black** text (10.71:1 / 10.17:1). White would be 1.88:1 and 1.98:1 — both fail badly.
 - Active-nav highlight uses `primary-900` in dark mode, **not** `primary-950`: the latter *is* the dark background, so the highlight was invisible.
 - Accessible names **contain** their visible text (WCAG 2.5.3). "Call Now — KTM Kawadi", not "Call KTM Kawadi now", so speech input matching the visible "Call Now" works.
 - Star ratings use visually-hidden text, not `aria-label` — which is prohibited on a generic `<p>`.
