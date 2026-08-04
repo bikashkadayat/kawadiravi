@@ -8,6 +8,11 @@
  * Every rate comes from `getAllRates()`, i.e. the same Zod-validated
  * `data/rates.json` that /rates and the homepage preview read. Editing one
  * number in that file changes the calculator with no code change anywhere.
+ *
+ * Only an item's PRIMARY quote is used. Several items are also quoted a second
+ * way (a motor is Rs. 300–500/pc or Rs. 40–50/kg); asking the seller to pick a
+ * pricing method per row would double the width of every row to remove an
+ * ambiguity that the shop resolves on site anyway.
  */
 
 import { getAllRates, type Rate } from '@/lib/rates';
@@ -105,10 +110,16 @@ export function activeRows(
     .filter((r): r is { item: Rate; qty: number } => !!r.item && r.qty > 0);
 }
 
-/** Nepali unit word. The rates file prices 9 of 32 items per piece, not per
- *  kilo, so this cannot be a constant. */
+/** Nepali unit word. The rates file quotes items per kilo, per piece AND per
+ *  amp-hour, so this cannot be a constant. */
+const UNIT_NE: Record<Rate['unit'], string> = {
+  kg: 'के.जी.',
+  piece: 'गोटा',
+  ah: 'एएच',
+};
+
 function unitNe(unit: Rate['unit']): string {
-  return unit === 'piece' ? 'गोटा' : 'के.जी.';
+  return UNIT_NE[unit];
 }
 
 /**

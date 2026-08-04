@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
+import { CalendarCheck } from 'lucide-react';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 
-import { routing } from '@/i18n/routing';
+import { Link, routing } from '@/i18n/routing';
 import { buildPageMetadata } from '@/lib/metadata';
 import { buildBreadcrumbSchema } from '@/lib/schema';
-import { getAllRates, getRatesUpdatedAt } from '@/lib/rates';
+import { formatUpdatedAt, getAllRates, getRatesUpdatedAt } from '@/lib/rates';
 import type { Locale } from '@/types';
+import { Button } from '@/components/ui/button';
 import { JsonLd } from '@/components/shared/JsonLd';
 import { RatesExplorer } from '@/components/rates/RatesExplorer';
 import { StickyRatesCta } from '@/components/rates/StickyRatesCta';
@@ -72,7 +74,9 @@ export default async function RatesPage({
             {t('subtitle')}
           </p>
           <p className="text-muted-foreground mt-3 text-sm">
-            {t('updatedOn', { date: getRatesUpdatedAt() })}
+            {t('updatedOn', {
+              date: formatUpdatedAt(getRatesUpdatedAt(), locale),
+            })}
           </p>
         </header>
 
@@ -85,6 +89,19 @@ export default async function RatesPage({
         <p className="bg-accent-soft text-primary-900 mx-auto mt-12 max-w-3xl rounded-xl p-4 text-center text-sm text-pretty">
           {t('disclaimer')}
         </p>
+
+        {/* The conversion step, placed where someone who has just found a good
+            number is looking. Brand green (primary-800, white text = 8.74:1)
+            rather than the gold accent, which on this site always means
+            "call". */}
+        <div className="mt-8 flex justify-center">
+          <Button asChild variant="primary" size="lg">
+            <Link href="/book">
+              <CalendarCheck aria-hidden="true" />
+              {t('requestPickup')}
+            </Link>
+          </Button>
+        </div>
       </main>
 
       <StickyRatesCta />

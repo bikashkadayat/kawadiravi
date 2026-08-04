@@ -11,7 +11,12 @@
     "learnMore": "Learn More",
     "perKg": "per kg",
     "perPiece": "per piece",
+    "perAh": "per AH",
     "currency": "NPR",
+    "currencyShort": "Rs.",
+    "unitKgShort": "/kg",
+    "unitPieceShort": "/pc",
+    "unitAhShort": "/AH",
     "loading": "Loading…",
     "skipToContent": "Skip to content"
   },
@@ -133,34 +138,47 @@
   "rates": {
     "title": "Today's Kawadi & Scrap Rates in Kathmandu",
     "subtitle": "Transparent, up-to-date rates for every material we buy. No hidden deductions, no surprise weighing.",
-    "updatedOn": "Rates updated on {date}",
+    "updatedOn": "Last updated: {date}",
     "searchPlaceholder": "Search for copper, कागज, laptop…",
     "searchLabel": "Search scrap items",
     "filterAll": "All",
     "filterLabel": "Filter by category",
     "noResults": "No items match your search.",
     "noResultsHint": "Try a different word, or just call us — we buy more than we can list.",
-    "item": "Item",
-    "rate": "Rate",
-    "unit": "Unit",
-    "note": "Note",
-    "disclaimer": "These rates are indicative and move with the market. Call or WhatsApp us for today's exact rate before you sell.",
     "resultsCount": "Showing {count} of {total} items",
     "clearSearch": "Clear",
+    "tableLabel": "{category} buying rates",
+    "sn": "SN",
+    "item": "Item Name",
+    "buyingPrice": "Buying Price",
+    "startingFrom": "Starting from",
+    "orPrice": "or {price}",
+    "disclaimer": "Note: Prices are indicative and may vary depending on quantity, quality, and market conditions.",
+    "requestPickup": "Request Pickup",
     "stickyPrompt": "Want today's exact rate?",
     "categories": {
       "metals": "Metals",
+      "wires": "Wires & Cables",
       "paper": "Paper",
       "plastic": "Plastic",
+      "glass": "Glass",
       "battery": "Batteries",
-      "ewaste": "E-Waste & Appliances"
+      "appliances": "Electronics & Appliances",
+      "computers": "Computer & IT",
+      "mobile": "Mobile & Small Electronics",
+      "ewaste": "General E-Waste"
     },
     "categoryDescriptions": {
-      "metals": "Iron, copper, brass, aluminium and more — weighed openly in front of you.",
+      "metals": "Iron, copper, brass, aluminium, utensils and metal furniture — weighed openly in front of you.",
+      "wires": "Copper, aluminium, electrical and internet cable. The rate follows the copper inside.",
       "paper": "Newspaper, cardboard, books and office paper. Must be dry.",
-      "plastic": "Bottles, hard plastic, pipes and sacks.",
-      "battery": "Vehicle, inverter and small batteries, handled for safe disposal.",
-      "ewaste": "Laptops, phones, appliances and circuit boards, recycled responsibly."
+      "plastic": "Bottles, containers, buckets, chairs, pipes, drums and sacks.",
+      "glass": "Glass and beer bottles, bought by the piece. Unbroken bottles only.",
+      "battery": "Vehicle, inverter, UPS and small batteries, handled for safe disposal.",
+      "appliances": "Fridges, ACs, washing machines, kitchen appliances and fans — we dismantle and carry them out.",
+      "computers": "Laptops, desktops, monitors, printers and every component inside them.",
+      "mobile": "Phones, tablets, watches, power banks, speakers and accessories.",
+      "ewaste": "Mixed electrical scrap and circuit boards, recycled responsibly."
     }
   },
   "services": {
@@ -332,8 +350,10 @@
     "itemPlaceholder": "Choose an item…",
     "unitKg": "Weight (kg)",
     "unitPiece": "Quantity (pieces)",
+    "unitAh": "Capacity (AH)",
     "unitKgShort": "kg",
     "unitPieceShort": "pcs",
+    "unitAhShort": "AH",
     "addRow": "Add another item",
     "removeRow": "Remove item {number}",
     "totalLabel": "Estimated value",
@@ -343,10 +363,15 @@
     "schedule": "Pick a date & time",
     "categories": {
       "metals": "Metals",
+      "wires": "Wires & Cables",
       "paper": "Paper",
       "plastic": "Plastic",
+      "glass": "Glass",
       "battery": "Batteries",
-      "ewaste": "E-Waste & Appliances"
+      "appliances": "Electronics & Appliances",
+      "computers": "Computer & IT",
+      "mobile": "Mobile & Small Electronics",
+      "ewaste": "General E-Waste"
     }
   }
 }

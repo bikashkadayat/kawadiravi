@@ -47,8 +47,8 @@ export function ScrapCalculator({ compact = false }: { compact?: boolean }) {
 
   const [rows, setRows] = useState<CalcRow[]>([newRow()]);
 
-  // Built once: 32 items, but rebuilding a Map on every keystroke of every row
-  // is pure waste, and the underlying JSON cannot change at runtime.
+  // Built once: rebuilding a Map of every priced item on every keystroke of
+  // every row is pure waste, and the underlying JSON cannot change at runtime.
   const lookup = useMemo(() => buildRateLookup(), []);
   const grouped = useMemo(() => getGroupedRates(), []);
 
@@ -87,12 +87,23 @@ export function ScrapCalculator({ compact = false }: { compact?: boolean }) {
           const qty = parseQty(row.qty);
           const line = lineTotal(item, qty);
           const Icon = item ? resolveIcon(item.icon) : null;
-          const isPiece = item?.unit === 'piece';
           /* Two forms on purpose. The field label has to stand alone above an
              empty box ("Weight (kg)"), but reading that same string back
-             inline produced "5 Weight (kg) x NPR 900". */
-          const unitLabel = isPiece ? t('unitPiece') : t('unitKg');
-          const unitShort = isPiece ? t('unitPieceShort') : t('unitKgShort');
+             inline produced "5 Weight (kg) x NPR 900".
+
+             Batteries are quoted per amp-hour, so the field asks for the AH
+             printed on the label rather than a weight nobody has measured. */
+          const unit = item?.unit ?? 'kg';
+          const unitLabel = t(
+            unit === 'piece' ? 'unitPiece' : unit === 'ah' ? 'unitAh' : 'unitKg',
+          );
+          const unitShort = t(
+            unit === 'piece'
+              ? 'unitPieceShort'
+              : unit === 'ah'
+                ? 'unitAhShort'
+                : 'unitKgShort',
+          );
 
           return (
             <li

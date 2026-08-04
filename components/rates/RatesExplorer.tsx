@@ -37,14 +37,27 @@ export function RatesExplorer({ rates }: { rates: Rate[] }) {
 
   // Group the survivors, keeping RATE_CATEGORIES order and dropping any
   // category the current filter emptied out.
-  const grouped = useMemo(
-    () =>
-      RATE_CATEGORIES.map((key) => ({
-        category: key,
-        items: visible.filter((rate) => rate.category === key),
-      })).filter((group) => group.items.length > 0),
-    [visible],
-  );
+  //
+  // `startIndex` is accumulated here rather than inside the table so the SN
+  // column runs 1…N down the whole page. It is derived from the *visible*
+  // rows, so a filtered view still numbers 1, 2, 3 instead of showing gaps
+  // where hidden rows used to be.
+  const grouped = useMemo(() => {
+    const groups = RATE_CATEGORIES.map((key) => ({
+      category: key,
+      items: visible.filter((rate) => rate.category === key),
+    })).filter((group) => group.items.length > 0);
+
+    // Summed rather than accumulated in a running variable: a `let` mutated
+    // inside a memo is exactly what the React Compiler's immutability rule
+    // flags, and over at most ten groups the quadratic pass is free.
+    return groups.map((group, index) => ({
+      ...group,
+      startIndex: groups
+        .slice(0, index)
+        .reduce((sum, earlier) => sum + earlier.items.length, 0),
+    }));
+  }, [visible]);
 
   return (
     <div>
@@ -139,7 +152,13 @@ export function RatesExplorer({ rates }: { rates: Rate[] }) {
               </p>
 
               <div className="mt-5">
-                <RatesTable items={group.items} />
+                <RatesTable
+                  items={group.items}
+                  startIndex={group.startIndex}
+                  label={t('tableLabel', {
+                    category: t(`categories.${group.category}`),
+                  })}
+                />
               </div>
             </section>
           ))}

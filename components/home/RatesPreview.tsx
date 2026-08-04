@@ -2,7 +2,13 @@ import { ArrowRight } from 'lucide-react';
 import { getLocale, getTranslations } from 'next-intl/server';
 
 import { Link } from '@/i18n/routing';
-import { formatRateRange, getFeaturedRates, getRatesUpdatedAt } from '@/lib/rates';
+import {
+  formatRateRange,
+  formatUpdatedAt,
+  getFeaturedRates,
+  getRatesUpdatedAt,
+} from '@/lib/rates';
+import type { RateUnit } from '@/types';
 import { resolveIcon } from '@/lib/icons';
 import { Button } from '@/components/ui/button';
 import { AnimatedSection } from '@/components/shared/AnimatedSection';
@@ -25,12 +31,20 @@ export async function RatesPreview() {
   // Six is enough to prove the range and breadth without becoming a table.
   const featured = getFeaturedRates(6);
 
+  const unitLabels: Record<RateUnit, string> = {
+    kg: tCommon('perKg'),
+    piece: tCommon('perPiece'),
+    ah: tCommon('perAh'),
+  };
+
   return (
     <AnimatedSection className="container-page py-16 sm:py-20">
       <SectionHeading title={t('title')} subtitle={t('subtitle')} />
 
       <p className="text-muted-foreground mt-4 text-center text-sm">
-        {tRates('updatedOn', { date: getRatesUpdatedAt() })}
+        {tRates('updatedOn', {
+          date: formatUpdatedAt(getRatesUpdatedAt(), locale),
+        })}
       </p>
 
       <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -53,9 +67,7 @@ export async function RatesPreview() {
                   {locale === 'ne' ? rate.nameNe : rate.nameEn}
                 </p>
                 <p className="text-muted-foreground text-sm">
-                  {rate.unit === 'kg'
-                    ? tCommon('perKg')
-                    : tCommon('perPiece')}
+                  {unitLabels[rate.unit]}
                 </p>
               </div>
 

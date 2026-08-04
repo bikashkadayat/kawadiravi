@@ -26,11 +26,11 @@ export interface BookingOption {
 /**
  * Scrap types offered as checkboxes.
  *
- * Intentionally NOT derived from `data/rates.json`. That file lists 32 priced
- * line items ("Rusted iron", "Stainless steel 202") which is a pricing table,
- * not a picker — presenting 32 checkboxes on a phone would be hostile. These
- * are the coarse buckets a customer actually thinks in, and 'other' plus the
- * notes field catches anything missing.
+ * Intentionally NOT derived from `data/rates.json`. That file lists over a
+ * hundred priced line items ("Rusted iron", "Stainless steel 202") which is a
+ * pricing table, not a picker — presenting a hundred checkboxes on a phone
+ * would be hostile. These are the coarse buckets a customer actually thinks
+ * in, and 'other' plus the notes field catches anything missing.
  */
 export const SCRAP_TYPES: BookingOption[] = [
   { id: 'iron', labelEn: 'Iron', labelNe: 'फलाम' },

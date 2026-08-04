@@ -398,8 +398,10 @@ Nav order is `Home · Rates · Services · About · Contact`, with **Rates secon
 `lib/rates.ts` parses this through a Zod schema **at build time**:
 
 ```
-RateItemSchema  → id, category enum, names non-empty, unit enum,
-                  rates positive ints, maxRate >= minRate, icon non-empty
+RateItemSchema  → id, category enum, names non-empty, unit enum (kg|piece|ah),
+                  rates positive, maxRate >= minRate, icon non-empty,
+                  optional alt quote whose unit differs from the primary,
+                  startingFrom implies minRate === maxRate
 RatesFileSchema → updatedAt ISO date, currency, items min length 1
 ```
 
@@ -409,7 +411,9 @@ A malformed edit therefore fails `npm run build` with a precise path (`items[7].
 
 Changing a price = edit `minRate`/`maxRate` in `data/rates.json`, bump `updatedAt`, push. No other file is touched. Adding an item = append an object with a fresh `id`. Removing = delete the object. `lib/rates.ts` derives categories, ordering, and the homepage preview automatically.
 
-Seed content for M1: ~30 items — Metals (iron, steel, copper wire, copper heavy, brass, aluminium, tin, lead), Paper (newspaper, cardboard, books, office paper), Plastic (PET bottles, hard plastic, pipe), Battery (car, inverter, dry cell), E-Waste (laptop, desktop, mobile, monitor, printer, AC, fridge, washing machine, motor, cable, circuit board).
+Content as of the August 2026 rate board: 102 items across ten categories — Metals (22), Wires & Cables (5), Paper (5), Plastic (10), Glass (2), Batteries (7), Electronics & Appliances (17), Computer & IT (21), Mobile & Small Electronics (11), General E-Waste (2). The first five keys are the originals and keep their names so the `/rates#metals` style deep links emitted by the homepage and services grids survive.
+
+Two fields exist for how the board actually quotes prices. `alt` carries a second quote for items sold either way ("Rs. 300–500/pc or Rs. 40–50/kg"), and the table renders both lines; the calculator uses only the primary. `startingFrom` marks an item where only a floor price is published, so the table prints a "Starting from" label above a single figure instead of implying a range the shop has not committed to.
 
 ---
 
